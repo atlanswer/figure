@@ -1,15 +1,14 @@
-# Solid Template
+# Figure
 
-Template for SolidJS, configured with
-
-- vite
-- eslint
-- unocss
-- prettier
+Create publication quality figures.
 
 ## Usage
 
 ```shell
+# Development
 pnpm i
 pnpm dev
+# Lint and fix
+pnpm lint
+pnpm fix
 ```
