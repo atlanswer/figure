@@ -14,8 +14,10 @@ export const AddBook: Component<{
 
   const addBook: JSX.EventHandler<HTMLButtonElement, MouseEvent> = (event) => {
     event.preventDefault();
-    props.setBooks((books) => [...books, newBook()]);
-    setNewBook(emptyBook);
+    if (newBook() !== emptyBook) {
+      props.setBooks((books) => [...books, newBook()]);
+      setNewBook(emptyBook);
+    }
   };
 
   return (
