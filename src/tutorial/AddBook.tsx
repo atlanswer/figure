@@ -1,64 +1,62 @@
-import type { Component, JSX, Setter } from "solid-js";
+import { Component, For, Setter, Show, createResource } from "solid-js";
 import { createSignal } from "solid-js";
 import { Book } from "./Bookshelf";
-
-const emptyBook: Book = {
-  title: "",
-  author: "",
-};
+import { searchBooks } from "./searchBooks";
 
 export const AddBook: Component<{
   setBooks: Setter<Book[]>;
 }> = (props) => {
-  const [newBook, setNewBook] = createSignal(emptyBook);
+  const [input, setInput] = createSignal("");
+  const [query, setQuery] = createSignal("");
 
-  const addBook: JSX.EventHandler<HTMLButtonElement, MouseEvent> = (event) => {
-    event.preventDefault();
-    if (newBook() !== emptyBook) {
-      props.setBooks((books) => [...books, newBook()]);
-      setNewBook(emptyBook);
-    }
-  };
+  const [data] = createResource<Book[], string>(query, searchBooks);
 
   return (
     <div class="box-border border-t p-4">
       <form>
         <div>
-          <label for="title">Book name</label>
+          <label for="title">Search books</label>
           <input
             id="title"
             class="ml-2 border border-slate p-1"
-            value={newBook().title}
+            value={input()}
             onInput={(event) => {
-              setNewBook({
-                ...newBook(),
-                title: event.currentTarget.value,
-              });
-            }}
-          />
-        </div>
-        <div class="my-2">
-          <label for="author">Author</label>
-          <input
-            id="author"
-            class="ml-2 border border-slate p-1"
-            value={newBook().author}
-            onInput={(event) => {
-              setNewBook({
-                ...newBook(),
-                author: event.currentTarget.value,
-              });
+              setInput(event.currentTarget.value);
             }}
           />
         </div>
         <button
           type="submit"
-          onClick={addBook}
+          onClick={(event) => {
+            event.preventDefault();
+            setQuery(input());
+          }}
           class="border border-slate rounded px-2 py-1"
         >
-          Add book
+          Search
         </button>
       </form>
+      <Show when={!data.loading} fallback={<span>Searching...</span>}>
+        <ul>
+          <For each={data()}>
+            {(book) => (
+              <li>
+                {book.title} by {book.author}
+                <button
+                  aria-label={`Add ${book.title} by ${book.author} to the bookshelf.`}
+                  class="ml-2 border border-slate rounded px-2 py-1"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    props.setBooks((books) => [...books, book]);
+                  }}
+                >
+                  Add
+                </button>
+              </li>
+            )}
+          </For>
+        </ul>
+      </Show>
     </div>
   );
 };
