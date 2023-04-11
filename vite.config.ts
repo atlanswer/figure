@@ -1,13 +1,17 @@
 import { defineConfig } from "vite";
-import solidPlugin from "vite-plugin-solid";
+import SolidStart from "solid-start/vite";
+import vercel from "solid-start-vercel";
 import UnocssPlugin from "@unocss/vite";
 
 export default defineConfig({
   plugins: [
-    solidPlugin(),
-    UnocssPlugin({
-      // your config or in uno.config.ts
+    SolidStart({
+      adapter: vercel({
+        edge: true,
+      }),
+      ssr: true,
     }),
+    UnocssPlugin(),
   ],
   server: {
     port: 3000,
