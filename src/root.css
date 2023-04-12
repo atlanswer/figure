@@ -3,9 +3,7 @@
     left / 2rem 2rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  #content-main {
-    background: fixed radial-gradient(circle, #1b262c 0.1rem, #000000 0.1rem)
-      top left / 2rem 2rem;
-  }
+.dark #content-main {
+  background: fixed radial-gradient(circle, #1b262c 0.1rem, #000000 0.1rem) top
+    left / 2rem 2rem;
 }

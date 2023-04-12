@@ -18,7 +18,7 @@ export const Bookshelf: Component<{ name: string }> = (props) => {
   const [books, setBooks] = createSignal(initialBooks);
   const [showForm, setShowForm] = createSignal(false);
   return (
-    <div class="box-border border rounded-lg bg-slate-2 p-4 text-black">
+    <div class="box-border rounded-lg bg-slate-2 p-4 text-black dark:bg-slate-7 dark:text-white">
       <h2 class="mb-4 text-2xl font-semibold">{props.name}'s Bookshelf</h2>
       <BookList books={books()} />
       <Show
