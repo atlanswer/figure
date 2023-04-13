@@ -25,7 +25,7 @@ import "uno.css";
 import "@unocss/reset/tailwind.css";
 import { isServer } from "solid-js/web";
 
-const Root = () => {
+const App = () => {
   const [siteContext] = useSiteContext();
   const [matchDarkQuery, setMatchDarkQuery] = createSignal(false);
 
@@ -89,10 +89,10 @@ const Root = () => {
   );
 };
 
-const App = () => (
+const Root = () => (
   <SiteContextProvider>
-    <Root />
+    <App />
   </SiteContextProvider>
 );
 
-export default App;
+export default Root;

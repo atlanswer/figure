@@ -1,13 +1,22 @@
 import { Outlet } from "solid-start";
-import { StatusBar } from "~/components/status/StatusBar";
+import { Footer } from "~/components/footer/Footer";
+import Header from "~/components/header/Header";
 
 const App = () => (
-  <main id="content-main">
-    <div class="mx-auto min-h-screen max-w-screen-xl flex flex-col place-items-center gap-4 p-8">
-      <StatusBar />
-      <Outlet />
+  <>
+    <div
+      id="page-main"
+      class="mx-auto min-h-screen flex flex-col gap-8"
+    >
+      <Header class="sticky top-0 p-8" />
+      <main class="px-8">
+        <div class="flex flex-col place-items-center gap-4">
+          <Outlet />
+        </div>
+      </main>
     </div>
-  </main>
+    <Footer />
+  </>
 );
 
 export default App;
