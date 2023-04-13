@@ -5,13 +5,14 @@ import { createContext } from "solid-js";
  * - "dark": prefer dark theme
  * - "system": use the operating system setting
  */
-export type ThemePreference = "light" | "dark" | "system";
+export type UserThemePreference = "light" | "dark" | "system";
 
 /** Site-wide settings:
  * - theme: current color theme
  */
 export interface SiteContextContent {
-  readonly theme: ThemePreference;
+  readonly prefersDark: () => boolean;
+  readonly userTheme: UserThemePreference;
 }
 
 /** useSiteContext:
@@ -22,17 +23,20 @@ export interface SiteContextContent {
 export type SiteContextUsage = readonly [
   context: SiteContextContent,
   methods: {
-    changeTheme: (theme: ThemePreference) => void;
+    onPreferColorSchemeChange: (matches: boolean) => void;
+    changeUserTheme: (theme: UserThemePreference) => void;
   },
 ];
 
 export const SITE_CONTEXT_DEFAULT: SiteContextContent = {
-  theme: "system",
+  prefersDark: () => false,
+  userTheme: "system",
 };
 
 export const SiteContext = createContext<SiteContextUsage>([
   SITE_CONTEXT_DEFAULT,
   {
-    changeTheme: () => undefined,
+    onPreferColorSchemeChange: () => undefined,
+    changeUserTheme: () => undefined,
   },
 ]);

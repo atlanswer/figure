@@ -1,32 +1,34 @@
 import { useSiteContext } from "../context/SiteContext";
 
 export const ThemeSwitcher = () => {
-  const [siteContext, { changeTheme }] = useSiteContext();
-
-  const theme = () => siteContext.theme;
+  const [siteContext, { changeUserTheme }] = useSiteContext();
 
   const handleChangeTheme = () => {
-    switch (theme()) {
+    switch (siteContext.userTheme) {
       case "system":
-        changeTheme("light");
+        if (siteContext.prefersDark()) changeUserTheme("light");
+        else changeUserTheme("dark");
         break;
       case "light":
-        changeTheme("dark");
+        if (siteContext.prefersDark()) changeUserTheme("system");
+        else changeUserTheme("dark");
         break;
       case "dark":
-        changeTheme("system");
+        if (siteContext.prefersDark()) changeUserTheme("light");
+        else changeUserTheme("system");
         break;
     }
   };
 
   const iconClass = () => {
-    switch (theme()) {
+    switch (siteContext.userTheme) {
+      case "system":
+        if (siteContext.prefersDark()) return "i-ic:round-dark-mode";
+        else return "i-ic:round-light-mode";
       case "light":
         return "i-ic:round-light-mode";
       case "dark":
         return "i-ic:round-dark-mode";
-      case "system":
-        return "i-ic:round-computer";
     }
   };
 

@@ -1,9 +1,9 @@
 import { A } from "solid-start";
 
 const Navigator = () => (
-  <nav class="flex flex-1 gap-4">
+  <nav class="flex flex-1 gap-6">
     <A href="/">Home</A>
-    <span>Statusbar</span>
+    <A href="/about">About</A>
   </nav>
 );
 

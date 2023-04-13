@@ -1,7 +1,6 @@
 import {
   Suspense,
   createRenderEffect,
-  createSignal,
   onCleanup,
 } from "solid-js";
 import {
@@ -26,25 +25,25 @@ import "@unocss/reset/tailwind.css";
 import { isServer } from "solid-js/web";
 
 const App = () => {
-  const [siteContext] = useSiteContext();
-  const [matchDarkQuery, setMatchDarkQuery] = createSignal(false);
+  const [siteContext, { onPreferColorSchemeChange }] = useSiteContext();
 
   if (!isServer) {
     const prefersDarkMediaQuery = matchMedia("(prefers-color-scheme: dark)");
     createRenderEffect(() => {
-      setMatchDarkQuery(prefersDarkMediaQuery.matches);
+      onPreferColorSchemeChange(prefersDarkMediaQuery.matches);
     });
-    prefersDarkMediaQuery.onchange = (e) => setMatchDarkQuery(e.matches);
+    prefersDarkMediaQuery.onchange = (e) =>
+      onPreferColorSchemeChange(e.matches);
     onCleanup(() => (prefersDarkMediaQuery.onchange = null));
   }
 
   const isDarkClass = () => {
-    switch (siteContext.theme) {
+    switch (siteContext.userTheme) {
+      case "system":
+        if (siteContext.prefersDark()) return true;
+        else return false;
       case "dark":
         return true;
-      case "system":
-        if (matchDarkQuery()) return true;
-        else return false;
       default:
         return false;
     }

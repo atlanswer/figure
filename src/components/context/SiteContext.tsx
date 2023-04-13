@@ -1,20 +1,27 @@
-import { ParentComponent, useContext } from "solid-js";
+import { ParentComponent, createSignal, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
 import { SITE_CONTEXT_DEFAULT, SiteContext } from "~/context";
-import type { ThemePreference } from "~/context";
+import type { UserThemePreference } from "~/context";
 
 export const useSiteContext = () => useContext(SiteContext);
 
 export const SiteContextProvider: ParentComponent = (props) => {
+  const [matchDarkQuery, setMatchDarkQuery] = createSignal(false);
+
   const [siteContext, setSiteContext] = createStore({
     ...SITE_CONTEXT_DEFAULT,
+    prefersDark: matchDarkQuery,
   });
 
-  const changeTheme = (theme: ThemePreference) =>
-    setSiteContext("theme", theme);
+  const onPreferColorSchemeChange = (matches: boolean) =>
+    setMatchDarkQuery(matches);
+  const changeUserTheme = (theme: UserThemePreference) =>
+    setSiteContext("userTheme", theme);
 
   return (
-    <SiteContext.Provider value={[siteContext, { changeTheme }]}>
+    <SiteContext.Provider
+      value={[siteContext, { onPreferColorSchemeChange, changeUserTheme }]}
+    >
       {props.children}
     </SiteContext.Provider>
   );

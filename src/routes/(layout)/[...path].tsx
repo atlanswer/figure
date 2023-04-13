@@ -6,11 +6,11 @@ const PageNotFound = () => {
 
   return (
     <div class="flex flex-1 flex-col place-content-center place-items-center gap-4">
-      <Title>Not Found</Title>
+      <Title>Page Not Found</Title>
       <HttpStatusCode code={404} />
-      <h1 class="text-xl font-bold">Page Not Found</h1>
+      <h1 class="text-xl font-bold">404: Page Not Found</h1>
       <p>
-        This route <code class="rounded bg-gray-2 px-1">{params.path}</code>{" "}
+        This route <code class="rounded bg-gray-2 p-1">{params.path}</code>{" "}
         does not exist.
       </p>
     </div>
