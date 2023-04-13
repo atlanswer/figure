@@ -33,6 +33,9 @@ devDependencies:
   '@unocss/preset-icons':
     specifier: ^0.51.4
     version: 0.51.4
+  '@unocss/preset-typography':
+    specifier: ^0.51.4
+    version: 0.51.4
   '@unocss/preset-uno':
     specifier: ^0.51.4
     version: 0.51.4
@@ -1871,6 +1874,13 @@ packages:
     dependencies:
       '@unocss/core': 0.51.4
       '@unocss/extractor-arbitrary-variants': 0.51.4
+    dev: true
+
+  /@unocss/preset-typography@0.51.4:
+    resolution: {integrity: sha512-r4yqNSxVdXT2CMp9Q+AJj62hGOAmyxfDnahuIws199HEeT9Ekyb9CIQdgt69pbwhUr+nzSN2q0OicHimDr2T+g==}
+    dependencies:
+      '@unocss/core': 0.51.4
+      '@unocss/preset-mini': 0.51.4
     dev: true
 
   /@unocss/preset-uno@0.51.4:
