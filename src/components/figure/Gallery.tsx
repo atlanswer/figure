@@ -23,7 +23,7 @@ const NewFigure = () => {
     >
       <span class="i-ic:round-add block h-6 w-6"></span>
       <Show when={focus()}>
-        <span>Paste data to create a new graph</span>
+        <span>Upload or drop a data file</span>
       </Show>
     </button>
   );
