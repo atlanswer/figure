@@ -33,7 +33,10 @@ export const ThemeSwitcher = () => {
   };
 
   return (
-    <button class="border rounded p-1" onClick={handleChangeTheme}>
+    <button
+      class="border rounded bg-[f6f1f1] p-1 dark:bg-black"
+      onClick={handleChangeTheme}
+    >
       <span
         role="img"
         aria-label="Light mode icon"
