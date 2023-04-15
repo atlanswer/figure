@@ -1,13 +1,18 @@
-import { Show, createSignal } from "solid-js";
 import type { Component } from "solid-js";
+import { Show, Suspense, createSignal, lazy } from "solid-js";
 import { useSiteContext } from "../context/SiteContext";
 
-const Gallery = () => (
-  <div class="w-full flex flex-col place-items-center gap-8">
-    <div>A figure</div>
-    <NewFigure />
-  </div>
-);
+const Gallery = () => {
+  const Canvas = lazy(() => import("./Canvas"));
+  return (
+    <div class="w-full flex flex-col place-items-center gap-8">
+      <Suspense fallback={<p>Loading canvas...</p>}>
+        <Canvas />
+      </Suspense>
+      <NewFigure />
+    </div>
+  );
+};
 
 const NewFigure: Component = () => {
   const [siteContext] = useSiteContext();

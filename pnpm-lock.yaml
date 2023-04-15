@@ -7,6 +7,9 @@ dependencies:
   '@solidjs/router':
     specifier: ^0.8.2
     version: 0.8.2(solid-js@1.7.3)
+  plotly.js-dist-min:
+    specifier: ^2.20.0
+    version: 2.20.0
   solid-js:
     specifier: ^1.7.3
     version: 1.7.3
@@ -21,6 +24,9 @@ devDependencies:
   '@iconify-json/mdi':
     specifier: ^1.1.50
     version: 1.1.50
+  '@types/plotly.js-dist-min':
+    specifier: ^2.3.1
+    version: 2.3.1
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.58.0
     version: 5.58.0(@typescript-eslint/parser@5.58.0)(eslint@8.38.0)(typescript@5.0.4)
@@ -1669,6 +1675,16 @@ packages:
 
   /@types/json-schema@7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/plotly.js-dist-min@2.3.1:
+    resolution: {integrity: sha512-9+rTvlyKDclIB9twal6ou6unUN6iTATLcRvakoFYaHGPnVRNe06LbUGOcgD8O+sddBFz3y2kS2hTKbUPGeVsHA==}
+    dependencies:
+      '@types/plotly.js': 2.12.18
+    dev: true
+
+  /@types/plotly.js@2.12.18:
+    resolution: {integrity: sha512-ff+CIEWnqZNjZqHtQZvkEAVuLs9fkm1f54QnPVmgoET7wMHdSqUka2hasVN4e5yfHD05YwGjsAtCseewJh/BMw==}
     dev: true
 
   /@types/resolve@1.20.2:
@@ -3329,6 +3345,10 @@ packages:
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  /plotly.js-dist-min@2.20.0:
+    resolution: {integrity: sha512-zhSRwOed3y/cekPWvzOtdc3AVOmHbDpUry5FNITw2IRKkRirRv7SdWvM7YVqqQd4dTsLHKGDuza+3GoR6+45ZQ==}
+    dev: false
 
   /postcss@8.4.21:
     resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
