@@ -2,13 +2,14 @@ import type Plotly from "plotly.js-dist-min";
 import { onMount } from "solid-js";
 
 const plotFigure = async (root: HTMLDivElement, data: Plotly.Data[]) => {
-  const Plotly = await import("plotly.js-dist-min");
-  Plotly.newPlot(
+  const { newPlot } = await import("plotly.js-dist-min");
+  newPlot(
     root,
     data,
     {
-      title: "Response",
       font: {
+        family:
+          "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
         size: 18,
       },
     },
