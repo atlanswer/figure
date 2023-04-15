@@ -7,12 +7,14 @@ import { createContext } from "solid-js";
  */
 export type UserThemePreference = "light" | "dark" | "system";
 
-/** Site-wide settings:
- * - theme: current color theme
- */
+/** Site-wide info */
 export interface SiteContextContent {
+  /** Check if (prefers-color-scheme: dark) is matched */
   readonly prefersDark: () => boolean;
+  /** The theme preference user chooses */
   readonly userTheme: UserThemePreference;
+  /** If something is being dragged over the site */
+  readonly isDragOver: boolean;
 }
 
 /** useSiteContext:
@@ -25,12 +27,14 @@ export type SiteContextUsage = readonly [
   methods: {
     onPreferColorSchemeChange: (matches: boolean) => void;
     changeUserTheme: (theme: UserThemePreference) => void;
+    setIsDragOver: (isDragOver: boolean) => void;
   },
 ];
 
 export const SITE_CONTEXT_DEFAULT: SiteContextContent = {
   prefersDark: () => false,
   userTheme: "system",
+  isDragOver: false,
 };
 
 export const SiteContext = createContext<SiteContextUsage>([
@@ -38,5 +42,6 @@ export const SiteContext = createContext<SiteContextUsage>([
   {
     onPreferColorSchemeChange: () => undefined,
     changeUserTheme: () => undefined,
+    setIsDragOver: () => undefined,
   },
 ]);

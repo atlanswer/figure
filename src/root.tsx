@@ -1,6 +1,8 @@
 import {
   Suspense,
+  createEffect,
   createRenderEffect,
+  createSignal,
   onCleanup,
 } from "solid-js";
 import {
@@ -25,7 +27,9 @@ import "@unocss/reset/tailwind.css";
 import { isServer } from "solid-js/web";
 
 const App = () => {
-  const [siteContext, { onPreferColorSchemeChange }] = useSiteContext();
+  const [siteContext, { onPreferColorSchemeChange, setIsDragOver }] =
+    useSiteContext();
+  const [dragOverCount, setDragOverCount] = createSignal(0);
 
   if (!isServer) {
     const prefersDarkMediaQuery = matchMedia("(prefers-color-scheme: dark)");
@@ -34,8 +38,36 @@ const App = () => {
     });
     prefersDarkMediaQuery.onchange = (e) =>
       onPreferColorSchemeChange(e.matches);
-    onCleanup(() => (prefersDarkMediaQuery.onchange = null));
+    document.ondragenter = (e) => {
+      e.preventDefault();
+      setDragOverCount((c) => c + 1);
+      if (dragOverCount() === 1) {
+        setIsDragOver(true);
+      }
+    };
+    document.ondragleave = (e) => {
+      e.preventDefault();
+      setDragOverCount((c) => c - 1);
+    };
+    document.ondrop = (e) => {
+      e.preventDefault();
+      setDragOverCount((c) => c - 1);
+    };
+    document.ondragover = (e) => {
+      e.preventDefault();
+    };
+    onCleanup(() => {
+      prefersDarkMediaQuery.onchange = null;
+      document.ondragover = null;
+      document.ondragleave = null;
+    });
   }
+
+  createEffect(() => {
+    if (dragOverCount() === 0) {
+      setIsDragOver(false);
+    }
+  });
 
   const isDarkClass = () => {
     switch (siteContext.userTheme) {

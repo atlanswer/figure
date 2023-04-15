@@ -17,10 +17,15 @@ export const SiteContextProvider: ParentComponent = (props) => {
     setMatchDarkQuery(matches);
   const changeUserTheme = (theme: UserThemePreference) =>
     setSiteContext("userTheme", theme);
+  const setIsDragOver = (isDragOver: boolean) =>
+    setSiteContext("isDragOver", isDragOver);
 
   return (
     <SiteContext.Provider
-      value={[siteContext, { onPreferColorSchemeChange, changeUserTheme }]}
+      value={[
+        siteContext,
+        { onPreferColorSchemeChange, changeUserTheme, setIsDragOver },
+      ]}
     >
       {props.children}
     </SiteContext.Provider>
