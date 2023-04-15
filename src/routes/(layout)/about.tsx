@@ -7,7 +7,8 @@ const About = () => (
       <li>Solid</li>
       <li>SolidStart</li>
       <li>UnoCSS</li>
-      <li>Plotly.js</li>
+      <li>Observable Plot</li>
+      <li>D3</li>
     </ul>
     <p>This project is hosted on Vercel.</p>
   </div>
