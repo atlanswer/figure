@@ -5,7 +5,7 @@ const Canvas: Component = () => {
   const Figure = lazy(() => import("./Figure"));
 
   return (
-    <div class="w-full max-w-screen-xl border rounded p-4">
+    <div class="w-full max-w-screen-xl flex place-content-center border rounded p-4">
       <Suspense fallback={<p>Drawing figure...</p>}>
         <Figure />
       </Suspense>
