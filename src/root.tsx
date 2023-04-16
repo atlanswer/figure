@@ -24,19 +24,26 @@ import {
 import "./root.css";
 import "uno.css";
 import "@unocss/reset/tailwind.css";
-import { isServer } from "solid-js/web";
 
 const App = () => {
   const [siteContext, { onPreferColorSchemeChange, setIsDragOver }] =
     useSiteContext();
   const [dragOverCount, setDragOverCount] = createSignal(0);
   const [dark, setDark] = createSignal(false);
+  // Reset drag over state
+  createEffect(() => {
+    if (dragOverCount() === 0) {
+      setIsDragOver(false);
+    }
+  });
+  // Attach event listeners to DOM
+  createRenderEffect(() => {
+    // Client-side check
+    if (typeof document === typeof undefined) return;
 
-  if (!isServer) {
+    console.log("Effect runs.");
     const prefersDarkMediaQuery = matchMedia("(prefers-color-scheme: dark)");
-    createRenderEffect(() => {
-      onPreferColorSchemeChange(prefersDarkMediaQuery.matches);
-    });
+    onPreferColorSchemeChange(prefersDarkMediaQuery.matches);
     prefersDarkMediaQuery.onchange = (e) =>
       onPreferColorSchemeChange(e.matches);
     document.ondragenter = (e) => {
@@ -64,12 +71,6 @@ const App = () => {
       document.ondrop = null;
       document.ondragover = null;
     });
-  }
-
-  createEffect(() => {
-    if (dragOverCount() === 0) {
-      setIsDragOver(false);
-    }
   });
 
   createRenderEffect(() => {
