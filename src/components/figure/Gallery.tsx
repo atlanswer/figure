@@ -1,14 +1,60 @@
-import type { Component } from "solid-js";
-import { Show, Suspense, createSignal, lazy } from "solid-js";
+import { Component, For } from "solid-js";
+import type * as Plot from "@observablehq/plot";
+import { plot, ruleY, dot } from "@observablehq/plot";
+import { Show, createSignal, lazy } from "solid-js";
 import { useSiteContext } from "../context/SiteContext";
+import { gistemp } from "./data";
+import { isServer } from "solid-js/web";
 
 const Gallery = () => {
   const Canvas = lazy(() => import("./Canvas"));
+
+  const plotFn1 = (data?: Plot.Data) => {
+    if (data === undefined) {
+      // console.warn("Data is undefined.");
+      return;
+    }
+    if (isServer) {
+      // console.log("Skip plotting on server.");
+      return;
+    }
+    // console.log("Plotting data:");
+    // console.dir(data);
+    return plot({
+      style: {
+        background: "transparent",
+      },
+      y: {
+        grid: true,
+      },
+      color: {
+        type: "diverging",
+        scheme: "BuRd",
+      },
+      marks: [
+        ruleY([0]),
+        dot(data, { x: "Date", y: "Anomaly", stroke: "Anomaly" }),
+      ],
+    });
+  };
+
+  const [figures, setFigures] = createSignal<
+    {
+      data: string;
+      plotFn: (data?: Plot.Data) => ReturnType<typeof plot> | undefined;
+    }[]
+  >([
+    {
+      data: gistemp,
+      plotFn: plotFn1,
+    },
+  ]);
+
   return (
     <div class="w-full flex flex-col place-items-center gap-8">
-      <Suspense fallback={<p>Loading canvas...</p>}>
-        <Canvas />
-      </Suspense>
+      <For each={figures()} fallback={<p>Loading canvas...</p>}>
+        {(figureItem) => <Canvas {...figureItem} />}
+      </For>
       <NewFigure />
     </div>
   );
@@ -24,7 +70,7 @@ const NewFigure: Component = () => {
   return (
     <label
       aria-label="Upload files to create a new figure"
-      class="w-full max-w-screen-md flex place-content-center gap-2 border rounded-md py-2 font-semibold shadow transition transition-padding hover:(bg-slate-2 dark:bg-slate-5) focus:(ring-2 ring-offset-2 ring-slate-3 dark:ring-offset-slate-7)"
+      class="w-full max-w-screen-md flex place-content-center gap-2 border rounded-md p-2 font-semibold shadow transition transition-padding hover:(bg-slate-2 dark:bg-slate-5) focus:(ring-2 ring-offset-2 ring-slate-3 dark:ring-offset-slate-7)"
       classList={{
         "py-4 border-(3 dashed)": siteContext.isDragOver,
         "bg-slate-50 dark:bg-slate-6": dragEnterCount() === 0,

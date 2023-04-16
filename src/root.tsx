@@ -30,6 +30,7 @@ const App = () => {
   const [siteContext, { onPreferColorSchemeChange, setIsDragOver }] =
     useSiteContext();
   const [dragOverCount, setDragOverCount] = createSignal(0);
+  const [dark, setDark] = createSignal(false);
 
   if (!isServer) {
     const prefersDarkMediaQuery = matchMedia("(prefers-color-scheme: dark)");
@@ -58,8 +59,10 @@ const App = () => {
     };
     onCleanup(() => {
       prefersDarkMediaQuery.onchange = null;
-      document.ondragover = null;
+      document.ondragenter = null;
       document.ondragleave = null;
+      document.ondrop = null;
+      document.ondragover = null;
     });
   }
 
@@ -69,20 +72,22 @@ const App = () => {
     }
   });
 
-  const isDarkClass = () => {
+  createRenderEffect(() => {
     switch (siteContext.userTheme) {
       case "system":
-        if (siteContext.prefersDark()) return true;
-        else return false;
+        if (siteContext.prefersDark()) setDark(true);
+        else setDark(false);
+        break;
       case "dark":
-        return true;
+        setDark(true);
+        break;
       default:
-        return false;
+        setDark(false);
     }
-  };
+  });
 
   return (
-    <Html lang="en" classList={{ dark: isDarkClass() }}>
+    <Html lang="en" classList={{ dark: dark() }}>
       <Head>
         <Title>Figure</Title>
         <Meta
