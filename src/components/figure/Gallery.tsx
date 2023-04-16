@@ -4,22 +4,13 @@ import { plot, ruleY, dot } from "@observablehq/plot";
 import { Show, createSignal, lazy } from "solid-js";
 import { useSiteContext } from "../context/SiteContext";
 import { gistemp } from "./data";
-import { isServer } from "solid-js/web";
 
 const Gallery = () => {
   const Canvas = lazy(() => import("./Canvas"));
 
   const plotFn1 = (data?: Plot.Data) => {
-    if (data === undefined) {
-      // console.warn("Data is undefined.");
-      return;
-    }
-    if (isServer) {
-      // console.log("Skip plotting on server.");
-      return;
-    }
-    // console.log("Plotting data:");
-    // console.dir(data);
+    if (data === undefined) return;
+
     return plot({
       style: {
         background: "transparent",
