@@ -1,9 +1,18 @@
 import { Component, For } from "solid-js";
 import type * as Plot from "@observablehq/plot";
-import { plot, ruleY, dot } from "@observablehq/plot";
+import {
+  plot,
+  ruleY,
+  dot,
+  rect,
+  bin,
+  density,
+  rectY,
+  binX,
+} from "@observablehq/plot";
 import { Show, createSignal, lazy } from "solid-js";
 import { useSiteContext } from "../context/SiteContext";
-import { gistemp } from "./data";
+import { athletes, gistemp } from "./data";
 
 const Gallery = () => {
   const Canvas = lazy(() => import("./Canvas"));
@@ -29,6 +38,16 @@ const Gallery = () => {
     });
   };
 
+  const plotFn2 = (data?: Plot.Data) => {
+    if (data === undefined) return;
+
+    return dot(data, { x: "weight", y: "height", stroke: "sex" }).plot({
+      style: {
+        background: "transparent",
+      },
+    });
+  };
+
   const [figures, setFigures] = createSignal<
     {
       data: string;
@@ -38,6 +57,59 @@ const Gallery = () => {
     {
       data: gistemp,
       plotFn: plotFn1,
+    },
+    {
+      data: athletes,
+      plotFn: plotFn2,
+    },
+    {
+      data: athletes,
+      plotFn: (data?: Plot.Data) => {
+        if (data === undefined) return;
+
+        return rect(
+          data,
+          bin(
+            { fillOpacity: "count" },
+            { x: "weight", y: "height", fill: "sex" },
+          ),
+        ).plot({
+          style: {
+            background: "transparent",
+          },
+        });
+      },
+    },
+    {
+      data: athletes,
+      plotFn: (data?: Plot.Data) => {
+        if (data === undefined) return;
+
+        return density(data, {
+          x: "weight",
+          y: "height",
+          stroke: "sex",
+          bandwidth: 6,
+        }).plot({
+          style: {
+            background: "transparent",
+          },
+        });
+      },
+    },
+    {
+      data: athletes,
+      plotFn: (data?: Plot.Data) => {
+        if (data === undefined) return;
+        return rectY(
+          data,
+          binX({ y: "count" }, { x: "weight", fill: "sex" }),
+        ).plot({
+          style: {
+            background: "transparent",
+          },
+        });
+      },
     },
   ]);
 
