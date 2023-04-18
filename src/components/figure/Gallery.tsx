@@ -1,116 +1,42 @@
 import { Component, For } from "solid-js";
 import type * as Plot from "@observablehq/plot";
-import {
-  plot,
-  ruleY,
-  dot,
-  rect,
-  bin,
-  density,
-  rectY,
-  binX,
-} from "@observablehq/plot";
+import { plot, ruleY, dot } from "@observablehq/plot";
+import * as d3 from "d3";
 import { Show, createSignal, lazy } from "solid-js";
 import { useSiteContext } from "../context/SiteContext";
-import { athletes, gistemp } from "./data";
+import { blsMetroUnemployment } from "./data";
 
 const Gallery = () => {
   const Canvas = lazy(() => import("./Canvas"));
 
-  const plotFn1 = (data?: Plot.Data) => {
-    if (data === undefined) return;
-
-    return plot({
-      style: {
-        background: "transparent",
-      },
-      y: {
-        grid: true,
-      },
-      color: {
-        type: "diverging",
-        scheme: "BuRd",
-      },
-      marks: [
-        ruleY([0]),
-        dot(data, { x: "Date", y: "Anomaly", stroke: "Anomaly" }),
-      ],
-    });
-  };
-
-  const plotFn2 = (data?: Plot.Data) => {
-    if (data === undefined) return;
-
-    return dot(data, { x: "weight", y: "height", stroke: "sex" }).plot({
-      style: {
-        background: "transparent",
-      },
-    });
-  };
+  interface UnemploymentData {
+    date: string;
+    unemployment: string;
+    division: string;
+  }
 
   const [figures, setFigures] = createSignal<
     {
       data: string;
-      plotFn: (data?: Plot.Data) => ReturnType<typeof plot> | undefined;
+      plotFn: (data?: string) => ReturnType<typeof plot> | undefined;
     }[]
   >([
-    {
-      data: gistemp,
-      plotFn: plotFn1,
-    },
-    {
-      data: athletes,
-      plotFn: plotFn2,
-    },
-    {
-      data: athletes,
-      plotFn: (data?: Plot.Data) => {
-        if (data === undefined) return;
-
-        return rect(
-          data,
-          bin(
-            { fillOpacity: "count" },
-            { x: "weight", y: "height", fill: "sex" },
-          ),
-        ).plot({
-          style: {
-            background: "transparent",
-          },
-        });
-      },
-    },
-    {
-      data: athletes,
-      plotFn: (data?: Plot.Data) => {
-        if (data === undefined) return;
-
-        return density(data, {
-          x: "weight",
-          y: "height",
-          stroke: "sex",
-          bandwidth: 6,
-        }).plot({
-          style: {
-            background: "transparent",
-          },
-        });
-      },
-    },
-    {
-      data: athletes,
-      plotFn: (data?: Plot.Data) => {
-        if (data === undefined) return;
-        return rectY(
-          data,
-          binX({ y: "count" }, { x: "weight", fill: "sex" }),
-        ).plot({
-          style: {
-            background: "transparent",
-          },
-        });
-      },
-    },
+    // {
+    //   data: blsMetroUnemployment,
+    //   plotFn: (data) => {
+    //     if (data === undefined) return;
+    //     const x = (d: UnemploymentData) => d.date;
+    //     const y = (d: UnemploymentData) => d.unemployment;
+    //     const z = (d: UnemploymentData) => d.division;
+    //     const yLabel = "Unemployment (%)";
+    //     const height = 500;
+    //     const color = "steelblue";
+    //     const X = d3.map(data, x);
+    //     const Y = d3.map(data, y);
+    //     const Z = d3.map(data, z);
+    //     const O = d3.map(data, (d) => d);
+    //   },
+    // },
   ]);
 
   return (

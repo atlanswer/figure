@@ -5,14 +5,15 @@ import { autoType, csvParse } from "d3";
 
 const Canvas: Component<{
   data: string;
-  plotFn: (data?: Plot.Data) => ReturnType<typeof plot> | undefined;
+  plotFn: (data?: string) => ReturnType<typeof plot> | undefined;
 }> = (props) => {
   let figureContainer: HTMLDivElement | undefined;
 
   const [data] = createResource(
     props.data,
     async (d) => {
-      return csvParse(d, autoType);
+      // return csvParse(d, autoType);
+      return d;
     },
     {
       deferStream: true,
