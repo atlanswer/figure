@@ -1,3 +1,26 @@
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b;
+}
+
+body {
+  overflow: overlay;
+}
+
+::-webkit-scrollbar {
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+
 #page-main {
   background: fixed radial-gradient(circle, #d8d8d8 0.1rem, #f6f1f1 0.1rem) top
     left / 2rem 2rem;
