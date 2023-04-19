@@ -2,26 +2,20 @@ import { Component, createEffect, createResource, onCleanup } from "solid-js";
 import type * as Plot from "@observablehq/plot";
 import type { plot } from "@observablehq/plot";
 import { autoType, csvParse } from "d3";
+import type { FigureSource } from "./Gallery";
 
-const Canvas: Component<{
-  data: string;
-  plotFn: (data?: string) => ReturnType<typeof plot> | undefined;
-}> = (props) => {
+const Canvas: Component<FigureSource> = (props) => {
   let figureContainer: HTMLDivElement | undefined;
 
-  const [data] = createResource(
-    props.data,
-    async (d) => {
-      // return csvParse(d, autoType);
-      return d;
-    },
-    {
-      deferStream: true,
-    },
-  );
+  const plotSParams: (
+    data?: FigureSource["data"],
+  ) => SVGSVGElement | undefined = (data?) => {
+    return undefined;
+  };
 
   createEffect(() => {
-    const figureElm = props.plotFn(data());
+    const figureElm = plotSParams(props.data);
+
     if (figureElm === undefined) return;
     figureContainer?.append(figureElm);
 
@@ -30,6 +24,7 @@ const Canvas: Component<{
 
   return (
     <div class="w-full max-w-screen-xl flex place-content-center border rounded p-4">
+      <p>Canvas</p>
       <div ref={figureContainer} class="max-h-[400px] max-w-[600px]"></div>
     </div>
   );

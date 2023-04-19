@@ -1,60 +1,74 @@
-import { Component, For } from "solid-js";
+import { Component, For, Suspense, SuspenseList, createEffect } from "solid-js";
 import type * as Plot from "@observablehq/plot";
 import { plot, ruleY, dot } from "@observablehq/plot";
 import * as d3 from "d3";
 import { Show, createSignal, lazy } from "solid-js";
 import { useSiteContext } from "../context/SiteContext";
-import { blsMetroUnemployment } from "./data";
+import { SetStoreFunction, createStore, produce } from "solid-js/store";
+
+export type FigureSource = {
+  data?: { [key: string]: number }[];
+};
 
 const Gallery = () => {
   const Canvas = lazy(() => import("./Canvas"));
 
-  interface UnemploymentData {
-    date: string;
-    unemployment: string;
-    division: string;
-  }
+  const [figures, setFigures] = createStore<FigureSource[]>([]);
 
-  const [figures, setFigures] = createSignal<
-    {
-      data: string;
-      plotFn: (data?: string) => ReturnType<typeof plot> | undefined;
-    }[]
-  >([
-    // {
-    //   data: blsMetroUnemployment,
-    //   plotFn: (data) => {
-    //     if (data === undefined) return;
-    //     const x = (d: UnemploymentData) => d.date;
-    //     const y = (d: UnemploymentData) => d.unemployment;
-    //     const z = (d: UnemploymentData) => d.division;
-    //     const yLabel = "Unemployment (%)";
-    //     const height = 500;
-    //     const color = "steelblue";
-    //     const X = d3.map(data, x);
-    //     const Y = d3.map(data, y);
-    //     const Z = d3.map(data, z);
-    //     const O = d3.map(data, (d) => d);
-    //   },
-    // },
-  ]);
+  // createEffect(() => {
+  //   console.log("Begin:");
+  //   figures.forEach((figure) => {
+  //     console.log(figure.data);
+  //   });
+  //   console.log("End.");
+  // });
 
   return (
     <div class="w-full flex flex-col place-items-center gap-8">
-      <For each={figures()} fallback={<p>Loading canvas...</p>}>
-        {(figureItem) => <Canvas {...figureItem} />}
-      </For>
-      <NewFigure />
+      <SuspenseList revealOrder="forwards">
+        <For each={figures} fallback={<p>Figures will be added here.</p>}>
+          {(figure) => (
+            <Suspense fallback={<p>Loading figure...</p>}>
+              <Canvas {...figure} />
+            </Suspense>
+          )}
+        </For>
+      </SuspenseList>
+      <NewFigure setFigures={setFigures} />
     </div>
   );
 };
 
-const NewFigure: Component = () => {
+const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
+  props,
+) => {
   const [siteContext] = useSiteContext();
   let inputRef: HTMLInputElement | undefined;
-  const [fileList, setFileList] = createSignal<HTMLInputElement["files"]>();
   const [hover, setHover] = createSignal(false);
   const [dragEnterCount, setDragEnterCount] = createSignal(0);
+
+  const handleFileInput = async (fileList?: FileList | null) => {
+    if (fileList === null || fileList === undefined) return;
+    if (fileList.length > 1) {
+      console.warn("More than one file.");
+      return;
+    }
+    const file = fileList.item(0);
+    if (file === null) {
+      console.warn("FileList is empty.");
+      return;
+    }
+    const dataString = await file.text();
+    const d3DataArray = d3.csvParse(dataString, d3.autoType);
+    const data = Array.from(d3DataArray) as { [key: string]: number }[];
+    props.setFigures(
+      produce((figures) => {
+        figures.push({ data: data });
+      }),
+    );
+    if (inputRef === undefined) return;
+    inputRef.value = "";
+  };
 
   return (
     <label
@@ -83,8 +97,8 @@ const NewFigure: Component = () => {
       }}
       onDrop={(e) => {
         e.preventDefault();
-        console.log("Dropped on label");
-        setFileList(e.dataTransfer?.files);
+        console.log("File dropped on label");
+        handleFileInput(e.dataTransfer?.files);
       }}
     >
       <span class="i-ic:round-add block h-6 w-6"></span>
@@ -95,18 +109,15 @@ const NewFigure: Component = () => {
             : "Upload or drop files here to create a new figure"}
         </span>
       </Show>
-      <Show when={fileList()?.length}>
-        <span>File selected: {fileList()?.length}</span>
-      </Show>
       <input
         aria-label="Upload files to create a new figure"
         type="file"
-        accept=".png"
+        accept="text/csv"
         multiple
         hidden
         ref={inputRef}
         onChange={() => {
-          setFileList(inputRef?.files);
+          handleFileInput(inputRef?.files);
         }}
       />
     </label>

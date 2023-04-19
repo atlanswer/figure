@@ -41,7 +41,6 @@ const App = () => {
     // Client-side check
     if (typeof document === typeof undefined) return;
 
-    console.log("Effect runs.");
     const prefersDarkMediaQuery = matchMedia("(prefers-color-scheme: dark)");
     onPreferColorSchemeChange(prefersDarkMediaQuery.matches);
     prefersDarkMediaQuery.onchange = (e) =>
