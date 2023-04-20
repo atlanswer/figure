@@ -7,9 +7,17 @@ import type { FigureSource } from "./Gallery";
 const Canvas: Component<FigureSource> = (props) => {
   let figureContainer: HTMLDivElement | undefined;
 
-  const plotSParams: (
+  const plotSParams = (
     data?: FigureSource["data"],
-  ) => SVGSVGElement | undefined = (data?) => {
+    cols?: FigureSource["cols"],
+  ): SVGSVGElement | undefined => {
+    return undefined;
+  };
+
+  const plotPattern = (
+    data?: FigureSource["data"],
+    cols?: FigureSource["cols"],
+  ): SVGSVGElement | undefined => {
     return undefined;
   };
 

@@ -8,7 +8,7 @@ import { SetStoreFunction, createStore, produce } from "solid-js/store";
 import { NewFigure } from "./NewFigure";
 
 export type FigureSource = {
-  data?: { [key: string]: number }[];
+  data?: number[][];
   cols?: string[];
 };
 

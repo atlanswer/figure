@@ -25,11 +25,15 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
       return;
     }
     const dataString = await file.text();
-    const d3DataArray = d3.csvParse(dataString, d3.autoType);
-    const data = Array.from(d3DataArray) as { [key: string]: number }[];
+    const d3DataArray = d3.csvParseRows(dataString, d3.autoType);
+    const cols = d3DataArray.shift() as string[];
+    if (cols === undefined) {
+      console.warn("File data is empty.");
+      return;
+    }
     props.setFigures(
       produce((figures) => {
-        figures.push({ data: data, cols: d3DataArray.columns });
+        figures.push({ data: d3DataArray as number[][], cols: cols });
       }),
     );
     if (inputRef === undefined) return;
@@ -39,10 +43,10 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
   return (
     <div class="grid grid-cols-2 grid-rows-2 w-full max-w-screen-sm gap-4 font-semibold">
       <button
-        class="border rounded-md bg-slate-50 shadow transition dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5)"
+        class="border rounded-md bg-slate-50 p-2 shadow transition dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5)"
         onClick={async () => {
           const { s_example_cols, s_example_data } = await import(
-            "./s-example"
+            "./example-data"
           );
           props.setFigures(
             produce((figures) => {
@@ -54,10 +58,10 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
         Example: Scattering Parameters
       </button>
       <button
-        class="border rounded-md bg-slate-50 shadow transition dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5)"
+        class="border rounded-md bg-slate-50 p-2 shadow transition dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5)"
         onClick={async () => {
           const { pattern_example_cols, pattern_example_data } = await import(
-            "./s-example"
+            "./example-data"
           );
           props.setFigures(
             produce((figures) => {
