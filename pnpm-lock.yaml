@@ -3816,8 +3816,8 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
-  /postcss@8.4.22:
-    resolution: {integrity: sha512-XseknLAfRHzVWjCEtdviapiBtfLdgyzExD50Rg2ePaucEesyh8Wv4VPdW0nbyDa1ydbrAxV19jvMT4+LFmcNUA==}
+  /postcss@8.4.23:
+    resolution: {integrity: sha512-bQ3qMcpF6A/YjR55xtoTr0jGOlnPOKAIMdOWiv0EIT6HVPEaJiJB4NLljSbiHoC2RX7DN5Uvjtpbg1NPdwv1oA==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.6
@@ -4144,7 +4144,7 @@ packages:
       terser: 5.17.1
       undici: 5.21.2
       vite: 4.2.2
-      vite-plugin-inspect: 0.7.22(rollup@3.20.6)(vite@4.2.2)
+      vite-plugin-inspect: 0.7.23(rollup@3.20.6)(vite@4.2.2)
       vite-plugin-solid: 2.7.0(solid-js@1.7.3)(vite@4.2.2)
       wait-on: 6.0.1(debug@4.3.4)
     transitivePeerDependencies:
@@ -4389,8 +4389,8 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  /vite-plugin-inspect@0.7.22(rollup@3.20.6)(vite@4.2.2):
-    resolution: {integrity: sha512-Z4y3MPuvn//0/XcpNLwTBqjfSt+c2utIFZu8Dw+nbR2HrPoIrKHedvSuqC8mLzxOpRKRoW60HWvZUDz8J2zRIA==}
+  /vite-plugin-inspect@0.7.23(rollup@3.20.6)(vite@4.2.2):
+    resolution: {integrity: sha512-VodzewpE9ufA8aPQhzTihbiMKAJ1aFoXNe+BB/3L52HB4Hf7I2WEOc1Yu4BC45rvw2VFuVnlXYlXL7JVQuseUw==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0
@@ -4450,7 +4450,7 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.17.17
-      postcss: 8.4.22
+      postcss: 8.4.23
       resolve: 1.22.2
       rollup: 3.20.6
     optionalDependencies:
