@@ -16,12 +16,12 @@ const Gallery = () => {
   const Canvas = lazy(() => import("./Canvas"));
   const [figures, setFigures] = createStore<FigureSource[]>([]);
 
-  createEffect(() => {
-    figures.forEach((figure) => {
-      console.log(figure.cols);
-      console.log(figure.data[0]);
-    });
-  });
+  // createEffect(() => {
+  //   figures.forEach((figure) => {
+  //     console.log(figure.cols);
+  //     console.log(figure.data[0]);
+  //   });
+  // });
 
   return (
     <div class="w-full flex flex-col place-items-center gap-8">

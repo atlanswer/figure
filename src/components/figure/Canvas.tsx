@@ -35,6 +35,15 @@ const Canvas: Component<
     onCleanup(() => figureElm?.remove());
   });
 
+  let removeButtonRef: HTMLButtonElement | undefined;
+
+  // createEffect(() => {
+  //   if (props.cols.length === 1) {
+  //     if (removeButtonRef === undefined) return;
+  //     removeButtonRef.click();
+  //   }
+  // });
+
   return (
     <div class="w-full max-w-screen-xl flex flex-col gap-4 border rounded bg-slate-50 p-4 transition dark:bg-slate-6">
       <div class="flex items-center gap-4">
@@ -45,6 +54,7 @@ const Canvas: Component<
           figureIdx={props.idx}
         />
         <button
+          ref={removeButtonRef}
           class="border rounded p-1"
           onClick={() => {
             props.setFigures(
@@ -56,6 +66,7 @@ const Canvas: Component<
         >
           <span
             role="img"
+            aria-label="Remove trace icon"
             class="i-ic:round-playlist-remove block h-6 w-6"
           ></span>
         </button>
@@ -82,7 +93,11 @@ const TraceLegend: Component<
       <span class="h-1 w-16" style={`background-color: ${props.color}`}></span>
       <span>{props.name}</span>
       <button class="border-l border-black px-1" onClick={props.onClick}>
-        <span role="img" class="i-ic:round-close block h-5 w-5"></span>
+        <span
+          role="img"
+          aria-label="Remove canvas icon"
+          class="i-ic:round-close block h-5 w-5"
+        ></span>
       </button>
     </span>
   );
@@ -102,7 +117,7 @@ const TraceLegends: Component<{
           if (idx() === 0) return;
 
           const removeCol = (col: string) => {
-            const colIdx = props.cols?.indexOf(col);
+            const colIdx = props.cols.indexOf(col);
             props.setFigures(props.figureIdx, "cols", (c) => [
               ...c.slice(0, colIdx),
               ...c.slice(colIdx + 1),
@@ -125,6 +140,13 @@ const TraceLegends: Component<{
           );
         }}
       </For>
+      <button class="text-slate-2">
+        <span
+          role="img"
+          aria-label="Add trace icon"
+          class="i-ic:round-add-box block h-6 w-6"
+        ></span>
+      </button>
     </div>
   );
 };
