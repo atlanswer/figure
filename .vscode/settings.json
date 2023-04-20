@@ -4,5 +4,6 @@
     "observablehq",
     "solidjs",
     "unocss"
-  ]
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
