@@ -19,10 +19,10 @@ const Gallery = () => {
   return (
     <div class="w-full flex flex-col place-items-center gap-8">
       <SuspenseList revealOrder="forwards">
-        <For each={figures} fallback={<p>Figures will be added here.</p>}>
+        <For each={figures}>
           {(figure, idx) => {
             return (
-              <Suspense fallback={<p>Loading figure...</p>}>
+              <Suspense fallback={<p>Loading canvas...</p>}>
                 <Canvas {...figure} setFigures={setFigures} idx={idx()} />
               </Suspense>
             );

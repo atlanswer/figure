@@ -1,6 +1,6 @@
 import type { Component } from "solid-js";
-import { createSignal, Show } from "solid-js";
 import type { FigureSource } from "./Gallery";
+import { createSignal, Show } from "solid-js";
 import { useSiteContext } from "~/components/context/SiteContext";
 import { SetStoreFunction, produce } from "solid-js/store";
 import * as d3 from "d3";

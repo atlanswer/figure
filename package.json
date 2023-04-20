@@ -39,7 +39,7 @@
     "prettier": "^2.8.7",
     "solid-start-vercel": "^0.2.26",
     "typescript": "^5.0.4",
-    "vite": "^4.2.2",
+    "vite": "^4.3.0",
     "vite-plugin-solid": "^2.7.0"
   }
 }
