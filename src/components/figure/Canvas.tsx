@@ -13,21 +13,39 @@ const Canvas: Component<
   let figureContainer: HTMLDivElement | undefined;
 
   const plotSParams = (
-    data?: FigureSource["data"],
-    cols?: FigureSource["cols"],
+    data: FigureSource["data"],
+    cols: FigureSource["cols"],
   ): SVGSVGElement | undefined => {
+    const xLabel = "Frequency (GHz)";
+    const yLabel = "Scattering Parameter (dB)";
+
+    const x = data.map((v) => v[0]);
+    const xDomain = d3.extent(x);
+    if (xDomain[0] === undefined) return;
+    const xScale = d3.scaleLinear(xDomain, [100, 550]);
+    const xAxis = d3.axisBottom(xScale).ticks(10);
+
+    const y = data.map((v) => v.slice(1)).flat();
+    const yDomain = [-40, 0];
+    const yScale = d3.scaleLinear(yDomain, [300, 50]);
+    const yAxis = d3.axisLeft(yScale).ticks(5);
+
+    const zDomain = new d3.InternSet(cols.slice(1));
+
+    // const line = d3.line().x((i) => xScale(x[i]));
+
     return undefined;
   };
 
   const plotPattern = (
-    data?: FigureSource["data"],
-    cols?: FigureSource["cols"],
+    data: FigureSource["data"],
+    cols: FigureSource["cols"],
   ): SVGSVGElement | undefined => {
     return undefined;
   };
 
   createEffect(() => {
-    const figureElm = plotSParams(props.data);
+    const figureElm = plotSParams(props.data, props.cols);
 
     if (figureElm === undefined) return;
     figureContainer?.append(figureElm);
