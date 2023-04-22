@@ -12,29 +12,135 @@ const Canvas: Component<
 > = (props) => {
   let figureContainer: HTMLDivElement | undefined;
 
+  const fruits = [
+    { name: "🍊", count: 21 },
+    { name: "🍇", count: 13 },
+    { name: "🍏", count: 8 },
+    { name: "🍌", count: 5 },
+    { name: "🍐", count: 3 },
+    { name: "🍋", count: 2 },
+    { name: "🍎", count: 1 },
+    { name: "🍉", count: 1 },
+  ];
+
   const plotSParams = (
     data: FigureSource["data"],
     cols: FigureSource["cols"],
-  ): SVGSVGElement | undefined => {
-    const xLabel = "Frequency (GHz)";
-    const yLabel = "Scattering Parameter (dB)";
+  ): SVGElement | undefined => {
+    // const xLabel = "Frequency (GHz)";
+    // const yLabel = "Scattering Parameter (dB)";
 
-    const x = data.map((v) => v[0]);
-    const xDomain = d3.extent(x);
-    if (xDomain[0] === undefined) return;
-    const xScale = d3.scaleLinear(xDomain, [100, 550]);
-    const xAxis = d3.axisBottom(xScale).ticks(10);
+    // const x = data.map((v) => v[0]);
+    // const xDomain = d3.extent(x);
+    // if (xDomain[0] === undefined) return;
+    // const xScale = d3.scaleLinear(xDomain, [100, 550]);
+    // const xAxis = d3.axisBottom(xScale).ticks(10);
 
-    const y = data.map((v) => v.slice(1)).flat();
-    const yDomain = [-40, 0];
-    const yScale = d3.scaleLinear(yDomain, [300, 50]);
-    const yAxis = d3.axisLeft(yScale).ticks(5);
+    // const y = data.map((v) => v.slice(1)).flat();
+    // const yDomain = [-40, 0];
+    // const yScale = d3.scaleLinear(yDomain, [300, 50]);
+    // const yAxis = d3.axisLeft(yScale).ticks(5);
 
-    const zDomain = new d3.InternSet(cols.slice(1));
+    // const zDomain = new d3.InternSet(cols.slice(1));
 
     // const line = d3.line().x((i) => xScale(x[i]));
 
-    return undefined;
+    // const svg = d3
+    //   .create("svg")
+    //   .attr("width", 600)
+    //   .attr("height", 400)
+    //   .attr("viewBox", [0, 0, 600, 400])
+    //   .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+    //   .style("-webkit-tap-highlight-color", "transparent");
+
+    // svg.append("g").attr("transform", `translate(0,500)`).call(xAxis);
+
+    // svg
+    //   .append("g")
+    //   .attr("transform", `translate(100,0)`)
+    //   .call(yAxis)
+    //   .call((g) => g.select(".domain").remove())
+    //   .call((g) => g.append("text"))
+    //   .attr("x", -100)
+    //   .attr("y", 10)
+    //   .attr("fill", "currentColor")
+    //   .attr("text-anchor", "start")
+    //   .text(yLabel);
+
+    // svg
+    //   .append("g")
+    //   .attr("fill", "none")
+    //   .attr("stroke", "steelblue")
+    //   .selectAll("path")
+    //   .data(d3.group(d3.range(x.length), (i) => i));
+
+    // const svgNode = svg.node();
+    // if (svgNode === null) return;
+    // return svgNode;
+
+    const width = 600;
+    const height = 202;
+    const margin = {
+      top: 20,
+      bottom: 0,
+      left: 30,
+      right: 0,
+    };
+
+    const x = d3
+      .scaleLinear()
+      .domain([0, d3.max(fruits, (d) => d.count) as number])
+      .range([margin.left, width - margin.right])
+      .interpolate(d3.interpolateRound);
+
+    const y = d3
+      .scaleBand()
+      .domain(fruits.map((d) => d.name))
+      .range([margin.top, height - margin.bottom])
+      .padding(0.1)
+      .round(true);
+
+    const e1 = fruits.map((d) => (
+      <rect
+        y={y(d.name)}
+        x={x(0)}
+        width={x(d.count) - x(0)}
+        height={y.bandwidth()}
+      ></rect>
+    ));
+
+    const e2 = fruits.map((d) => (
+      <text y={y(d.name)} x={x(d.count)} dy="0.35em">
+        {d.count}
+      </text>
+    ));
+
+    const n1 = `<g transform="translate(0,${margin.top})">`;
+    const n2 = `<g transform="translate(${margin.left}),0">`;
+    // const e3 = d3
+    //   .select(n1)
+    //   .call(d3.axisTop(x))
+    //   .call((g) => g.select(".domain").remove())
+    //   .node();
+
+    const svg = (
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        style={`height: ${height}px; max-width: ${width}px; font: 10px sans-serif;`}
+      >
+        <g fill="steelblue">{e1}</g>
+        <g
+          fill="white"
+          text-anchor="end"
+          transform={`translate(-6,${y.bandwidth() / 2})`}
+        >
+          {e2}
+        </g>
+        {/* {e3} */}
+      </svg>
+    ) as SVGElement;
+
+    return svg;
   };
 
   const plotPattern = (
@@ -47,7 +153,10 @@ const Canvas: Component<
   createEffect(() => {
     const figureElm = plotSParams(props.data, props.cols);
 
-    if (figureElm === undefined) return;
+    if (figureElm === undefined) {
+      console.log("plotSParams produces an empty node.");
+      return;
+    }
     figureContainer?.append(figureElm);
 
     onCleanup(() => figureElm?.remove());
@@ -91,10 +200,8 @@ const Canvas: Component<
       </div>
       <div
         ref={figureContainer}
-        class="max-h-[400px] max-w-[600px] justify-self-center"
-      >
-        Figure
-      </div>
+        class="max-h-[400px] max-w-[600px] self-center"
+      ></div>
     </div>
   );
 };
