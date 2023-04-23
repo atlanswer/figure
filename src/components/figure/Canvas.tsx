@@ -115,13 +115,8 @@ const Canvas: Component<
       </text>
     ));
 
-    const n1 = `<g transform="translate(0,${margin.top})">`;
-    const n2 = `<g transform="translate(${margin.left}),0">`;
-    // const e3 = d3
-    //   .select(n1)
-    //   .call(d3.axisTop(x))
-    //   .call((g) => g.select(".domain").remove())
-    //   .node();
+    const n1 = <g transform={`translate(0,${margin.top})`}></g>;
+    const n2 = <g transform={`translate(${margin.left},0)`}></g>;
 
     const svg = (
       <svg
@@ -136,7 +131,20 @@ const Canvas: Component<
         >
           {e2}
         </g>
-        {/* {e3} */}
+        {
+          d3
+            .select(n1 as Element)
+            .call(d3.axisTop(x))
+            .call((g) => g.select(".domain").remove())
+            .node() as JSX.Element
+        }
+        {
+          d3
+            .select(n2 as Element)
+            .call(d3.axisLeft(y))
+            .call((g) => g.select(".domain").remove())
+            .node() as JSX.Element
+        }
       </svg>
     ) as SVGElement;
 

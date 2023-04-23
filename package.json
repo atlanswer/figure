@@ -36,7 +36,7 @@
     "@unocss/vite": "^0.51.6",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "solid-start-vercel": "^0.2.26",
     "typescript": "^5.0.4",
     "vite": "^4.3.1",
