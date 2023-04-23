@@ -100,17 +100,28 @@ const Canvas: Component<
       .padding(0.1)
       .round(true);
 
+    const color = d3
+      .scaleSequential()
+      .domain([0, d3.max(fruits, (d) => d.count)] as number[])
+      .interpolator(d3.interpolateBlues);
+
     const e1 = fruits.map((d) => (
       <rect
         y={y(d.name)}
         x={x(0)}
         width={x(d.count) - x(0)}
         height={y.bandwidth()}
+        fill={color(d.count)}
       ></rect>
     ));
 
     const e2 = fruits.map((d) => (
-      <text y={y(d.name)} x={x(d.count)} dy="0.35em">
+      <text
+        y={y(d.name)}
+        x={x(d.count)}
+        dy="0.35em"
+        fill={d3.lab(color(d.count)).l < 60 ? "white" : "black"}
+      >
         {d.count}
       </text>
     ));
@@ -123,12 +134,8 @@ const Canvas: Component<
         viewBox={`0 0 ${width} ${height}`}
         style={`height: ${height}px; max-width: ${width}px; font: 10px sans-serif;`}
       >
-        <g fill="steelblue">{e1}</g>
-        <g
-          fill="white"
-          text-anchor="end"
-          transform={`translate(-6,${y.bandwidth() / 2})`}
-        >
+        <g>{e1}</g>
+        <g text-anchor="end" transform={`translate(-6,${y.bandwidth() / 2})`}>
           {e2}
         </g>
         {
