@@ -36,6 +36,26 @@ const About = () => (
       </a>
       .
     </p>
+
+    <h2>Reference</h2>
+    <figure>
+      <p>
+        High-contrast line figures and tables should be prepared with 600 dpi
+        resolution and saved with no compression, 1 bit per pixel (monochrome).
+        Photographs and grayscale figures should be prepared with 300 dpi
+        resolution and saved with no compression, 8 bits per pixel (grayscale).
+        Most charts graphs and tables are one column wide (3 1/2 inches or 21
+        picas) or two-column width (7 1/16 inches, 43 picas wide).
+      </p>
+      <figcaption>
+        —
+        <cite>
+          <a href="https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/tools-for-ieee-authors/ieee-article-templates/">
+            Preparation of Papers for IEEE Transactions and Journals
+          </a>
+        </cite>
+      </figcaption>
+    </figure>
   </div>
 );
 

@@ -78,8 +78,8 @@ const Canvas: Component<
     // if (svgNode === null) return;
     // return svgNode;
 
-    const width = 600;
-    const height = 202;
+    const width = 252;
+    const height = 200;
     const margin = {
       top: 20,
       bottom: 0,
@@ -117,8 +117,9 @@ const Canvas: Component<
 
     const e2 = fruits.map((d) => (
       <text
-        y={y(d.name)}
         x={x(d.count)}
+        y={y(d.name)}
+        dx="0.25em"
         dy="0.35em"
         fill={d3.lab(color(d.count)).l < 60 ? "white" : "black"}
       >
@@ -126,13 +127,23 @@ const Canvas: Component<
       </text>
     ));
 
-    const n1 = <g transform={`translate(0,${margin.top})`}></g>;
-    const n2 = <g transform={`translate(${margin.left},0)`}></g>;
+    const n1 = (
+      <g
+        transform={`translate(0,${margin.top})`}
+        style={{ "font-size": "10pt" }}
+      ></g>
+    );
+    const n2 = (
+      <g
+        transform={`translate(${margin.left},0)`}
+        style={{ "font-size": "10pt" }}
+      ></g>
+    );
 
     const svg = (
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        style={`height: ${height}px; max-width: ${width}px; font: 10px sans-serif;`}
+        style={`height: 200px; width: 21pc; font: 10pt sans-serif;`}
       >
         <g>{e1}</g>
         <g text-anchor="end" transform={`translate(-6,${y.bandwidth() / 2})`}>
@@ -213,10 +224,9 @@ const Canvas: Component<
           ></span>
         </button>
       </div>
-      <div
-        ref={figureContainer}
-        class="max-h-[400px] max-w-[600px] self-center"
-      ></div>
+      <figure class="self-center">
+        <div ref={figureContainer}></div>
+      </figure>
     </div>
   );
 };
