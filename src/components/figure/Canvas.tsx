@@ -33,7 +33,7 @@ const Canvas: Component<
   /** width = 72 dpi * 3.5 in */
   const width = 72 * 3.5;
   /** width = 72 dpi * 2.5 in */
-  const height = 72 * 2.5;
+  const height = 72 * 3;
   const margin = {
     top: 20,
     bottom: 50,
@@ -70,23 +70,60 @@ const Canvas: Component<
       .attr("height", height)
       .attr("viewbox", [0, 0, width, height])
       .style("font-size", "10pt")
+      .style("font-family", "Arial,Helvetica,sans-serif")
       .on("touchstart", (e: TouchEvent) => e.preventDefault());
+
     // X axis
     svg
       .append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .style("font-size", "10pt")
+      .style("font-family", "Arial,Helvetica,sans-serif")
       .call(xAxis)
-      .selectAll("line")
-      .attr("y2", -xAxis.tickSize());
+      .call((g) =>
+        g
+          .selectAll("line")
+          .attr("y2", -xAxis.tickSize())
+          .attr("stroke-linecap", "round"),
+      )
+      .call((g) =>
+        g
+          .select("g:last-child>line")
+          .attr("y2", -yScale(yDomain[0]) + margin.top),
+      )
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("x", xScale(d3.mean(xDomain) as number))
+      .attr("y", 35)
+      .attr("fill", "currentColor")
+      .text("Frequency (GHz)");
+
     // Y axis
     svg
       .append("g")
       .attr("transform", `translate(${margin.left},0)`)
       .style("font-size", "10pt")
+      .style("font-family", "Arial,Helvetica,sans-serif")
       .call(yAxis)
-      .selectAll("line")
-      .attr("x2", yAxis.tickSize());
+      .call((g) =>
+        g
+          .selectAll("line")
+          .attr("x2", yAxis.tickSize())
+          .attr("stroke-linecap", "round"),
+      )
+      .call((g) =>
+        g
+          .select("g:last-child>line")
+          .attr("x2", xScale(xDomain[1]) - margin.left),
+      )
+      .call((g) => g.selectAll("path").attr("stroke-linecap", "round"))
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -35)
+      .attr("x", -yScale(d3.mean(yDomain) as number))
+      .attr("fill", "currentColor")
+      .text("Scattering Parameters (dB)");
   };
 
   const plotPattern = (
