@@ -26,16 +26,48 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
     }
     const dataString = await file.text();
     const d3DataArray = d3.csvParseRows(dataString, d3.autoType);
-    const cols = d3DataArray.shift() as string[];
-    if (cols === undefined) {
-      console.warn("File data is empty.");
-      return;
-    }
+    const cols = d3DataArray.shift();
+
+    const checkCols = (cols: unknown): cols is string[] => {
+      if (cols === undefined) {
+        console.warn("File is empty.");
+        return false;
+      }
+      if (!Array.isArray(cols)) {
+        console.warn("CSV file contains no header row.");
+      }
+      if (!(cols as Array<unknown>).every((v) => typeof v === "string")) {
+        console.warn("CSV header row is not a string array.");
+      }
+      return true;
+    };
+    if (!checkCols(cols)) return;
+
+    const checkD3DataArray = (d: typeof d3DataArray): d is number[][] => {
+      if (
+        !d.every((v) => {
+          if (!Array.isArray(v)) {
+            console.warn("File is only one line.");
+          }
+          if (!(v as Array<unknown>).every((i) => typeof i === "number")) {
+            console.warn("File contains non-numeric values.");
+            return false;
+          }
+          return true;
+        })
+      )
+        return false;
+      return true;
+    };
+    if (!checkD3DataArray(d3DataArray)) return;
+
+    // Push parsed data into the figure stack
     props.setFigures(
       produce((figures) => {
-        figures.push({ data: d3DataArray as number[][], cols: cols });
+        figures.push({ data: d3DataArray, cols: cols });
       }),
     );
+
     if (inputRef === undefined) return;
     inputRef.value = "";
   };
@@ -101,7 +133,6 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
         }}
         onDrop={(e) => {
           e.preventDefault();
-          console.log("File dropped on label");
           handleFileInput(e.dataTransfer?.files);
         }}
       >
