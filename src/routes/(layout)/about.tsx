@@ -41,35 +41,56 @@ const About = () => (
     <figure>
       <figcaption>
         <cite>
-          <a href="https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/tools-for-ieee-authors/ieee-article-templates/">
-            Preparation of Papers for IEEE Transactions and Journals
+          <a href="https://journals.ieeeauthorcenter.ieee.org/">
+            IEEE Author Center
           </a>
         </cite>
       </figcaption>
     </figure>
     <figure>
-      <p>10pt is used by the vast majority of papers.</p>
+      <p>
+        <b>10pt</b> is used by the vast majority of papers.
+      </p>
       <figcaption>
         —<cite>How to Use the IEEEtran LaTeX Class</cite>
       </figcaption>
     </figure>
     <figure>
       <p>
-        High-contrast line figures and tables should be prepared with 600 dpi
-        resolution and saved with no compression, 1 bit per pixel (monochrome).
+        Format and save your graphics using a suitable graphics processing
+        program that will allow you to create the images as PostScript (PS),
+        Encapsulated PostScript (.EPS), Tagged Image File Format (.TIFF),
+        Portable Document Format (.PDF), or Portable Network Graphics (.PNG).
       </p>
       <p>
-        Photographs and grayscale figures should be prepared with 300 dpi
-        resolution and saved with no compression, 8 bits per pixel (grayscale).
-        Most charts graphs and tables are one column wide (3 1/2 inches or 21
-        picas) or two-column width (7 1/16 inches, 43 picas wide).
+        Most charts, graphs, and tables are one column wide (
+        <b>3.5 inches / 88 millimeters / 21 picas</b>) or page wide (7.16 inches
+        / 181 millimeters / 43 picas). The maximum depth a graphic can be is 8.5
+        inches (216 millimeters / 54 picas).
+      </p>
+      <p>
+        Author photographs, color, and grayscale figures should be at least
+        300dpi. Lineart, including tables should be a minimum of <b>600dpi</b>.
+      </p>
+      <p>
+        While IEEE does accept vector artwork, it is our policy is to rasterize
+        all figures for publication. This is done in order to preserve the
+        figures’ integrity across multiple computer platforms.
+      </p>
+      <p>
+        All color figures should be generated in <b>RGB</b> or CMYK color space.
+        Grayscale images should be submitted in Grayscale color space. Line art
+        may be provided in grayscale OR bitmap colorspace.
+      </p>
+      <p>
+        When preparing your graphics IEEE suggests that you use of one of the
+        following Open Type fonts: Times New Roman, Helvetica, <b>Arial</b>,
+        Cambria, and Symbol.
       </p>
       <figcaption>
         —
         <cite>
-          <a href="https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/authoring-tools-and-templates/tools-for-ieee-authors/ieee-article-templates/">
-            Preparation of Papers for IEEE Transactions and Journals
-          </a>
+          Preparation of Papers for IEEE Transactions and Journals (April 2013)
         </cite>
       </figcaption>
     </figure>
