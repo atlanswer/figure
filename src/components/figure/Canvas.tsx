@@ -53,6 +53,20 @@ const Canvas: Component<
     const xRange = [margin.left, width - margin.right];
     const xScale = d3.scaleLinear(xDomain, xRange);
     const xAxis = d3.axisBottom(xScale).tickSizeOuter(0).tickPadding(0);
+    const xGrid = (g: d3.Selection<SVGGElement, unknown, null, unknown>) =>
+      g
+        .selectAll("line")
+        .data(xScale.ticks())
+        .join("line")
+        .attr("stroke-linecap", "round")
+        .attr("x1", (d) => xScale(d))
+        .attr("x2", (d) => xScale(d))
+        .attr("y1", margin.top)
+        .attr("y2", height - margin.bottom)
+        .attr("stroke", "currentColor")
+        .attr("stroke-opacity", 0.5)
+        .attr("stroke-width", 0.5)
+        .attr("stroke-dasharray", "1 1");
 
     const yDomain = [-40, 0];
     const yRange = [height - margin.bottom, margin.top];
@@ -62,6 +76,25 @@ const Canvas: Component<
       .ticks((yDomain[1] - yDomain[0]) / 10)
       .tickSizeOuter(0)
       .tickPadding(0);
+    const yGrid = (g: d3.Selection<SVGGElement, unknown, null, unknown>) =>
+      g
+        .selectAll("line")
+        .data(yScale.ticks((yDomain[1] - yDomain[0]) / 10))
+        .join("line")
+        .attr("stroke-linecap", "round")
+        .attr("x1", margin.left)
+        .attr("x2", width - margin.right)
+        .attr("y1", (d) => yScale(d))
+        .attr("y2", (d) => yScale(d))
+        .attr("stroke", "currentColor")
+        .attr("stroke-opacity", 0.5)
+        .attr("stroke-width", 0.5)
+        .attr("stroke-dasharray", "1 1");
+
+    const trace = d3
+      .line()
+      .x((d) => xScale(d[0]))
+      .y((d) => yScale(d[1]));
 
     // SVG
     const svg = d3
@@ -97,7 +130,8 @@ const Canvas: Component<
       .attr("y", 35)
       .attr("fill", "currentColor")
       .text("Frequency (GHz)");
-
+    // X grid
+    svg.append("g").call(xGrid);
     // Y axis
     svg
       .append("g")
@@ -124,6 +158,16 @@ const Canvas: Component<
       .attr("x", -yScale(d3.mean(yDomain) as number))
       .attr("fill", "currentColor")
       .text("Scattering Parameters (dB)");
+    // Y grid
+    svg.append("g").call(yGrid);
+    // Traces
+    svg
+      .append("g")
+      .attr("fill", "none")
+      .attr("stroke", "currentColor")
+      .attr("stroke-linecap", "round")
+      .selectAll("path");
+    // .data(d3.group());
   };
 
   const plotPattern = (

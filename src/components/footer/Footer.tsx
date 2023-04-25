@@ -2,7 +2,9 @@ import type { Component } from "solid-js";
 
 const Footer: Component<{ class?: string }> = (props) => (
   <footer
-    class={`b-t p-8 items-center bg-slate-1 dark:bg-slate-6 ${props.class}`}
+    class={`b-t p-8 items-center bg-slate-1 dark:bg-slate-6 ${
+      props.class ? props.class : ""
+    }`}
   >
     <div class="mx-auto max-w-screen-xl flex gap-6 lt-sm:flex-col">
       <span>
