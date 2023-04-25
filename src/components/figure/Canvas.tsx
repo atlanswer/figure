@@ -36,9 +36,9 @@ const Canvas: Component<
   const height = 72 * 2.5;
   const margin = {
     top: 20,
-    bottom: 0,
-    left: 30,
-    right: 0,
+    bottom: 50,
+    left: 50,
+    right: 10,
   };
 
   const plotSParams = (
@@ -50,7 +50,18 @@ const Canvas: Component<
     const x = d3.map(data, (x) => x[0]);
     // const isDefined = (d, i) => !isNaN(x[i]) && !isNaN()
     const xDomain = d3.extent(x) as [number, number];
+    const xRange = [margin.left, width - margin.right];
+    const xScale = d3.scaleLinear(xDomain, xRange);
+    const xAxis = d3.axisBottom(xScale).tickSizeOuter(0).tickPadding(0);
+
     const yDomain = [-40, 0];
+    const yRange = [height - margin.bottom, margin.top];
+    const yScale = d3.scaleLinear(yDomain, yRange);
+    const yAxis = d3
+      .axisLeft(yScale)
+      .ticks((yDomain[1] - yDomain[0]) / 10)
+      .tickSizeOuter(0)
+      .tickPadding(0);
 
     // SVG
     const svg = d3
@@ -58,10 +69,24 @@ const Canvas: Component<
       .attr("width", width)
       .attr("height", height)
       .attr("viewbox", [0, 0, width, height])
+      .style("font-size", "10pt")
       .on("touchstart", (e: TouchEvent) => e.preventDefault());
     // X axis
-    // const xAxis = d3.axisBottom()
-    svg.append("g");
+    svg
+      .append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .style("font-size", "10pt")
+      .call(xAxis)
+      .selectAll("line")
+      .attr("y2", -xAxis.tickSize());
+    // Y axis
+    svg
+      .append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .style("font-size", "10pt")
+      .call(yAxis)
+      .selectAll("line")
+      .attr("x2", yAxis.tickSize());
   };
 
   const plotPattern = (
