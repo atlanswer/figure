@@ -109,7 +109,7 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
       </button>
       <label
         aria-label="Upload files to create a new figure"
-        class="col-span-2 flex place-content-center gap-2 border rounded-md p-2 shadow transition-all hover:(bg-slate-2 dark:bg-slate-5)"
+        class="col-span-2 flex place-content-center gap-2 border rounded-md px-4 py-2 text-center shadow transition-all hover:(bg-slate-2 dark:bg-slate-5)"
         classList={{
           "py-4 border-(3 dashed)": siteContext.isDragOver,
           "bg-slate-50 dark:bg-slate-6": dragEnterCount() === 0,
