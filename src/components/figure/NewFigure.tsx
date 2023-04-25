@@ -73,7 +73,7 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
   };
 
   return (
-    <div class="grid grid-cols-2 grid-rows-2 w-full max-w-screen-sm gap-4 font-semibold">
+    <div class="grid grid-rows-[min-content] grid-cols-2 w-full max-w-screen-sm gap-4 font-semibold">
       <button
         class="border rounded-md bg-slate-50 p-2 shadow transition dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5)"
         onClick={async () => {
