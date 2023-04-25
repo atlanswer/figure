@@ -47,7 +47,11 @@ const Canvas: Component<
   ) => {
     if (figureSVGRef === undefined) return;
     // Data
-    const x = d3.map(data, (x) => x[0]);
+    const dataT = d3.transpose(data) as number[][];
+    const x = dataT[0];
+    const y = dataT.splice(1);
+    const dataP = y.map((d) => d3.zip(x, d) as [number, number][]);
+
     // const isDefined = (d, i) => !isNaN(x[i]) && !isNaN()
     const xDomain = d3.extent(x) as [number, number];
     const xRange = [margin.left, width - margin.right];
@@ -66,7 +70,7 @@ const Canvas: Component<
         .attr("stroke", "currentColor")
         .attr("stroke-opacity", 0.5)
         .attr("stroke-width", 0.5)
-        .attr("stroke-dasharray", "1 1");
+        .attr("stroke-dasharray", "1");
 
     const yDomain = [-40, 0];
     const yRange = [height - margin.bottom, margin.top];
@@ -89,7 +93,7 @@ const Canvas: Component<
         .attr("stroke", "currentColor")
         .attr("stroke-opacity", 0.5)
         .attr("stroke-width", 0.5)
-        .attr("stroke-dasharray", "1 1");
+        .attr("stroke-dasharray", "1");
 
     const trace = d3
       .line()
@@ -106,6 +110,8 @@ const Canvas: Component<
       .style("font-family", "Arial,Helvetica,sans-serif")
       .on("touchstart", (e: TouchEvent) => e.preventDefault());
 
+    // X grid
+    svg.append("g").call(xGrid);
     // X axis
     svg
       .append("g")
@@ -130,8 +136,8 @@ const Canvas: Component<
       .attr("y", 35)
       .attr("fill", "currentColor")
       .text("Frequency (GHz)");
-    // X grid
-    svg.append("g").call(xGrid);
+    // Y grid
+    svg.append("g").call(yGrid);
     // Y axis
     svg
       .append("g")
@@ -158,16 +164,18 @@ const Canvas: Component<
       .attr("x", -yScale(d3.mean(yDomain) as number))
       .attr("fill", "currentColor")
       .text("Scattering Parameters (dB)");
-    // Y grid
-    svg.append("g").call(yGrid);
     // Traces
     svg
       .append("g")
       .attr("fill", "none")
       .attr("stroke", "currentColor")
       .attr("stroke-linecap", "round")
-      .selectAll("path");
-    // .data(d3.group());
+      .selectAll("path")
+      .data(dataP)
+      .join("path")
+      .attr("d", (d) => trace(d))
+      .attr("stroke", (_, i) => d3.schemePaired[i])
+      .attr("stroke-dasharray", (_, i) => (i % 2 ? null : "5"));
   };
 
   const plotPattern = (
