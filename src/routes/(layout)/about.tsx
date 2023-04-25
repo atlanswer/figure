@@ -1,21 +1,32 @@
+import type { ParentComponent } from "solid-js";
+
+const A: ParentComponent<{ href: string }> = (props) => (
+  <a href={props.href} target="_blank" rel="noreferrer">
+    {props.children}
+  </a>
+);
+
 const About = () => (
   <div class="mx-auto max-w-screen-xl prose">
     <h1>Figure</h1>
     <b>Create publication quality figures. Work in progress!</b>
     <p>This project is built upon these technologies:</p>
     <ul>
-      <li>Solid</li>
-      <li>SolidStart</li>
-      <li>UnoCSS</li>
-      <li>Observable Plot</li>
-      <li>D3</li>
+      <li>
+        <A href="https://www.solidjs.com/">Solid</A>
+      </li>
+      <li>
+        <A href="https://start.solidjs.com/">SolidStart</A>
+      </li>
+      <li>
+        <A href="https://unocss.dev/">UnoCSS</A>
+      </li>
+      <li>
+        <A href="https://d3js.org/">D3</A>
+      </li>
     </ul>
     <p>
-      This project is hosted on{" "}
-      <a href="https://vercel.com" target="_blank" rel="noreferrer">
-        Vercel
-      </a>
-      .
+      This project is hosted on <A href="https://vercel.com/">Vercel</A>.
     </p>
 
     <h2>Privacy</h2>
@@ -27,23 +38,16 @@ const About = () => (
     <p>
       Information related to you could still be processed by the host provider
       Vercel. Check out their privacy policy{" "}
-      <a
-        href="https://vercel.com/legal/privacy-policy"
-        target="_blank"
-        rel="noreferrer"
-      >
-        here
-      </a>
-      .
+      <A href="https://vercel.com/legal/privacy-policy">here</A>.
     </p>
 
     <h2>Reference</h2>
     <figure>
       <figcaption>
         <cite>
-          <a href="https://journals.ieeeauthorcenter.ieee.org/">
+          <A href="https://journals.ieeeauthorcenter.ieee.org/">
             IEEE Author Center
-          </a>
+          </A>
         </cite>
       </figcaption>
     </figure>
