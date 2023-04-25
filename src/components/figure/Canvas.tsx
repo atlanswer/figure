@@ -174,8 +174,8 @@ const Canvas: Component<
       .data(dataP)
       .join("path")
       .attr("d", (d) => trace(d))
-      .attr("stroke", (_, i) => d3.schemePaired[i])
-      .attr("stroke-dasharray", (_, i) => (i % 2 ? null : "5"));
+      .attr("stroke", (_, i) => d3.schemeTableau10[i])
+      .attr("stroke-dasharray", (_, i) => (i % 2 ? "5" : null));
   };
 
   const plotPattern = (
