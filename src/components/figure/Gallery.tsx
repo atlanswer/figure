@@ -1,6 +1,4 @@
 import { For, Suspense, SuspenseList, createEffect } from "solid-js";
-import type * as Plot from "@observablehq/plot";
-import { plot, ruleY, dot } from "@observablehq/plot";
 import * as d3 from "d3";
 import { Show, createSignal, lazy } from "solid-js";
 import { useSiteContext } from "../context/SiteContext";
