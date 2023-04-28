@@ -271,7 +271,7 @@ const TraceLegends: Component<{
           return (
             <TraceLegend
               name={col}
-              color={d3.schemePaired[idx() - 1]}
+              color={d3.schemeTableau10[idx() - 1]}
               setFigures={props.setFigures}
               onClick={[removeCol, col]}
             />
