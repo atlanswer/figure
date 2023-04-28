@@ -112,6 +112,20 @@ const Canvas: Component<
 
     // X grid
     svg.append("g").call(xGrid);
+    // Y grid
+    svg.append("g").call(yGrid);
+    // Traces
+    svg
+      .append("g")
+      .attr("fill", "none")
+      .attr("stroke", "currentColor")
+      .attr("stroke-linecap", "round")
+      .selectAll("path")
+      .data(dataP)
+      .join("path")
+      .attr("d", (d) => trace(d))
+      .attr("stroke", (_, i) => d3.schemeTableau10[i])
+      .attr("stroke-dasharray", (_, i) => (i % 2 ? "5" : null));
     // X axis
     svg
       .append("g")
@@ -136,8 +150,6 @@ const Canvas: Component<
       .attr("y", 35)
       .attr("fill", "currentColor")
       .text("Frequency (GHz)");
-    // Y grid
-    svg.append("g").call(yGrid);
     // Y axis
     svg
       .append("g")
@@ -164,18 +176,6 @@ const Canvas: Component<
       .attr("x", -yScale(d3.mean(yDomain) as number))
       .attr("fill", "currentColor")
       .text("Scattering Parameters (dB)");
-    // Traces
-    svg
-      .append("g")
-      .attr("fill", "none")
-      .attr("stroke", "currentColor")
-      .attr("stroke-linecap", "round")
-      .selectAll("path")
-      .data(dataP)
-      .join("path")
-      .attr("d", (d) => trace(d))
-      .attr("stroke", (_, i) => d3.schemeTableau10[i])
-      .attr("stroke-dasharray", (_, i) => (i % 2 ? "5" : null));
   };
 
   const plotPattern = (
