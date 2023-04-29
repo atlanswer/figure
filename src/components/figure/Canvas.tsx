@@ -201,6 +201,8 @@ const Canvas: Component<
   //   }
   // });
 
+  const scales = d3.range(1, 4);
+
   return (
     <div class="w-full max-w-screen-xl flex flex-col gap-4 border rounded bg-slate-50 p-4 transition dark:bg-slate-6">
       <div class="flex items-center gap-4">
@@ -212,9 +214,21 @@ const Canvas: Component<
         />
         <RemoveFigureButton />
       </div>
-      <figure class="self-center border">
-        <svg ref={figureSVGRef}></svg>
-      </figure>
+      <div class="flex self-center border rounded">
+        <For each={scales}>
+          {(i) => (
+            <div class="flex items-center gap-1 border-r px-2 py-1 last:border-none">
+              <span class="i-ic:round-zoom-in inline-block h-5 w-5"></span>
+              <button class="font-semibold">{i}x</button>
+            </div>
+          )}
+        </For>
+      </div>
+      <div class="self-center">
+        <figure class="border">
+          <svg ref={figureSVGRef}></svg>
+        </figure>
+      </div>
     </div>
   );
 };
