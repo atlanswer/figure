@@ -17,15 +17,15 @@
     "@solidjs/meta": "^0.28.4",
     "@solidjs/router": "^0.8.2",
     "d3": "^7.8.4",
-    "solid-js": "^1.7.3",
+    "solid-js": "^1.7.4",
     "solid-start": "^0.2.26"
   },
   "devDependencies": {
     "@iconify-json/ic": "^1.1.13",
     "@iconify-json/mdi": "^1.1.50",
     "@types/d3": "^7.4.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.1",
-    "@typescript-eslint/parser": "^5.59.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
     "@unocss/eslint-config": "^0.51.8",
     "@unocss/preset-icons": "^0.51.8",
     "@unocss/preset-typography": "^0.51.8",
@@ -39,7 +39,7 @@
     "solid-devtools": "^0.26.0",
     "solid-start-vercel": "^0.2.26",
     "typescript": "^5.0.4",
-    "vite": "^4.3.3",
+    "vite": "^4.3.4",
     "vite-plugin-solid": "^2.7.0"
   }
 }

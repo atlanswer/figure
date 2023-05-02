@@ -80,8 +80,8 @@ const Canvas: Component<
         </For>
       </div>
       <div class="self-center">
-        <figure class="border">
-          <svg ref={figureSVGRef}></svg>
+        <figure class="self-center border">
+          <svg ref={figureSVGRef} xmlns="http://www.w3.org/2000/svg"></svg>
         </figure>
       </div>
     </div>
