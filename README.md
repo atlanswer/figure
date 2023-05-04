@@ -1,5 +1,7 @@
 # Figure
 
+https://figure.waferlab.dev
+
 Create publication quality figures.
 
 ## Usage

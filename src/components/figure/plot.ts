@@ -7,9 +7,9 @@ export const plotSParams = (
   figureSVGRef?: SVGElement,
 ) => {
   /** width = 72 dpi * 3.5 in */
-  const width = 72 * 3.5;
+  const width = Math.round(72 * 3.5);
   /** width = 72 dpi * 2.5 in */
-  const height = 72 * 2.8;
+  const height = Math.round(72 * 2.8);
   const margin = {
     top: 20,
     bottom: 45,
@@ -81,7 +81,7 @@ export const plotSParams = (
     .attr("viewbox", [0, 0, width, height])
     .style("font-size", "10pt")
     .style("font-family", "Arial,Helvetica,sans-serif")
-    .on("touchstart", (e: TouchEvent) => e.preventDefault());
+    // .on("touchstart", (e: TouchEvent) => e.preventDefault());
 
   // X grid
   svg.append("g").call(xGrid);

@@ -1,4 +1,4 @@
-import type { Component, JSX } from "solid-js";
+import { Component, JSX, Show, createSelector, createSignal } from "solid-js";
 import type { FigureSource } from "./Gallery";
 import type { SetStoreFunction } from "solid-js/store";
 import { For, createEffect, onCleanup } from "solid-js";
@@ -9,12 +9,13 @@ import { plotSParams } from "./plot";
 const Canvas: Component<
   FigureSource & { setFigures: SetStoreFunction<FigureSource[]>; idx: number }
 > = (props) => {
+  let figureRef: HTMLElement | undefined;
   let figureSVGRef: SVGSVGElement | undefined;
-  let removeButtonRef: HTMLButtonElement | undefined;
+  let removeFigureButtonRef: HTMLButtonElement | undefined;
 
   const RemoveFigureButton = () => (
     <button
-      ref={removeButtonRef}
+      ref={removeFigureButtonRef}
       class="border rounded p-1"
       onClick={() => {
         props.setFigures(
@@ -42,6 +43,7 @@ const Canvas: Component<
   createEffect(() => {
     // Modify the SVG DOM element with D3
     plotSParams(props.data, props.cols, figureSVGRef);
+    updateFigureMargin();
     // Remove the DOM elements
     onCleanup(() => {
       figureSVGRef?.replaceChildren();
@@ -57,6 +59,33 @@ const Canvas: Component<
   // });
 
   const scales = d3.range(1, 4);
+  const [scale, setScale] = createSignal(3);
+  const scaleSelected = createSelector(scale);
+  const updateFigureMargin = () => {
+    if (figureRef === undefined) return;
+    const svgHeight = figureSVGRef?.clientHeight ?? 0;
+    const svgWidth = figureSVGRef?.clientWidth ?? 0;
+    figureRef.style.margin = `${((scale() - 1) * svgHeight) / 2}px ${
+      ((scale() - 1) * svgWidth) / 2
+    }px`;
+  };
+
+  const ZoomButtons: Component = () => (
+    <div class="flex self-center border rounded">
+      <For each={scales}>
+        {(i) => (
+          <div class="flex items-center gap-1 border-r px-2 py-1 last:border-none">
+            <Show when={scaleSelected(i)}>
+              <span class="i-ic:round-zoom-in inline-block h-5 w-5"></span>
+            </Show>
+            <button class="font-semibold" onClick={() => setScale(i)}>
+              {i}x
+            </button>
+          </div>
+        )}
+      </For>
+    </div>
+  );
 
   return (
     <div class="w-full max-w-screen-xl flex flex-col gap-4 border rounded bg-slate-50 p-4 transition dark:bg-slate-6">
@@ -69,18 +98,15 @@ const Canvas: Component<
         />
         <RemoveFigureButton />
       </div>
-      <div class="flex self-center border rounded">
-        <For each={scales}>
-          {(i) => (
-            <div class="flex items-center gap-1 border-r px-2 py-1 last:border-none">
-              <span class="i-ic:round-zoom-in inline-block h-5 w-5"></span>
-              <button class="font-semibold">{i}x</button>
-            </div>
-          )}
-        </For>
-      </div>
+      <ZoomButtons />
       <div class="self-center">
-        <figure class="self-center border">
+        <figure
+          ref={figureRef}
+          class="self-center border"
+          style={{
+            scale: scale(),
+          }}
+        >
           <svg ref={figureSVGRef} xmlns="http://www.w3.org/2000/svg"></svg>
         </figure>
       </div>
