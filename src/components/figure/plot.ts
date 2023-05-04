@@ -18,6 +18,7 @@ export const plotSParams = (
   };
 
   if (figureSVGRef === undefined) return;
+  if (data.length === 0) return;
 
   // Data
   const dataT = d3.transpose(data) as number[][];
@@ -80,8 +81,8 @@ export const plotSParams = (
     .attr("height", height)
     .attr("viewbox", [0, 0, width, height])
     .style("font-size", "10pt")
-    .style("font-family", "Arial,Helvetica,sans-serif")
-    // .on("touchstart", (e: TouchEvent) => e.preventDefault());
+    .style("font-family", "Arial,Helvetica,sans-serif");
+  // .on("touchstart", (e: TouchEvent) => e.preventDefault());
 
   // X grid
   svg.append("g").call(xGrid);
