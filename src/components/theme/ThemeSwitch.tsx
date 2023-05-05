@@ -34,7 +34,7 @@ export const ThemeSwitcher = () => {
 
   return (
     <button
-      class="border rounded bg-[f6f1f1] p-1 dark:bg-black"
+      class="border rounded p-1"
       onClick={handleChangeTheme}
     >
       <span
