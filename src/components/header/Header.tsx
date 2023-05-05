@@ -4,7 +4,7 @@ import { ThemeSwitcher } from "~/components/theme/ThemeSwitch";
 
 const Header: Component<{ class: string }> = (props) => (
   <header
-    class={`font-medium border-b border-[#eaeaea] p-8 z-10 backdrop-saturate-180 backdrop-blur-5 bg-[hsla(0,0%,100%,0.5)] dark:bg-[hsla(0,0%,0%,.5)] ${props.class}`}
+    class={`font-medium border-b border-[#eaeaea] p-8 z-10 backdrop-saturate-180 backdrop-blur-5 bg-[hsla(0,0%,100%,0.3)] dark:bg-[hsla(0,0%,0%,.3)] ${props.class}`}
   >
     <div class="mx-auto max-w-screen-xl flex gap-6">
       <Navigator />

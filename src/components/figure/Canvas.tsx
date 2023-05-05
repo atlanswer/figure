@@ -10,6 +10,7 @@ const Canvas: Component<
   FigureSource & { setFigures: SetStoreFunction<FigureSource[]>; idx: number }
 > = (props) => {
   let figureRef: HTMLElement | undefined;
+  let figureContainerRef: HTMLDivElement | undefined;
   let figureSVGRef: SVGSVGElement | undefined;
   let removeFigureButtonRef: HTMLButtonElement | undefined;
 
@@ -65,9 +66,8 @@ const Canvas: Component<
     if (figureRef === undefined) return;
     const svgHeight = figureSVGRef?.clientHeight ?? 0;
     const svgWidth = figureSVGRef?.clientWidth ?? 0;
-    figureRef.style.margin = `${((scale() - 1) * svgHeight) / 2}px ${
-      ((scale() - 1) * svgWidth) / 2
-    }px`;
+    figureRef.style.height = `${scale() * (svgHeight + 1)}px`;
+    figureRef.style.width = ` ${scale() * (svgWidth + 1)}px`;
   };
 
   const ZoomButtons: Component = () => (
@@ -99,15 +99,14 @@ const Canvas: Component<
         <RemoveFigureButton />
       </div>
       <ZoomButtons />
-      <div class="self-center">
-        <figure
-          ref={figureRef}
-          class="self-center border"
-          style={{
-            scale: scale(),
-          }}
-        >
-          <svg ref={figureSVGRef} xmlns="http://www.w3.org/2000/svg"></svg>
+      <div
+        ref={figureContainerRef}
+        class="max-w-full self-center overflow-auto"
+      >
+        <figure ref={figureRef} class="box-border self-center border">
+          <div style={{ scale: scale() }}>
+            <svg ref={figureSVGRef} xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
         </figure>
       </div>
     </div>
