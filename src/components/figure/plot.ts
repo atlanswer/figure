@@ -99,7 +99,9 @@ export const plotSParams = (
     .join("path")
     .attr("d", (d) => trace(d))
     .attr("stroke", (_, i) => d3.schemeTableau10[i])
-    .attr("stroke-dasharray", (_, i) => (i % 2 ? "5" : null));
+    .attr("stroke-dasharray", (_, i) => (i % 2 ? "5" : null))
+    .attr("fill", "none")
+    .attr("stroke-linejoin", "round");
 
   // X axis
   svg
