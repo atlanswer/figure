@@ -77,11 +77,11 @@ export const plotSParams = (
   // SVG
   const svg = d3
     .select(figureSVGRef)
+    .attr("xmlns", "http://www.w3.org/2000/svg")
     .attr("width", width)
     .attr("height", height)
     .attr("viewbox", [0, 0, width, height])
-    .style("font-size", "10pt")
-    .style("font-family", "Arial,Helvetica,sans-serif");
+    .style("font-size", "10pt");
   // .on("touchstart", (e: TouchEvent) => e.preventDefault());
 
   // X grid
@@ -107,9 +107,9 @@ export const plotSParams = (
   svg
     .append("g")
     .attr("transform", `translate(0,${height - margin.bottom})`)
-    .style("font-size", "10pt")
-    .style("font-family", "Arial,Helvetica,sans-serif")
     .call(xAxis)
+    .attr("font-size", "10pt")
+    .attr("font-family", "Arial, Helvetica, sans-serif")
     .call((g) =>
       g
         .selectAll("line")
@@ -126,15 +126,17 @@ export const plotSParams = (
     .attr("x", xScale(d3.mean(xDomain) as number))
     .attr("y", 35)
     .attr("fill", "currentColor")
-    .text("Frequency (GHz)");
+    .text("Frequency (GHz)")
+    .attr("font-size", "10pt")
+    .attr("font-family", "Arial, Helvetica, sans-serif");
 
   // Y axis
   svg
     .append("g")
     .attr("transform", `translate(${margin.left},0)`)
-    .style("font-size", "10pt")
-    .style("font-family", "Arial,Helvetica,sans-serif")
     .call(yAxis)
+    .attr("font-size", "10pt")
+    .attr("font-family", "Arial, Helvetica, sans-serif")
     .call((g) =>
       g
         .selectAll("line")

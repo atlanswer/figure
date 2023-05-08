@@ -107,7 +107,7 @@ const Canvas: Component<
             scale: scale(),
           }}
         >
-          <svg ref={figureSVGRef} xmlns="http://www.w3.org/2000/svg"></svg>
+          <svg ref={figureSVGRef}></svg>
         </figure>
       </div>
     </div>
