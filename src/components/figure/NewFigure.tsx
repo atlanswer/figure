@@ -136,7 +136,7 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
           handleFileInput(e.dataTransfer?.files);
         }}
       >
-        <span class="i-ic:round-add block h-6 w-6"></span>
+        <span class="i-ic:round-add block h-6 w-6" />
         <Show when={hover() || siteContext.isDragOver}>
           <span>
             {dragEnterCount() > 0

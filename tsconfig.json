@@ -14,5 +14,7 @@
     "paths": {
       "~/*": ["./src/*"]
     }
-  }
+  },
+  "files": ["./.eslintrc.cjs", "vite.config.ts", "unocss.config.ts"],
+  "include": ["src", "./*.d.ts"]
 }

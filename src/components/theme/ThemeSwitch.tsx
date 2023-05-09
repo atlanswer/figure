@@ -41,7 +41,7 @@ export const ThemeSwitcher = () => {
         role="img"
         aria-label="Light mode icon"
         class={`block ${iconClass()}`}
-      ></span>
+       />
     </button>
   );
 };

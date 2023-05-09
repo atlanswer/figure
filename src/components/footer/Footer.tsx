@@ -29,7 +29,7 @@ const Footer: Component<{ class?: string }> = (props) => (
           role="img"
           aria-label="Status icon"
           class="i-ic:round-trending-up inline-block h-6 w-6"
-        ></span>
+         />
         <span class="underline underline-offset-4">Status</span>
       </a>
       <a
@@ -42,7 +42,7 @@ const Footer: Component<{ class?: string }> = (props) => (
           role="img"
           aria-label="GitHub icon"
           class="i-mdi:github inline-block h-6 w-6"
-        ></span>
+         />
         <span class="underline underline-offset-4">Source code</span>
       </a>
     </div>

@@ -29,7 +29,7 @@ const Canvas: Component<
         role="img"
         aria-label="Remove trace icon"
         class="i-ic:round-playlist-remove block h-6 w-6"
-      ></span>
+       />
     </button>
   );
 
@@ -76,7 +76,7 @@ const Canvas: Component<
         {(i) => (
           <div class="flex items-center gap-1 border-r px-2 py-1 last:border-none">
             <Show when={scaleSelected(i)}>
-              <span class="i-ic:round-zoom-in inline-block h-5 w-5"></span>
+              <span class="i-ic:round-zoom-in inline-block h-5 w-5" />
             </Show>
             <button class="font-semibold" onClick={() => setScale(i)}>
               {i}x
@@ -107,7 +107,7 @@ const Canvas: Component<
             scale: scale(),
           }}
         >
-          <svg ref={figureSVGRef}></svg>
+          <svg ref={figureSVGRef} />
         </figure>
       </div>
     </div>
@@ -123,14 +123,14 @@ const TraceLegend: Component<
 > = (props) => {
   return (
     <span class="min-w-12rem flex items-center gap-4 border rounded bg-slate-2 py-1 pl-4 font-semibold text-black">
-      <span class="h-1 w-16" style={`background-color: ${props.color}`}></span>
+      <span class="h-1 w-16" style={{ "background-color": props.color }} />
       <span>{props.name}</span>
-      <button class="border-l border-black px-1" onClick={props.onClick}>
+      <button class="border-l border-black px-1" onClick={() => props.onClick}>
         <span
           role="img"
           aria-label="Remove canvas icon"
           class="i-ic:round-close block h-5 w-5"
-        ></span>
+         />
       </button>
     </span>
   );
@@ -146,9 +146,6 @@ const TraceLegends: Component<{
     <div class={`flex flex-wrap gap-4 ${props.class}`}>
       <For each={props.cols}>
         {(col, idx) => {
-          // Skip the first column aka the frequency column.
-          if (idx() === 0) return;
-
           const removeCol = (col: string) => {
             const colIdx = props.cols.indexOf(col);
             props.setFigures(props.figureIdx, "cols", (c) => [
@@ -164,12 +161,17 @@ const TraceLegends: Component<{
           };
 
           return (
-            <TraceLegend
-              name={col}
-              color={d3.schemeTableau10[idx() - 1]}
-              setFigures={props.setFigures}
-              onClick={[removeCol, col]}
-            />
+            // Skip the first column aka the frequency column.
+            <>
+              {idx() === 0 ? undefined : (
+                <TraceLegend
+                  name={col}
+                  color={d3.schemeTableau10[idx() - 1]}
+                  setFigures={props.setFigures}
+                  onClick={[removeCol, col]}
+                />
+              )}
+            </>
           );
         }}
       </For>
@@ -178,7 +180,7 @@ const TraceLegends: Component<{
           role="img"
           aria-label="Add trace icon"
           class="i-ic:round-add-box block h-6 w-6"
-        ></span>
+         />
       </button>
     </div>
   );
