@@ -5,7 +5,16 @@ import { useSiteContext } from "../context/SiteContext";
 import { createStore, produce } from "solid-js/store";
 import { NewFigure } from "./NewFigure";
 
+/** all the info needed to create a full figure */
 export type FigureSource = {
+  /** customization options */
+  config?: {
+    /** figure type, choose from:
+     * - "s_params": scattering parameters
+     * - "pattern": radiation pattern
+     */
+    figureType: "s_params" | "pattern";
+  };
   data: number[][];
   cols: string[];
 };
