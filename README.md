@@ -1,6 +1,6 @@
 # Figure
 
-https://figure.waferlab.dev
+https://figure.atlanswer.com
 
 Create publication quality figures.
 

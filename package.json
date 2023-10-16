@@ -1,46 +1,22 @@
 {
   "name": "figure",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Generate publication quality figures.",
   "license": "MIT",
   "private": "true",
   "type": "module",
   "scripts": {
-    "dev": "solid-start dev",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts,.tsx",
-    "fix": "pnpm lint --fix",
-    "build": "solid-start build",
-    "start": "solid-start start"
-  },
-  "dependencies": {
-    "@solidjs/meta": "^0.28.6",
-    "@solidjs/router": "^0.8.3",
-    "d3": "^7.8.5",
-    "solid-js": "^1.7.11",
-    "solid-start": "^0.3.4"
+    "fix": "pnpm lint --fix"
   },
   "devDependencies": {
-    "@iconify-json/ic": "^1.1.14",
-    "@iconify-json/mdi": "^1.1.54",
-    "@types/d3": "^7.4.0",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "@typescript-eslint/parser": "^6.4.1",
-    "@unocss/eslint-config": "^0.55.3",
-    "@unocss/preset-icons": "^0.55.3",
-    "@unocss/preset-typography": "^0.55.3",
-    "@unocss/preset-uno": "^0.55.3",
-    "@unocss/reset": "^0.55.3",
-    "@unocss/transformer-variant-group": "^0.55.3",
-    "@unocss/vite": "^0.55.3",
-    "eslint": "^8.48.0",
+    "@types/node": "^20.8.6",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-solid": "^0.13.0",
-    "prettier": "^3.0.2",
-    "solid-start-vercel": "^0.3.4",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vite-plugin-solid": "^2.7.0"
-  },
-  "optionalDependencies": {}
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  }
 }
