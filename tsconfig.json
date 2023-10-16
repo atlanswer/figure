@@ -1,20 +1,13 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Next.js",
+  "extends": "@tsconfig/next/tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "types": ["solid-start/env"],
-    "noEmit": true,
+    "target": "ES6",
+    "checkJs": true,
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./*"]
     }
   },
-  "files": ["./.eslintrc.cjs", "vite.config.ts", "unocss.config.ts"],
-  "include": ["src", "./*.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next-env.d.ts"]
 }

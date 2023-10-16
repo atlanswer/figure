@@ -1,6 +1,6 @@
+# node
 node_modules
-dist
 
-# SolidStart
-.solid
+# next
+.next
 .vercel
