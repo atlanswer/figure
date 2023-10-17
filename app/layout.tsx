@@ -1,3 +1,7 @@
+import "./globals.css";
+
+export const runtime = "edge";
+
 export default function RootLayout({
   children,
 }: {
