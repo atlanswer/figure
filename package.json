@@ -1,7 +1,7 @@
 {
   "name": "figure",
   "version": "0.1.0",
-  "description": "Generate publication quality figures.",
+  "description": "Generate publication quality figures",
   "license": "MIT",
   "private": "true",
   "type": "module",
@@ -14,7 +14,7 @@
   },
   "homepage": "https://figure.atlanswer.com/",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",

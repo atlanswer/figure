@@ -10,7 +10,4 @@ Create publication quality figures.
 # Development
 pnpm i
 pnpm dev
-# Lint and fix
-pnpm lint
-pnpm fix
 ```
