@@ -9,11 +9,11 @@ export const BookList: Component<{ books: Book[] }> = (props) => {
     <>
       <h3 class="flex items-center gap-2 font-semibold">
         Number of books:
-        <div class="grid h-6 min-w-6 w-6 place-items-center border border-gray-5 rounded-full font-bold text-blue-5">
+        <div class="border-gray-5 text-blue-5 grid h-6 w-6 min-w-6 place-items-center rounded-full border font-bold">
           <span>{totalBooks()}</span>
         </div>
       </h3>
-      <ul class="my-2 list-disc list-inside">
+      <ul class="my-2 list-inside list-disc">
         <For each={props.books}>
           {(book) => (
             <li>

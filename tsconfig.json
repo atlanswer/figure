@@ -1,14 +1,21 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Next.js",
-  "extends": "@tsconfig/next/tsconfig.json",
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "allowJs": true,
     "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "types": ["vinxi/client"],
+    "isolatedModules": true,
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./src/*"]
     }
-  },
-  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next-env.d.ts"],
-  "exclude": ["src-old/**/*.ts", "src-old/**/*.tsx"]
+  }
 }

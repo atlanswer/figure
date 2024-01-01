@@ -18,14 +18,14 @@ export const Bookshelf: Component<{ name: string }> = (props) => {
   const [books, setBooks] = createSignal(initialBooks);
   const [showForm, setShowForm] = createSignal(false);
   return (
-    <div class="box-border rounded-lg bg-slate-2 p-4 text-black dark:bg-slate-7 dark:text-white">
+    <div class="bg-slate-2 dark:bg-slate-7 box-border rounded-lg p-4 text-black dark:text-white">
       <h2 class="mb-4 text-2xl font-semibold">{props.name}'s Bookshelf</h2>
       <BookList books={books()} />
       <Show
         when={showForm()}
         fallback={
           <button
-            class="border border-slate rounded px-2 py-1"
+            class="border-slate rounded border px-2 py-1"
             onClick={() => setShowForm((showForm) => !showForm)}
           >
             Add a book
@@ -34,7 +34,7 @@ export const Bookshelf: Component<{ name: string }> = (props) => {
       >
         <AddBook setBooks={setBooks} />
         <button
-          class="border border-slate rounded px-2 py-1"
+          class="border-slate rounded border px-2 py-1"
           onClick={() => setShowForm((showForm) => !showForm)}
         >
           Finish

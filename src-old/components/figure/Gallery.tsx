@@ -31,7 +31,7 @@ const Gallery = () => {
   // });
 
   return (
-    <div class="w-full flex flex-col place-items-center gap-8">
+    <div class="flex w-full flex-col place-items-center gap-8">
       <SuspenseList revealOrder="forwards">
         <For each={figures}>
           {(figure, idx) => {

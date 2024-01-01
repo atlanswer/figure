@@ -13,12 +13,9 @@ max_line_length = 80
 # Default charset to UTF-8
 charset = utf-8
 
-# Indent by 2 spaces
-indent_size = 2
+# Indent by 4 spaces
+indent_size = 4
 indent_style = space
 
 # Trim trailing whitespace, except for Markdown
-[*]
 trim_trailing_whitespace = true
-[*.{md, mdx}]
-trim_trailing_whitespace = false

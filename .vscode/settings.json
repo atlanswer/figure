@@ -1,10 +1,3 @@
 {
-  "cSpell.words": [
-    "clsx",
-    "iconify",
-    "observablehq",
-    "solidjs",
-    "unocss"
-  ],
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "cSpell.words": ["clsx", "iconify", "solidjs", "vinxi"]
 }

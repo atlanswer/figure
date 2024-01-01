@@ -1,5 +1,29 @@
-build
 dist
+.solid
+.output
+.vinxi
+.vercel
+.netlify
+netlify
+
+# Environment
+.env
+.env*.local
+
+# dependencies
+/node_modules
 pnpm-lock.yaml
-.next
-next-end.d.ts
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+*.launch
+.settings/
+
+# Temp
+gitignore
+
+# System Files
+.DS_Store
+Thumbs.db

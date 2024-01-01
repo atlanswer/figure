@@ -2,11 +2,11 @@ import type { Component } from "solid-js";
 
 const Footer: Component<{ class?: string }> = (props) => (
   <footer
-    class={`b-t p-8 items-center bg-slate-1 dark:bg-slate-6 ${
+    class={`b-t bg-slate-1 dark:bg-slate-6 items-center p-8 ${
       props.class ? props.class : ""
     }`}
   >
-    <div class="mx-auto max-w-screen-xl flex gap-6 lt-sm:flex-col">
+    <div class="lt-sm:flex-col mx-auto flex max-w-screen-xl gap-6">
       <span>
         Built by{" "}
         <a
@@ -29,7 +29,7 @@ const Footer: Component<{ class?: string }> = (props) => (
           role="img"
           aria-label="Status icon"
           class="i-ic:round-trending-up inline-block h-6 w-6"
-         />
+        />
         <span class="underline underline-offset-4">Status</span>
       </a>
       <a
@@ -42,7 +42,7 @@ const Footer: Component<{ class?: string }> = (props) => (
           role="img"
           aria-label="GitHub icon"
           class="i-mdi:github inline-block h-6 w-6"
-         />
+        />
         <span class="underline underline-offset-4">Source code</span>
       </a>
     </div>

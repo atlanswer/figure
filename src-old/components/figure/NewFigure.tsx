@@ -73,9 +73,9 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
   };
 
   return (
-    <div class="grid grid-rows-[min-content] grid-cols-2 w-full max-w-screen-sm gap-4 font-semibold">
+    <div class="grid w-full max-w-screen-sm grid-cols-2 grid-rows-[min-content] gap-4 font-semibold">
       <button
-        class="border rounded-md bg-slate-50 p-2 shadow transition dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5)"
+        class="dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5) rounded-md border bg-slate-50 p-2 shadow transition"
         onClick={async () => {
           const { s_example_cols, s_example_data } = await import(
             "./example-data"
@@ -90,7 +90,7 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
         Example: Scattering Parameters
       </button>
       <button
-        class="border rounded-md bg-slate-50 p-2 shadow transition dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5)"
+        class="dark:bg-slate-6 hover:(bg-slate-2 dark:bg-slate-5) rounded-md border bg-slate-50 p-2 shadow transition"
         onClick={async () => {
           const { pattern_example_cols, pattern_example_data } = await import(
             "./example-data"
@@ -109,7 +109,7 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
       </button>
       <label
         aria-label="Upload files to create a new figure"
-        class="col-span-2 flex place-content-center gap-2 border rounded-md px-4 py-2 text-center shadow transition-all hover:(bg-slate-2 dark:bg-slate-5)"
+        class="hover:(bg-slate-2 dark:bg-slate-5) col-span-2 flex place-content-center gap-2 rounded-md border px-4 py-2 text-center shadow transition-all"
         classList={{
           "py-4 border-(3 dashed)": siteContext.isDragOver,
           "bg-slate-50 dark:bg-slate-6": dragEnterCount() === 0,
@@ -139,9 +139,9 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
         <span class="i-ic:round-add block h-6 w-6" />
         <Show when={hover() || siteContext.isDragOver}>
           <span>
-            {dragEnterCount() > 0
-              ? "Drop files here"
-              : "Upload or drop files here to create a new figure"}
+            {dragEnterCount() > 0 ?
+              "Drop files here"
+            : "Upload or drop files here to create a new figure"}
           </span>
         </Show>
         <input
@@ -151,7 +151,7 @@ const NewFigure: Component<{ setFigures: SetStoreFunction<FigureSource[]> }> = (
           multiple
           ref={inputRef}
           hidden
-          class="absolute mx-auto w-full max-w-screen-sm opacity-50 focus:(ring-2 ring-offset-2 ring-slate-3 dark:ring-offset-slate-7)"
+          class="focus:(ring-2 ring-slate-3 dark:ring-offset-slate-7) absolute mx-auto w-full max-w-screen-sm opacity-50 ring-offset-2"
           onChange={() => {
             handleFileInput(inputRef?.files);
           }}

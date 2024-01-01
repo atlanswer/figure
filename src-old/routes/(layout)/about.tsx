@@ -7,7 +7,7 @@ const A: ParentComponent<{ href: string }> = (props) => (
 );
 
 const About = () => (
-  <div class="mx-auto max-w-screen-xl prose">
+  <div class="prose mx-auto max-w-screen-xl">
     <h1>Figure</h1>
     <b>Create publication quality figures. Work in progress!</b>
     <p>This project is built upon these technologies:</p>

@@ -8,7 +8,7 @@ export const Counter = () => {
       Current count: {count()}
       <button
         onClick={() => setCount(count() + 1)}
-        class="border rounded bg-blue px-2 py-1"
+        class="bg-blue rounded border px-2 py-1"
       >
         Increment
       </button>

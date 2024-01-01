@@ -1,6 +1,6 @@
 {
   "name": "figure",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Generate publication quality figures",
   "license": "MIT",
   "private": "true",
@@ -14,35 +14,27 @@
   },
   "homepage": "https://figure.atlanswer.com/",
   "scripts": {
-    "dev": "next dev --turbo",
-    "build": "next build",
-    "start": "next start",
-    "format": "prettier --write .",
-    "lint": "next lint"
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
-    "lucide-react": "^0.289.0",
-    "next": "^14.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^1.14.0",
-    "tailwindcss-animate": "^1.0.7"
+    "@solidjs/router": "^0.10.5",
+    "@solidjs/start": "^0.4.2",
+    "solid-js": "^1.8.7",
+    "vinxi": "^0.0.62"
   },
   "devDependencies": {
-    "@tsconfig/next": "^2.0.1",
-    "@types/node": "^20.8.9",
-    "@types/react": "^18.2.33",
     "autoprefixer": "^10.4.16",
-    "cssnano": "^6.0.1",
-    "eslint": "^8.52.0",
-    "eslint-config-next": "^14.0.0",
-    "eslint-config-prettier": "^9.0.0",
-    "postcss": "^8.4.31",
-    "prettier": "^3.0.3",
-    "prettier-plugin-tailwindcss": "^0.5.6",
-    "tailwindcss": "^3.3.5",
-    "typescript": "^5.2.2"
+    "cssnano": "^6.0.2",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.10",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

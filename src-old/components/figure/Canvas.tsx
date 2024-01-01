@@ -16,7 +16,7 @@ const Canvas: Component<
   const RemoveFigureButton = () => (
     <button
       ref={removeFigureButtonRef}
-      class="border rounded p-1"
+      class="rounded border p-1"
       onClick={() => {
         props.setFigures(
           produce((figures) => {
@@ -29,7 +29,7 @@ const Canvas: Component<
         role="img"
         aria-label="Remove trace icon"
         class="i-ic:round-playlist-remove block h-6 w-6"
-       />
+      />
     </button>
   );
 
@@ -71,7 +71,7 @@ const Canvas: Component<
   };
 
   const ZoomButtons: Component = () => (
-    <div class="flex self-center border rounded">
+    <div class="flex self-center rounded border">
       <For each={scales}>
         {(i) => (
           <div class="flex items-center gap-1 border-r px-2 py-1 last:border-none">
@@ -88,7 +88,7 @@ const Canvas: Component<
   );
 
   return (
-    <div class="w-full max-w-screen-xl flex flex-col gap-4 border rounded bg-slate-50 p-4 transition dark:bg-slate-6">
+    <div class="dark:bg-slate-6 flex w-full max-w-screen-xl flex-col gap-4 rounded border bg-slate-50 p-4 transition">
       <div class="flex items-center gap-4">
         <TraceLegends
           class="flex-1"
@@ -122,7 +122,7 @@ const TraceLegend: Component<
   } & JSX.HTMLAttributes<HTMLSpanElement>
 > = (props) => {
   return (
-    <span class="min-w-12rem flex items-center gap-4 border rounded bg-slate-2 py-1 pl-4 font-semibold text-black">
+    <span class="min-w-12rem bg-slate-2 flex items-center gap-4 rounded border py-1 pl-4 font-semibold text-black">
       <span class="h-1 w-16" style={{ "background-color": props.color }} />
       <span>{props.name}</span>
       <button class="border-l border-black px-1" onClick={() => props.onClick}>
@@ -130,7 +130,7 @@ const TraceLegend: Component<
           role="img"
           aria-label="Remove canvas icon"
           class="i-ic:round-close block h-5 w-5"
-         />
+        />
       </button>
     </span>
   );
@@ -163,14 +163,15 @@ const TraceLegends: Component<{
           return (
             // Skip the first column aka the frequency column.
             <>
-              {idx() === 0 ? undefined : (
-                <TraceLegend
+              {idx() === 0 ?
+                undefined
+              : <TraceLegend
                   name={col}
                   color={d3.schemeTableau10[idx() - 1]}
                   setFigures={props.setFigures}
                   onClick={[removeCol, col]}
                 />
-              )}
+              }
             </>
           );
         }}
@@ -180,7 +181,7 @@ const TraceLegends: Component<{
           role="img"
           aria-label="Add trace icon"
           class="i-ic:round-add-box block h-6 w-6"
-         />
+        />
       </button>
     </div>
   );

@@ -33,15 +33,12 @@ export const ThemeSwitcher = () => {
   };
 
   return (
-    <button
-      class="border rounded p-1"
-      onClick={handleChangeTheme}
-    >
+    <button class="rounded border p-1" onClick={handleChangeTheme}>
       <span
         role="img"
         aria-label="Light mode icon"
         class={`block ${iconClass()}`}
-       />
+      />
     </button>
   );
 };
