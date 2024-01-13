@@ -1,10 +1,12 @@
-import { defineConfig } from "@solidjs/start/config";
+import { defineConfig } from "vite";
+import solidPlugin from "vite-plugin-solid";
 
 export default defineConfig({
-  start: {
-    ssr: true,
-    server: {
-      preset: "vercel-edge",
-    },
+  plugins: [solidPlugin()],
+  server: {
+    port: 3000,
+  },
+  build: {
+    target: "esnext",
   },
 });

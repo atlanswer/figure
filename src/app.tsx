@@ -1,21 +1,16 @@
-// @refresh reload
-import { Router } from "@solidjs/router";
-import { FileRoutes } from "@solidjs/start";
-import { Suspense } from "solid-js";
-import Nav from "~/components/Nav";
-import "./app.css";
+import type { Component } from "solid-js";
 
-export default function App() {
+const App: Component = () => {
   return (
-    <Router
-      root={(props) => (
-        <>
-          <Nav />
-          <Suspense>{props.children}</Suspense>
-        </>
-      )}
+    <div
+      id="content-div"
+      class="flex min-h-screen w-screen flex-col place-content-center place-items-center gap-4"
     >
-      <FileRoutes />
-    </Router>
+      <p class="bg-gradient-to-tr from-blue-700 to-blue-400 bg-clip-text text-center align-middle font-sans text-6xl font-bold leading-normal text-transparent">
+        Solid Template
+      </p>
+    </div>
   );
-}
+};
+
+export default App;

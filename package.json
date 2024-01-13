@@ -1,6 +1,6 @@
 {
   "name": "figure",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Generate publication quality figures",
   "license": "MIT",
   "private": "true",
@@ -14,27 +14,27 @@
   },
   "homepage": "https://figure.atlanswer.com/",
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
-    "start": "vinxi start",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@solidjs/router": "^0.10.5",
-    "@solidjs/start": "^0.4.2",
-    "solid-js": "^1.8.7",
-    "vinxi": "^0.0.62"
+    "solid-js": "~1.8.11"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.16",
-    "cssnano": "^6.0.2",
-    "postcss": "^8.4.32",
-    "prettier": "^3.1.1",
-    "prettier-plugin-tailwindcss": "^0.5.10",
-    "tailwindcss": "^3.4.0",
-    "typescript": "^5.3.3"
+    "@types/node": "~20.11.0",
+    "autoprefixer": "~10.4.16",
+    "cssnano": "~6.0.3",
+    "postcss": "~8.4.33",
+    "prettier": "~3.2.1",
+    "prettier-plugin-tailwindcss": "~0.5.11",
+    "tailwindcss": "~3.4.1",
+    "typescript": "~5.3.3",
+    "vite": "~5.0.11",
+    "vite-plugin-solid": "~2.8.0"
   },
-  "packageManager": "pnpm@8.13.1",
+  "packageManager": "pnpm@8.14.1",
   "engines": {
     "node": ">=20"
   }

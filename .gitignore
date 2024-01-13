@@ -1,4 +1,4 @@
-
+# build
 dist
 .solid
 .output
@@ -7,7 +7,7 @@ dist
 .netlify
 netlify
 
-# Environment
+# environment
 .env
 .env*.local
 
@@ -21,9 +21,6 @@ netlify
 *.launch
 .settings/
 
-# Temp
-gitignore
-
-# System Files
+# system files
 .DS_Store
 Thumbs.db

@@ -1,3 +1,4 @@
+# build
 dist
 .solid
 .output
@@ -6,13 +7,12 @@ dist
 .netlify
 netlify
 
-# Environment
+# environment
 .env
 .env*.local
 
 # dependencies
 /node_modules
-pnpm-lock.yaml
 
 # IDEs and editors
 /.idea
@@ -21,9 +21,6 @@ pnpm-lock.yaml
 *.launch
 .settings/
 
-# Temp
-gitignore
-
-# System Files
+# system files
 .DS_Store
 Thumbs.db
