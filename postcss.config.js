@@ -3,6 +3,8 @@ export default {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
-    ...(import.meta.env.NODE_ENV === "production" ? { cssnano: {} } : {}),
+    // I don't want to install @type/node
+    // eslint-disable-next-line
+    ...(process.env.NODE_ENV === "production" ? { cssnano: {} } : {}),
   },
 };
