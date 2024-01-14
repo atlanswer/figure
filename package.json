@@ -15,6 +15,7 @@
   "homepage": "https://figure.atlanswer.com/",
   "scripts": {
     "dev": "vite",
+    "lint": "eslint .",
     "build": "vite build",
     "serve": "vite preview",
     "prettier": "prettier --write ."
@@ -30,7 +31,6 @@
     "eslint": "~8.56.0",
     "eslint-config-prettier": "~9.1.0",
     "eslint-plugin-solid": "~0.13.1",
-    "globals": "^13.24.0",
     "postcss": "~8.4.33",
     "prettier": "~3.2.1",
     "prettier-plugin-tailwindcss": "~0.5.11",

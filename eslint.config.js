@@ -13,10 +13,10 @@ const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   resolvePluginsRelativeTo: __dirname,
-  recommendedConfig: js.configs.recommended,
 });
 
 export default [
+  js.configs.recommended,
   ...compat.config({
     root: true,
     env: {
@@ -34,5 +34,8 @@ export default [
       "plugin:solid/typescript",
     ],
   }),
+  {
+    ignores: ["src-old/"],
+  },
   prettier,
 ];
