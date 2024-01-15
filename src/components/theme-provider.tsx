@@ -14,15 +14,12 @@ type ThemeProviderProps = {
   storageKey: string;
 };
 
-type ThemeProviderState = {
-  theme: Accessor<Theme>;
-  setTheme: (theme: Theme) => void;
-};
+type ThemeProviderState = [
+  theme: Accessor<Theme>,
+  setTheme: (theme: Theme) => void,
+];
 
-const initialState: ThemeProviderState = {
-  theme: () => "system",
-  setTheme: () => null,
-};
+const initialState: ThemeProviderState = [() => "system", () => null];
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
@@ -49,13 +46,13 @@ export function ThemeProvider(props: ThemeProviderProps) {
 
   return (
     <ThemeProviderContext.Provider
-      value={{
+      value={[
         theme,
-        setTheme: (theme: Theme) => {
+        (theme: Theme) => {
           localStorage.setItem(props.storageKey, theme);
           setTheme(theme);
         },
-      }}
+      ]}
     >
       {props.children}
     </ThemeProviderContext.Provider>
