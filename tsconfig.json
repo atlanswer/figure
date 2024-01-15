@@ -4,6 +4,7 @@
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -13,8 +14,10 @@
     "checkJs": true,
     "noEmit": true,
     "types": ["vite/client"],
+    "rootDir": ".",
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./src/*"],
+      "@/*": ["./public/*"]
     }
   }
 }
