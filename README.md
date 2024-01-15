@@ -2,7 +2,7 @@
 
 https://figure.atlanswer.com
 
-Create publication quality figures.
+Create publication quality figures, work in progress.
 
 ## Usage
 

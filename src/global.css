@@ -25,12 +25,12 @@ body {
   background-color: #475569;
 }
 
-#page-main {
+main {
   background: fixed radial-gradient(circle, #d8d8d8 0.1rem, #f6f1f1 0.1rem) top
     left / 2rem 2rem;
 }
 
-.dark #page-main {
+.dark main {
   background: fixed radial-gradient(circle, #1b262c 0.1rem, #000000 0.1rem) top
     left / 2rem 2rem;
 }
