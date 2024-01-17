@@ -1,6 +1,6 @@
 import { A } from "@solidjs/router";
 export default () => (
-  <main class="flex min-h-screen w-screen flex-col place-content-center place-items-center gap-4">
+  <main class="flex w-full flex-auto flex-col place-content-center place-items-center gap-4">
     <p>
       <span>404 - Not Found.</span>
       <span> </span>

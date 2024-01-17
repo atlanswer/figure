@@ -22,10 +22,10 @@ export const ThemeToggle = () => {
 
   return (
     <button
-      class="rounded border p-2 text-black dark:text-white"
+      class="rounded border p-1 text-black dark:text-white"
       onClick={() => toggleTheme()}
     >
-      Switch Theme (current: {theme()})
+      Switch
     </button>
   );
 };
