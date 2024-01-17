@@ -17,7 +17,7 @@ const Navigator = () => (
 );
 
 export default ((props) => (
-  <header class="sticky top-0 border-b border-slate-500 bg-sky-600 p-2 dark:bg-sky-900">
+  <header class="sticky top-0 border-b border-slate-500 bg-sky-500 p-2 dark:bg-black">
     <div class="mx-auto flex max-w-screen-xl items-center">
       <Navigator />
       {props.children}
