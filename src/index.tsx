@@ -2,6 +2,7 @@
 import { Route, Router } from "@solidjs/router";
 import { lazy, type ParentComponent } from "solid-js";
 import { render } from "solid-js/web";
+import Footer from "~/components/footer";
 import Header from "~/components/header";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
@@ -11,6 +12,7 @@ const App: ParentComponent = (props) => {
     <ThemeProvider>
       <Header />
       {props.children}
+      <Footer />
     </ThemeProvider>
   );
 };
