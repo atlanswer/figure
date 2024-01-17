@@ -5,15 +5,8 @@ import { render } from "solid-js/web";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
 
-const Home = lazy(() => import("~/routes/home"));
-const NotFound = lazy(() => import("~/routes/404"));
-
 const App: ParentComponent = (props) => {
-  return (
-    <ThemeProvider defaultTheme="system" storageKey="figure-theme">
-      {props.children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider>{props.children}</ThemeProvider>;
 };
 
 const root = document.getElementById("root");
@@ -22,8 +15,8 @@ if (root instanceof HTMLElement) {
   render(
     () => (
       <Router root={App}>
-        <Route path="/" component={Home} />
-        <Route path="*404" component={NotFound} />
+        <Route path="/" component={lazy(() => import("~/routes/home"))} />
+        <Route path="*404" component={lazy(() => import("~/routes/404"))} />
       </Router>
     ),
     root,
