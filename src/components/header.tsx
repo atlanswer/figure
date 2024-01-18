@@ -1,3 +1,5 @@
+/* @refersh granular */
+
 import { A } from "@solidjs/router";
 import type { ParentComponent } from "solid-js";
 import { ThemeToggle } from "~/components/theme-toggle";

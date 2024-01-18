@@ -11,6 +11,9 @@ export default () => (
         <li>
           <a href="https://tailwindcss.com/">Tailwind CSS</a>
         </li>
+        <li>
+          <a href="https://d3js.org/">D3</a>
+        </li>
       </ul>
       <p>
         And it is hosted on <a href="https://vercel.com/">Vercel</a>.

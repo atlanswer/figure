@@ -1,4 +1,3 @@
-/* @refresh granular */
 import { Route, Router } from "@solidjs/router";
 import { lazy, type ParentComponent } from "solid-js";
 import { render } from "solid-js/web";
