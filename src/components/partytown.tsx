@@ -11,9 +11,7 @@ interface PartytownDocument extends Document {
 
 declare const document: PartytownDocument;
 
-export const Partytown = (
-  props: Omit<PartytownConfig, "nonce"> & { nonce: string },
-) => {
+export const Partytown = (props: PartytownConfig) => {
   // this check is only be done on the client, and skipped over on the server
   if (!isServer && !document._partytown) {
     if (!document.querySelector("script[data-partytown]")) {
@@ -35,9 +33,12 @@ export const Partytown = (
   // to the SSR rendered <script>. If this code renders as SSR HTML,
   // then on the client it'll execute and add the attribute which will tell
   // the Client JS of the component to NOT add the same script to the <head>.
-  const innerHTML =
-    partytownSnippet(props) + 'document.currentScript.dataset.partytown="";';
+  // const innerHTML =
+  //   partytownSnippet(props) + 'document.currentScript.dataset.partytown="";';
 
   // eslint-disable-next-line solid/no-innerhtml
-  return <script innerHTML={innerHTML} nonce={props.nonce} />;
+  // return <script innerHTML={innerHTML} nonce={props.nonce} />;
 };
+
+export const addPartytown = ({ ...props }: PartytownConfig = {}) =>
+  Partytown(props);

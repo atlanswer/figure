@@ -1,13 +1,16 @@
 import { Route, Router } from "@solidjs/router";
-import { lazy, type ParentComponent } from "solid-js";
+import { lazy, onMount, type ParentComponent } from "solid-js";
 import { render } from "solid-js/web";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
 import { MetaProvider } from "@solidjs/meta";
+import { addPartytown } from "~/components/partytown";
 
 const App: ParentComponent = (props) => {
+  onMount(() => addPartytown());
+
   return (
     <MetaProvider>
       <ThemeProvider>
