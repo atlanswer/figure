@@ -1,31 +1,26 @@
 /* @refersh granular */
 
 import { A } from "@solidjs/router";
-import type { ParentComponent } from "solid-js";
 import { ThemeToggle } from "~/components/theme-toggle";
 
 const Navigator = () => (
-  <nav class="ml-auto flex gap-6 text-black dark:text-white">
-    <A href="/" class="font-medium hover:underline hover:underline-offset-4">
-      Figure
-    </A>
-    <A
-      href="/about"
-      class="font-medium hover:underline hover:underline-offset-4"
-    >
-      About
-    </A>
+  <nav class="flex-1 font-medium leading-loose text-black dark:text-white">
+    <span class="absolute right-1/2 max-w-max translate-x-1/2 [&_>_:not(:first-child)]:ml-8">
+      <A href="/" class="hover:underline hover:underline-offset-4">
+        Figure
+      </A>
+      <A href="/about" class="hover:underline hover:underline-offset-4">
+        About
+      </A>
+    </span>
   </nav>
 );
 
-export default ((props) => (
-  <header class="sticky top-0 border-b border-slate-500 bg-sky-500 px-6 py-4 dark:bg-black">
-    <div class="mx-auto flex max-w-screen-xl items-center">
+export default () => (
+  <header class="sticky top-0 place-content-center border-b border-sky-600 bg-sky-500 px-8 py-4 text-black dark:border-neutral-900 dark:bg-black dark:text-white">
+    <div class="mx-auto flex max-w-screen-xl place-content-between gap-8">
       <Navigator />
-      {props.children}
-      <div class="ml-auto">
-        <ThemeToggle />
-      </div>
+      <ThemeToggle />
     </div>
   </header>
-)) as ParentComponent;
+);
