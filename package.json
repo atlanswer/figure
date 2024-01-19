@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@builder.io/partytown": "~0.8.2",
+    "@solidjs/meta": "~0.29.3",
     "@solidjs/router": "~0.10.9",
     "@tailwindcss/typography": "~0.5.10",
     "@typescript-eslint/eslint-plugin": "~6.19.0",

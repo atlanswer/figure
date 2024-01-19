@@ -5,14 +5,17 @@ import Footer from "~/components/footer";
 import Header from "~/components/header";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
+import { MetaProvider } from "@solidjs/meta";
 
 const App: ParentComponent = (props) => {
   return (
-    <ThemeProvider>
-      <Header />
-      {props.children}
-      <Footer />
-    </ThemeProvider>
+    <MetaProvider>
+      <ThemeProvider>
+        <Header />
+        {props.children}
+        <Footer />
+      </ThemeProvider>
+    </MetaProvider>
   );
 };
 
