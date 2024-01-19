@@ -69,7 +69,6 @@ export const ThemeToggle = () => {
       class="h-8 w-8 rounded p-1 hover:bg-sky-600 focus:outline-none focus:ring dark:hover:bg-neutral-800"
       onClick={toggleTheme}
       aria-label="Toggle light/dark theme"
-      role="switch"
     >
       <Switch>
         <Match when={theme() === "system"}>
