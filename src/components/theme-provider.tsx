@@ -61,10 +61,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
     else body.classList.remove("dark");
   };
 
-  /**
-   * Should have no flashing until we
-   * switch to server side rendering.
-   */
+  /** Should have no flashing until we switch to server side rendering. */
   createRenderEffect(() => {
     const body = document.body;
 
@@ -85,8 +82,6 @@ export function ThemeProvider(props: ThemeProviderProps) {
         break;
     }
   });
-
-  createRenderEffect(() => {});
 
   return (
     <ThemeProviderContext.Provider

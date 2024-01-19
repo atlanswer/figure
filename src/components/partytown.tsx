@@ -1,7 +1,9 @@
 import {
   partytownSnippet,
   type PartytownConfig,
+  SCRIPT_TYPE,
 } from "@builder.io/partytown/integration";
+import { type JSX } from "solid-js";
 import { isServer } from "solid-js/web";
 
 interface PartytownDocument extends Document {
@@ -11,7 +13,23 @@ interface PartytownDocument extends Document {
 
 declare const document: PartytownDocument;
 
-export const Partytown = (props: PartytownConfig) => {
+export const Partytown = (
+  props: Pick<
+    JSX.ScriptHTMLAttributes<HTMLScriptElement>,
+    "src" | "innerHTML" | "textContent"
+  >,
+) => {
+  // onMount(() => window.dispatchEvent(new CustomEvent("ptupdate")));
+  return (
+    <script
+      type={SCRIPT_TYPE}
+      src={props.src}
+      textContent={props.textContent}
+    />
+  );
+};
+
+export const addPartytown = ({ ...props }: PartytownConfig = {}) => {
   // this check is only be done on the client, and skipped over on the server
   if (!isServer && !document._partytown) {
     if (!document.querySelector("script[data-partytown]")) {
@@ -35,10 +53,6 @@ export const Partytown = (props: PartytownConfig) => {
   // the Client JS of the component to NOT add the same script to the <head>.
   // const innerHTML =
   //   partytownSnippet(props) + 'document.currentScript.dataset.partytown="";';
-
   // eslint-disable-next-line solid/no-innerhtml
   // return <script innerHTML={innerHTML} nonce={props.nonce} />;
 };
-
-export const addPartytown = ({ ...props }: PartytownConfig = {}) =>
-  Partytown(props);

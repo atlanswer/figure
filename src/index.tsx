@@ -1,12 +1,13 @@
+import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
 import { lazy, onMount, type ParentComponent } from "solid-js";
 import { render } from "solid-js/web";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
+import { Partytown, addPartytown } from "~/components/partytown";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
-import { MetaProvider } from "@solidjs/meta";
-import { addPartytown } from "~/components/partytown";
+import pyodideScript from "~/pyodide?raw";
 
 const App: ParentComponent = (props) => {
   onMount(() => addPartytown());
@@ -14,6 +15,7 @@ const App: ParentComponent = (props) => {
   return (
     <MetaProvider>
       <ThemeProvider>
+        <Partytown textContent={pyodideScript} />
         <Header />
         {props.children}
         <Footer />
