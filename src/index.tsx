@@ -9,13 +9,13 @@ import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
 
 const App: ParentComponent = (props) => {
-  onMount(() => addPartytown());
+  onMount(() => addPartytown(DEV ? { debug: true } : {}));
 
   return (
     <MetaProvider>
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="dark">
         <Header />
-        {props.children}
+        <main class="flex-auto">{props.children}</main>
         <Footer />
         <Show
           when={!DEV}

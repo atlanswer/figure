@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-us">
+<html lang="en-us" class="h-full">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,12 +23,9 @@
       type="application/manifest+json"
     />
   </head>
-  <body>
+  <body class="h-full min-h-screen min-w-64 font-sans antialiased">
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div
-      id="root"
-      class="flex min-h-screen min-w-64 flex-col font-sans antialiased"
-    ></div>
+    <div id="root" class="flex h-full flex-col"></div>
     <script src="/src/index.tsx" type="module"></script>
   </body>
 </html>

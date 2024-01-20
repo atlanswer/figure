@@ -3,8 +3,10 @@ export default () => {
   const location = useLocation();
 
   return (
-    <main class="flex w-full flex-auto flex-col place-content-center place-items-center gap-4">
-      <code>{location.pathname}</code>
+    <div class="prose flex h-full max-w-none flex-col place-content-center place-items-center dark:prose-invert">
+      <p>
+        You are visiting <code>{location.pathname}</code>.
+      </p>
       <p>
         <span>404 - Not Found.</span>
         <span> </span>
@@ -12,6 +14,6 @@ export default () => {
           Back home
         </A>
       </p>
-    </main>
+    </div>
   );
 };

@@ -19,7 +19,6 @@ export const Partytown = (
     "src" | "innerHTML" | "textContent"
   >,
 ) => {
-  // onMount(() => window.dispatchEvent(new CustomEvent("ptupdate")));
   return (
     <script
       type={SCRIPT_TYPE}
