@@ -1,13 +1,12 @@
 import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
-import { lazy, onMount, type ParentComponent } from "solid-js";
+import { lazy, onMount, Show, type ParentComponent, DEV } from "solid-js";
 import { render } from "solid-js/web";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
 import { Partytown, addPartytown } from "~/components/partytown";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
-import pyodideScript from "~/pyodide?raw";
 
 const App: ParentComponent = (props) => {
   onMount(() => addPartytown());
@@ -15,7 +14,14 @@ const App: ParentComponent = (props) => {
   return (
     <MetaProvider>
       <ThemeProvider>
-        <Partytown textContent={pyodideScript} />
+        <Show
+          when={!DEV}
+          fallback={
+            <Partytown src="https://va.vercel-scripts.com/v1/script.debug.js" />
+          }
+        >
+          <Partytown src="/_vercel/insights/script.js" />
+        </Show>
         <Header />
         {props.children}
         <Footer />
