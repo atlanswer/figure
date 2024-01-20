@@ -1,6 +1,6 @@
 import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
-import { lazy, onMount, Show, type ParentComponent, DEV } from "solid-js";
+import { DEV, Show, lazy, onMount, type ParentComponent } from "solid-js";
 import { render } from "solid-js/web";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
