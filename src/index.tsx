@@ -14,6 +14,17 @@ const App: ParentComponent = (props) => {
   return (
     <MetaProvider>
       <ThemeProvider>
+        <Header />
+        {props.children}
+        <Footer />
+        <Show
+          when={!DEV}
+          fallback={
+            <Partytown src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js" />
+          }
+        >
+          <Partytown src="/_vercel/speed-insights/script.js" />
+        </Show>
         <Show
           when={!DEV}
           fallback={
@@ -22,9 +33,6 @@ const App: ParentComponent = (props) => {
         >
           <Partytown src="/_vercel/insights/script.js" />
         </Show>
-        <Header />
-        {props.children}
-        <Footer />
       </ThemeProvider>
     </MetaProvider>
   );
