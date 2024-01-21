@@ -65,6 +65,9 @@ devDependencies:
   vite:
     specifier: ~5.0.12
     version: 5.0.12
+  vite-plugin-externalize-dependencies:
+    specifier: ~0.11.0
+    version: 0.11.0
   vite-plugin-solid:
     specifier: ~2.8.2
     version: 2.8.2(solid-js@1.8.11)(vite@5.0.12)
@@ -3325,6 +3328,10 @@ packages:
 
   /validate-html-nesting@1.2.2:
     resolution: {integrity: sha512-hGdgQozCsQJMyfK5urgFcWEqsSSrK63Awe0t/IMR0bZ0QMtnuaiHzThW81guu3qx9abLi99NEuiaN6P9gVYsNg==}
+    dev: true
+
+  /vite-plugin-externalize-dependencies@0.11.0:
+    resolution: {integrity: sha512-8a9YJsxdBxvluP60BBFuBHvOxsfwosWXX73mluMQO3lYEdI6KCRyRDqAz5Ch/VYFAz90M58z4waYLPGwiP5b9A==}
     dev: true
 
   /vite-plugin-solid@2.8.2(solid-js@1.8.11)(vite@5.0.12):

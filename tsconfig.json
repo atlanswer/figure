@@ -14,9 +14,10 @@
     "noEmit": true,
     "types": ["vite/client"],
     "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "@/*": ["./public/*"]
-    }
-  }
+      "~/*": ["src/*"],
+      "@/*": ["public/*"],
+    },
+  },
 }
