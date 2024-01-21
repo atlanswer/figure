@@ -7,6 +7,7 @@ import Header from "~/components/header";
 import { Partytown, addPartytown } from "~/components/partytown";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
+import { PyodideProvider } from "./components/pyodide-provider";
 
 const App: ParentComponent = (props) => {
   onMount(() => addPartytown(DEV ? { debug: true } : {}));
@@ -15,7 +16,9 @@ const App: ParentComponent = (props) => {
     <MetaProvider>
       <ThemeProvider defaultTheme="dark">
         <Header />
-        <main class="flex-auto">{props.children}</main>
+        <PyodideProvider>
+          <main class="flex-auto">{props.children}</main>
+        </PyodideProvider>
         <Footer />
         <Show
           when={!DEV}

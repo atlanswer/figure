@@ -1,8 +1,8 @@
 import { createEffect, createSignal } from "solid-js";
-import PyodideWorker from "~/workers/pyodide?worker";
+import { usePyodide } from "~/components/pyodide-provider";
 
 export default () => {
-  const pyodide = new PyodideWorker();
+  const pyodide = usePyodide();
 
   const [msg, setMsg] = createSignal("");
 
