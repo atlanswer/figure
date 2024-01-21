@@ -1,9 +1,10 @@
+/** spell-checker:words sdkn, sdkv */
 import {
   partytownSnippet,
   type PartytownConfig,
   SCRIPT_TYPE,
 } from "@builder.io/partytown/integration";
-import { type JSX } from "solid-js";
+import { Show, type JSX, DEV } from "solid-js";
 import { isServer } from "solid-js/web";
 
 interface PartytownDocument extends Document {
@@ -27,6 +28,46 @@ export const Partytown = (
     />
   );
 };
+
+export const VercelAnalytics = () => (
+  <Show
+    when={!DEV}
+    fallback={
+      <script
+        type={SCRIPT_TYPE}
+        src="https://va.vercel-scripts.com/v1/script.debug.js"
+        data-sdkn="@vercel/analytics/solidjs"
+      />
+    }
+  >
+    <script
+      type={SCRIPT_TYPE}
+      src="/_vercel/insights/script.js"
+      data-sdkn="@vercel/analytics/solidjs"
+    />
+  </Show>
+);
+
+export const VercelSpeedInsight = () => (
+  <Show
+    when={!DEV}
+    fallback={
+      <script
+        type={SCRIPT_TYPE}
+        src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js"
+        data-sdkn="@vercel/speed-insights/solidjs"
+        // data-sdkv="1.0.5"
+      />
+    }
+  >
+    <script
+      type={SCRIPT_TYPE}
+      src="/_vercel/speed-insights/script.js"
+      data-sdkn="@vercel/speed-insights/solidjs"
+      // data-sdkv="1.0.5"
+    />
+  </Show>
+);
 
 export const addPartytown = ({ ...props }: PartytownConfig = {}) => {
   // this check is only be done on the client, and skipped over on the server

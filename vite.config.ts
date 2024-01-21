@@ -2,30 +2,18 @@ import { partytownVite } from "@builder.io/partytown/utils";
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import tsconfigPaths from "vite-tsconfig-paths";
-import externalize from "vite-plugin-externalize-dependencies";
 
 export default defineConfig({
-  plugins: [
-    tsconfigPaths(),
-    solidPlugin(),
-    partytownVite({}),
-    externalize({
-      externals: ["node-fetch"],
-    }),
-  ],
+  plugins: [tsconfigPaths(), solidPlugin(), partytownVite({})],
   build: {
     target: "esnext",
   },
+  assetsInclude: ["/pyodide/pyodide.mjs"],
   worker: {
     format: "es",
-    plugins: () => [
-      tsconfigPaths(),
-      externalize({
-        externals: ["node-fetch"],
-      }),
-    ],
+    plugins: () => [tsconfigPaths()],
     rollupOptions: {
-      external: ["node-fetch"],
+      external: ["/pyodide/pyodide.mjs"],
     },
   },
 });

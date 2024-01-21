@@ -1,10 +1,14 @@
 import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
-import { DEV, Show, lazy, onMount, type ParentComponent } from "solid-js";
+import { DEV, lazy, onMount, type ParentComponent } from "solid-js";
 import { render } from "solid-js/web";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
-import { Partytown, addPartytown } from "~/components/partytown";
+import {
+  VercelAnalytics,
+  VercelSpeedInsight,
+  addPartytown,
+} from "~/components/partytown";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
 import { PyodideProvider } from "./components/pyodide-provider";
@@ -20,22 +24,8 @@ const App: ParentComponent = (props) => {
           <main class="flex-auto">{props.children}</main>
         </PyodideProvider>
         <Footer />
-        <Show
-          when={!DEV}
-          fallback={
-            <Partytown src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js" />
-          }
-        >
-          <Partytown src="/_vercel/speed-insights/script.js" />
-        </Show>
-        <Show
-          when={!DEV}
-          fallback={
-            <Partytown src="https://va.vercel-scripts.com/v1/script.debug.js" />
-          }
-        >
-          <Partytown src="/_vercel/insights/script.js" />
-        </Show>
+        <VercelSpeedInsight />
+        <VercelAnalytics />
       </ThemeProvider>
     </MetaProvider>
   );
