@@ -1,10 +1,12 @@
 /* @refresh granular */
 
+import * as Comlink from "comlink";
 import { ParentComponent, createContext, useContext } from "solid-js";
 import PyodideWorker from "~/workers/pyodide?worker";
+import { type Obj } from "~/workers/pyodide";
 
 /** Global Pyodide worker */
-const PyodideProviderContext = createContext<Worker>();
+const PyodideProviderContext = createContext<Comlink.Remote<Obj>>();
 
 export const usePyodide = () => {
   const context = useContext(PyodideProviderContext);
@@ -15,7 +17,9 @@ export const usePyodide = () => {
 };
 
 export const PyodideProvider: ParentComponent = (props) => {
-  const pyodide = new PyodideWorker();
+  const pyodideWorker = new PyodideWorker();
+  const pyodide = Comlink.wrap<Obj>(pyodideWorker);
+
   return (
     <PyodideProviderContext.Provider value={pyodide}>
       {props.children}

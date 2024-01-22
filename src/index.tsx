@@ -2,7 +2,13 @@
 
 import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
-import { DEV, lazy, onMount, type ParentComponent } from "solid-js";
+import {
+  DEV,
+  ErrorBoundary,
+  lazy,
+  onMount,
+  type ParentComponent,
+} from "solid-js";
 import { render } from "solid-js/web";
 import { Footer } from "~/components/footer";
 import { Header } from "~/components/header";
@@ -19,17 +25,20 @@ const App: ParentComponent = (props) => {
   onMount(() => addPartytown(DEV ? { debug: true } : {}));
 
   return (
-    <PyodideProvider>
-      <MetaProvider>
-        <ThemeProvider defaultTheme="dark">
-          <Header />
-          <main class="flex-auto">{props.children}</main>
-          <Footer />
-          <VercelSpeedInsight />
-          <VercelAnalytics />
-        </ThemeProvider>
-      </MetaProvider>
-    </PyodideProvider>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    <ErrorBoundary fallback={(err) => <p>Solid Error: {err.toString()}</p>}>
+      <PyodideProvider>
+        <MetaProvider>
+          <ThemeProvider defaultTheme="dark">
+            <Header />
+            <main class="flex-auto">{props.children}</main>
+            <Footer />
+            <VercelSpeedInsight />
+            <VercelAnalytics />
+          </ThemeProvider>
+        </MetaProvider>
+      </PyodideProvider>
+    </ErrorBoundary>
   );
 };
 

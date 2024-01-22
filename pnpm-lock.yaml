@@ -4,73 +4,79 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-devDependencies:
-  '@builder.io/partytown':
-    specifier: ~0.8.2
-    version: 0.8.2
-  '@solidjs/meta':
-    specifier: ~0.29.3
-    version: 0.29.3(solid-js@1.8.11)
-  '@solidjs/router':
-    specifier: ~0.10.9
-    version: 0.10.9(solid-js@1.8.11)
-  '@tailwindcss/typography':
-    specifier: ~0.5.10
-    version: 0.5.10(tailwindcss@3.4.1)
-  '@typescript-eslint/eslint-plugin':
-    specifier: ~6.19.0
-    version: 6.19.0(@typescript-eslint/parser@6.19.0)(eslint@8.56.0)(typescript@5.3.3)
-  '@typescript-eslint/parser':
-    specifier: ~6.19.0
-    version: 6.19.0(eslint@8.56.0)(typescript@5.3.3)
-  autoprefixer:
-    specifier: ~10.4.17
-    version: 10.4.17(postcss@8.4.33)
-  cssnano:
-    specifier: ~6.0.3
-    version: 6.0.3(postcss@8.4.33)
-  eslint:
-    specifier: ~8.56.0
-    version: 8.56.0
-  eslint-config-prettier:
-    specifier: ~9.1.0
-    version: 9.1.0(eslint@8.56.0)
-  eslint-plugin-solid:
-    specifier: ~0.13.1
-    version: 0.13.1(eslint@8.56.0)(typescript@5.3.3)
-  postcss:
-    specifier: ~8.4.33
-    version: 8.4.33
-  prettier:
-    specifier: ~3.2.4
-    version: 3.2.4
-  prettier-plugin-tailwindcss:
-    specifier: ~0.5.11
-    version: 0.5.11(prettier@3.2.4)
-  pyodide:
-    specifier: ~0.25.0
-    version: 0.25.0
-  solid-devtools:
-    specifier: ~0.29.2
-    version: 0.29.2(solid-js@1.8.11)(vite@5.0.12)
-  solid-js:
-    specifier: ~1.8.11
-    version: 1.8.11
-  tailwindcss:
-    specifier: ~3.4.1
-    version: 3.4.1
-  typescript:
-    specifier: ~5.3.3
-    version: 5.3.3
-  vite:
-    specifier: ~5.0.12
-    version: 5.0.12
-  vite-plugin-solid:
-    specifier: ~2.8.2
-    version: 2.8.2(solid-js@1.8.11)(vite@5.0.12)
-  vite-tsconfig-paths:
-    specifier: ~4.3.1
-    version: 4.3.1(typescript@5.3.3)(vite@5.0.12)
+importers:
+
+  .:
+    devDependencies:
+      '@builder.io/partytown':
+        specifier: ~0.8.2
+        version: 0.8.2
+      '@solidjs/meta':
+        specifier: ~0.29.3
+        version: 0.29.3(solid-js@1.8.11)
+      '@solidjs/router':
+        specifier: ~0.10.9
+        version: 0.10.9(solid-js@1.8.11)
+      '@tailwindcss/typography':
+        specifier: ~0.5.10
+        version: 0.5.10(tailwindcss@3.4.1)
+      '@typescript-eslint/eslint-plugin':
+        specifier: ~6.19.0
+        version: 6.19.0(@typescript-eslint/parser@6.19.0)(eslint@8.56.0)(typescript@5.3.3)
+      '@typescript-eslint/parser':
+        specifier: ~6.19.0
+        version: 6.19.0(eslint@8.56.0)(typescript@5.3.3)
+      autoprefixer:
+        specifier: ~10.4.17
+        version: 10.4.17(postcss@8.4.33)
+      comlink:
+        specifier: ~4.4.1
+        version: 4.4.1
+      cssnano:
+        specifier: ~6.0.3
+        version: 6.0.3(postcss@8.4.33)
+      eslint:
+        specifier: ~8.56.0
+        version: 8.56.0
+      eslint-config-prettier:
+        specifier: ~9.1.0
+        version: 9.1.0(eslint@8.56.0)
+      eslint-plugin-solid:
+        specifier: ~0.13.1
+        version: 0.13.1(eslint@8.56.0)(typescript@5.3.3)
+      postcss:
+        specifier: ~8.4.33
+        version: 8.4.33
+      prettier:
+        specifier: ~3.2.4
+        version: 3.2.4
+      prettier-plugin-tailwindcss:
+        specifier: ~0.5.11
+        version: 0.5.11(prettier@3.2.4)
+      pyodide:
+        specifier: ~0.25.0
+        version: 0.25.0
+      solid-devtools:
+        specifier: ~0.29.3
+        version: 0.29.3(solid-js@1.8.11)(vite@5.0.12)
+      solid-js:
+        specifier: ~1.8.11
+        version: 1.8.11
+      tailwindcss:
+        specifier: ~3.4.1
+        version: 3.4.1
+      typescript:
+        specifier: ~5.3.3
+        version: 5.3.3
+      vite:
+        specifier: ~5.0.12
+        version: 5.0.12
+      vite-plugin-solid:
+        specifier: ~2.8.2
+        version: 2.8.2(solid-js@1.8.11)(vite@5.0.12)
+      vite-tsconfig-paths:
+        specifier: ~4.3.1
+        version: 4.3.1(typescript@5.3.3)(vite@5.0.12)
 
 packages:
 
@@ -1497,6 +1503,10 @@ packages:
 
   /colord@2.9.3:
     resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==}
+    dev: true
+
+  /comlink@4.4.1:
+    resolution: {integrity: sha512-+1dlx0aY5Jo1vHy/tSsIGpSkN4tS9rZSW8FIhG0JH/crs9wwweswIo/POr451r7bZww3hFbPAKnTpimzL/mm4Q==}
     dev: true
 
   /commander@4.1.1:
@@ -3050,12 +3060,12 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /solid-devtools@0.29.2(solid-js@1.8.11)(vite@5.0.12):
-    resolution: {integrity: sha512-sfGLBSIQ3E5dFha5UCE5wKnz+War99JNAOggfBbwhltXL8lbIG1PnKKB9N2pvloZuFzMtT/u1Qbb/ubqXnw2Sg==}
+  /solid-devtools@0.29.3(solid-js@1.8.11)(vite@5.0.12):
+    resolution: {integrity: sha512-9j3VxVbEoC54ML22gAMytR8ZS1nk9xKatsWziKSkI4c/Bcyh4sxQBGESHuXSLs9xaxpyGVTmFl3hknoxEpKzlA==}
     peerDependencies:
       solid-js: ^1.8.0
       solid-start: ^0.3.0
-      vite: ^2.2.3 || ^3.0.0 || ^4.0.0
+      vite: ^2.2.3 || ^3.0.0 || ^4.0.0 || ^5.0.0
     peerDependenciesMeta:
       solid-start:
         optional: true
