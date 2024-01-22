@@ -6,7 +6,7 @@ import {
   type PartytownConfig,
   SCRIPT_TYPE,
 } from "@builder.io/partytown/integration";
-import { Show, type JSX, DEV } from "solid-js";
+import { type JSX, DEV } from "solid-js";
 import { isServer } from "solid-js/web";
 
 interface PartytownDocument extends Document {
@@ -48,25 +48,24 @@ export const VercelAnalytics = () => {
         (window.vaq = window.vaq || []).push(params);
       };
   }
-  return (
-    <Show
-      when={!DEV}
-      fallback={
-        <script
-          type={SCRIPT_TYPE}
-          src="https://va.vercel-scripts.com/v1/script.debug.js"
-          data-sdkn="@vercel/analytics"
-          data-sdkv="1.1.2"
-        />
-      }
-    >
+  if (DEV) {
+    // eslint-disable-next-line solid/components-return-once
+    return (
       <script
         type={SCRIPT_TYPE}
-        src="/_vercel/insights/script.js"
+        src="https://va.vercel-scripts.com/v1/script.debug.js"
         data-sdkn="@vercel/analytics"
         data-sdkv="1.1.2"
       />
-    </Show>
+    );
+  }
+  return (
+    <script
+      type={SCRIPT_TYPE}
+      src="/_vercel/insights/script.js"
+      data-sdkn="@vercel/analytics"
+      data-sdkv="1.1.2"
+    />
   );
 };
 
@@ -78,25 +77,24 @@ export const VercelSpeedInsight = () => {
         (window.siq = window.siq || []).push(params);
       };
   }
-  return (
-    <Show
-      when={!DEV}
-      fallback={
-        <script
-          defer
-          src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js"
-          data-sdkn="@vercel/speed-insights"
-          data-sdkv="1.0.6"
-        />
-      }
-    >
+  if (DEV) {
+    // eslint-disable-next-line solid/components-return-once
+    return (
       <script
+        src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js"
         defer
-        src="/_vercel/speed-insights/script.js"
         data-sdkn="@vercel/speed-insights"
         data-sdkv="1.0.6"
       />
-    </Show>
+    );
+  }
+  return (
+    <script
+      src="/_vercel/speed-insights/script.js"
+      defer
+      data-sdkn="@vercel/speed-insights"
+      data-sdkv="1.0.6"
+    />
   );
 };
 
