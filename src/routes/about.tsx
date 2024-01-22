@@ -7,14 +7,22 @@ export default () => (
     <p>This project is built upon these technologies:</p>
     <ul>
       <li>
-        <a href="https://www.solidjs.com/">Solid</a>
+        <a href="https://www.solidjs.com/" target="_blank">
+          Solid
+        </a>
       </li>
       <li>
-        <a href="https://tailwindcss.com/">Tailwind CSS</a>
+        <a href="https://tailwindcss.com/" target="_blank">
+          Tailwind CSS
+        </a>
       </li>
     </ul>
     <p>
-      And it is hosted on <a href="https://vercel.com/">Vercel</a>.
+      And it is hosted on{" "}
+      <a href="https://vercel.com/" target="_blank">
+        Vercel
+      </a>
+      .
     </p>
     <h2>Privacy</h2>
     <p>
@@ -26,13 +34,21 @@ export default () => (
       Information related to you are still be processed by the host provider
       Vercel. Their privacy policy can be found here:
       <span> </span>
-      <a href="https://vercel.com/legal/privacy-policy">Privacy Policy</a>
+      <a href="https://vercel.com/legal/privacy-policy" target="_blank">
+        Privacy Policy
+      </a>
       <span>, </span>
-      <a href="https://vercel.com/docs/analytics/privacy-policy">
+      <a
+        href="https://vercel.com/docs/analytics/privacy-policy"
+        target="_blank"
+      >
         Web Analytics Privacy and Compliance
       </a>
       <span>, </span>
-      <a href="https://vercel.com/docs/speed-insights/privacy-policy">
+      <a
+        href="https://vercel.com/docs/speed-insights/privacy-policy"
+        target="_blank"
+      >
         Speed Insights Privacy and Compliance
       </a>
     </p>
@@ -40,7 +56,7 @@ export default () => (
     <figure>
       <figcaption>
         <cite>
-          <a href="https://journals.ieeeauthorcenter.ieee.org/">
+          <a href="https://journals.ieeeauthorcenter.ieee.org/" target="_blank">
             IEEE Author Center
           </a>
         </cite>

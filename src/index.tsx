@@ -9,7 +9,7 @@ import { Header } from "~/components/header";
 import { VercelAnalytics, VercelSpeedInsight } from "~/components/partytown";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
-import { PyodideProvider } from "./components/pyodide-provider";
+import { FigureCreatorProvider } from "./components/figure-creator-provider";
 
 const App: ParentComponent = (props) => {
   // onMount(() => addPartytown({ debug: !!DEV }));
@@ -17,7 +17,7 @@ const App: ParentComponent = (props) => {
   return (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     <ErrorBoundary fallback={(err) => <p>Solid Error: {err.toString()}</p>}>
-      <PyodideProvider>
+      <FigureCreatorProvider>
         <MetaProvider>
           <ThemeProvider defaultTheme="dark">
             <Header />
@@ -27,7 +27,7 @@ const App: ParentComponent = (props) => {
             <VercelAnalytics />
           </ThemeProvider>
         </MetaProvider>
-      </PyodideProvider>
+      </FigureCreatorProvider>
     </ErrorBoundary>
   );
 };

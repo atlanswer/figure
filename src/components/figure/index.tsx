@@ -1,24 +1,27 @@
 /* @refresh granular */
 
 import { Suspense, createResource } from "solid-js";
-import { usePyodide } from "~/components/pyodide-provider";
+import { useFigureCreator } from "~/components/figure-creator-provider";
 
 export const Figure = () => {
-  const pyodide = usePyodide();
+  const [workerShouldReady, FigureCreator] = useFigureCreator();
 
-  const updateObj = async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    await pyodide.inc();
-    return await pyodide.counter;
-  };
-
-  const [counter] = createResource(updateObj);
+  const [pyodideVersion] = createResource(async () => {
+    await workerShouldReady;
+    console.log("Fetching...");
+    const figureCreator = await new FigureCreator();
+    console.log("Reading version.");
+    const version = await figureCreator.pyodideVersion;
+    console.log("version read.");
+    return version;
+  });
 
   return (
-    <Suspense>
-      <section class="grid grid-flow-col place-content-center py-4">
-        {counter()}
-      </section>
-    </Suspense>
+    <section class="grid grid-flow-col place-content-center place-items-center gap-4 py-4">
+      <img class="w-[3.5in]" src="/icon.svg" alt="Figure" />
+      <Suspense fallback={<p>Loading...</p>}>
+        <p>Pyodide version: {pyodideVersion()}</p>
+      </Suspense>
+    </section>
   );
 };

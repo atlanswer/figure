@@ -4,35 +4,35 @@ import * as Comlink from "comlink";
 
 console.debug("Starting Pyodide web worker...");
 
-// const pyodideModule = (await import(
-//   "/pyodide/pyodide.mjs"
-// )) as typeof import("/pyodide");
+/* Load Pyodide */
 
-// const loadPyodideAndPackages = async () => {
-//   const pyodide = await pyodideModule.loadPyodide({
-//     indexURL: "/pyodide/",
-//   });
-//   await pyodide.loadPackage(["numpy", "matplotlib"]);
-//   return pyodide;
-// };
+const pyodideModule = (await import(
+  "/pyodide/pyodide.mjs"
+)) as typeof import("/pyodide");
 
-// const pyodide = await loadPyodideAndPackages();
-console.debug("Pyodide web worker initialized.");
-
-// onmessage = async () => {
-//   const cmdGetVersion = `import sys;sys.version`;
-//   await pyodide.loadPackagesFromImports(cmdGetVersion);
-//   const pythonVersion = (await pyodide.runPythonAsync(cmdGetVersion)) as string;
-//   postMessage(`Pyodide version: "${pythonVersion}"`);
-// };
-
-const obj = {
-  counter: 0,
-  inc: function () {
-    this.counter++;
-  },
+const loadPyodideAndPackages = async () => {
+  const pyodide = await pyodideModule.loadPyodide({
+    indexURL: "/pyodide/",
+    // packages: ["numpy", "matplotlib"],
+  });
+  return pyodide;
 };
 
-export type Obj = typeof obj;
+const pyodide = await loadPyodideAndPackages();
 
-Comlink.expose(obj);
+export class FigureCreator {
+  private pyodide: typeof pyodide;
+
+  constructor() {
+    this.pyodide = pyodide;
+  }
+
+  get pyodideVersion() {
+    return this.pyodide.version;
+  }
+}
+
+console.debug("Pyodide web worker initialized.");
+
+Comlink.expose(FigureCreator);
+postMessage("ready");
