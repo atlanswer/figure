@@ -35,6 +35,8 @@ declare global {
   interface Window {
     va?: unknown;
     vaq?: unknown[];
+    si?: unknown;
+    siq?: unknown[];
   }
 }
 
@@ -68,26 +70,35 @@ export const VercelAnalytics = () => {
   );
 };
 
-export const VercelSpeedInsight = () => (
-  <Show
-    when={!DEV}
-    fallback={
+export const VercelSpeedInsight = () => {
+  if (!isServer) {
+    window.si =
+      window.si ||
+      function (...params: unknown[]) {
+        (window.siq = window.siq || []).push(params);
+      };
+  }
+  return (
+    <Show
+      when={!DEV}
+      fallback={
+        <script
+          defer
+          src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js"
+          data-sdkn="@vercel/speed-insights"
+          data-sdkv="1.0.6"
+        />
+      }
+    >
       <script
-        type={SCRIPT_TYPE}
-        src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js"
-        data-sdkn="@vercel/speed-insights/solidjs"
-        // data-sdkv="1.0.5"
+        defer
+        src="/_vercel/speed-insights/script.js"
+        data-sdkn="@vercel/speed-insights"
+        data-sdkv="1.0.6"
       />
-    }
-  >
-    <script
-      type={SCRIPT_TYPE}
-      src="/_vercel/speed-insights/script.js"
-      data-sdkn="@vercel/speed-insights/solidjs"
-      // data-sdkv="1.0.5"
-    />
-  </Show>
-);
+    </Show>
+  );
+};
 
 export const addPartytown = ({ ...props }: PartytownConfig = {}) => {
   // this check is only be done on the client, and skipped over on the server
