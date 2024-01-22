@@ -31,24 +31,42 @@ export const Partytown = (
   );
 };
 
-export const VercelAnalytics = () => (
-  <Show
-    when={!DEV}
-    fallback={
+declare global {
+  interface Window {
+    va?: unknown;
+    vaq?: unknown[];
+  }
+}
+
+export const VercelAnalytics = () => {
+  if (!isServer) {
+    window.va =
+      window.va ||
+      function (...args: unknown[]) {
+        (window.vaq || []).push(args);
+      };
+  }
+  return (
+    <Show
+      when={!DEV}
+      fallback={
+        <script
+          type={SCRIPT_TYPE}
+          src="https://va.vercel-scripts.com/v1/script.debug.js"
+          data-sdkn="@vercel/analytics"
+          data-sdkv="1.1.2"
+        />
+      }
+    >
       <script
         type={SCRIPT_TYPE}
-        src="https://va.vercel-scripts.com/v1/script.debug.js"
-        data-sdkn="@vercel/analytics/solidjs"
+        src="/_vercel/insights/script.js"
+        data-sdkn="@vercel/analytics"
+        data-sdkv="1.1.2"
       />
-    }
-  >
-    <script
-      type={SCRIPT_TYPE}
-      src="/_vercel/insights/script.js"
-      data-sdkn="@vercel/analytics/solidjs"
-    />
-  </Show>
-);
+    </Show>
+  );
+};
 
 export const VercelSpeedInsight = () => (
   <Show

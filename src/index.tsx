@@ -22,7 +22,11 @@ import "~/global.css";
 import { PyodideProvider } from "./components/pyodide-provider";
 
 const App: ParentComponent = (props) => {
-  onMount(() => addPartytown(DEV ? { debug: true } : {}));
+  onMount(() =>
+    addPartytown({
+      debug: DEV ? true : undefined,
+    }),
+  );
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
