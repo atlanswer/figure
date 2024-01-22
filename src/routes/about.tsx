@@ -23,10 +23,18 @@ export default () => (
       The latter is stored locally in your browser.
     </p>
     <p>
-      Information related to you could still be processed by the host provider
-      Vercel. Their privacy policy can be found
+      Information related to you are still be processed by the host provider
+      Vercel. Their privacy policy can be found here:
       <span> </span>
-      <a href="https://vercel.com/legal/privacy-policy">here</a>.
+      <a href="https://vercel.com/legal/privacy-policy">Privacy Policy</a>
+      <span>, </span>
+      <a href="https://vercel.com/docs/analytics/privacy-policy">
+        Web Analytics Privacy and Compliance
+      </a>
+      <span>, </span>
+      <a href="https://vercel.com/docs/speed-insights/privacy-policy">
+        Speed Insights Privacy and Compliance
+      </a>
     </p>
     <h2>Reference</h2>
     <figure>

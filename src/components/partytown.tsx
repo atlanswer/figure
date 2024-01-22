@@ -42,8 +42,8 @@ export const VercelAnalytics = () => {
   if (!isServer) {
     window.va =
       window.va ||
-      function (...args: unknown[]) {
-        (window.vaq || []).push(args);
+      function (...params: unknown[]) {
+        (window.vaq = window.vaq || []).push(params);
       };
   }
   return (
