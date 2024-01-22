@@ -1,9 +1,11 @@
+/* @refresh granular */
+
 import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
 import { DEV, lazy, onMount, type ParentComponent } from "solid-js";
 import { render } from "solid-js/web";
-import Footer from "~/components/footer";
-import Header from "~/components/header";
+import { Footer } from "~/components/footer";
+import { Header } from "~/components/header";
 import {
   VercelAnalytics,
   VercelSpeedInsight,
@@ -17,17 +19,17 @@ const App: ParentComponent = (props) => {
   onMount(() => addPartytown(DEV ? { debug: true } : {}));
 
   return (
-    <MetaProvider>
-      <ThemeProvider defaultTheme="dark">
-        <Header />
-        <PyodideProvider>
+    <PyodideProvider>
+      <MetaProvider>
+        <ThemeProvider defaultTheme="dark">
+          <Header />
           <main class="flex-auto">{props.children}</main>
-        </PyodideProvider>
-        <Footer />
-        <VercelSpeedInsight />
-        <VercelAnalytics />
-      </ThemeProvider>
-    </MetaProvider>
+          <Footer />
+          <VercelSpeedInsight />
+          <VercelAnalytics />
+        </ThemeProvider>
+      </MetaProvider>
+    </PyodideProvider>
   );
 };
 

@@ -1,6 +1,6 @@
-/* @refersh granular */
+/* @refresh granular */
 
-export default () => {
+export const Footer = () => {
   const IconStatus = () => (
     <svg
       class="inline h-5 w-5 align-text-bottom"

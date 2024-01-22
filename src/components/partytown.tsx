@@ -1,4 +1,6 @@
-/** spell-checker:words sdkn, sdkv */
+/* @refresh granular */
+/* spell-checker:words sdkn, sdkv */
+
 import {
   partytownSnippet,
   type PartytownConfig,

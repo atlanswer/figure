@@ -1,3 +1,5 @@
+/* @refresh granular */
+
 import { A, useLocation } from "@solidjs/router";
 export default () => {
   const location = useLocation();

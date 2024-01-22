@@ -1,3 +1,5 @@
+/* @refresh granular */
+
 import { createEffect, createSignal } from "solid-js";
 import { usePyodide } from "~/components/pyodide-provider";
 
@@ -13,10 +15,7 @@ export default () => {
   });
 
   return (
-    <div class="flex flex-col place-content-center place-items-center gap-4">
-      <p class="bg-gradient-to-tr from-blue-700 to-blue-400 bg-clip-text pt-20 text-6xl font-bold leading-normal text-transparent">
-        Figure
-      </p>
+    <div class="flex flex-col place-content-center place-items-center gap-4 p-8">
       <button
         type="button"
         class="mb-2 me-2 w-fit rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

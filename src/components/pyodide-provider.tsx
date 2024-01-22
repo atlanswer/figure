@@ -1,3 +1,5 @@
+/* @refresh granular */
+
 import { ParentComponent, createContext, useContext } from "solid-js";
 import PyodideWorker from "~/workers/pyodide?worker";
 

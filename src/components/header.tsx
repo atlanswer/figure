@@ -1,4 +1,4 @@
-/* @refersh granular */
+/* @refresh granular */
 
 import { A } from "@solidjs/router";
 import { ThemeToggle } from "~/components/theme-toggle";
@@ -16,8 +16,8 @@ const Navigator = () => (
   </nav>
 );
 
-export default () => (
-  <header class="sticky top-0 place-content-center border-b border-sky-600 bg-sky-500 px-8 py-4 text-black dark:border-neutral-900 dark:bg-black dark:text-white">
+export const Header = () => (
+  <header class="sticky top-0 place-content-center border-b border-sky-600 bg-teal-300 px-8 py-4 text-black dark:border-neutral-900 dark:bg-black dark:text-white">
     <div class="mx-auto flex max-w-screen-xl place-content-between gap-8">
       <Navigator />
       <ThemeToggle />

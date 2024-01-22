@@ -1,3 +1,5 @@
+/* @refresh granular */
+
 console.debug("Starting Pyodide web worker...");
 
 const pyodideModule = (await import(
@@ -8,7 +10,7 @@ const loadPyodideAndPackages = async () => {
   const pyodide = await pyodideModule.loadPyodide({
     indexURL: "/pyodide/",
   });
-  // await pyodide.loadPackage();
+  await pyodide.loadPackage(["numpy", "matplotlib"]);
   return pyodide;
 };
 

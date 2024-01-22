@@ -1,5 +1,3 @@
-/* @refersh granular */
-
 import { Match, Switch } from "solid-js";
 import { useTheme } from "~/components/theme-provider";
 

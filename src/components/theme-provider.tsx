@@ -1,3 +1,5 @@
+/* @refresh granular */
+
 import type { Accessor, ParentProps } from "solid-js";
 import {
   createContext,
