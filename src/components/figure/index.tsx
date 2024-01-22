@@ -1,17 +1,36 @@
 /* @refresh granular */
 
+import type { Remote } from "comlink";
 import { Suspense, createResource } from "solid-js";
 import { useFigureCreator } from "~/components/figure-creator-provider";
+import type { FigureCreator } from "~/workers/pyodide";
 
 export const Figure = () => {
   const [workerShouldReady, FigureCreator] = useFigureCreator();
 
+  const figureShouldCreate = new Promise(
+    (resolve: (value: Promise<Remote<FigureCreator>>) => void, reject) => {
+      workerShouldReady.then(
+        () => resolve(new FigureCreator()),
+        () => reject(),
+      );
+    },
+  );
+
+  const figureCreator = new Promise(
+    (resolve: (value: Remote<FigureCreator>) => void, reject) => {
+      figureShouldCreate.then(
+        (value) => resolve(value),
+        () => reject(),
+      );
+    },
+  );
+
   const [pyodideVersion] = createResource(async () => {
-    await workerShouldReady;
-    console.log("Fetching...");
-    const figureCreator = await new FigureCreator();
-    console.log("Reading version.");
-    const version = await figureCreator.pyodideVersion;
+    console.log("Waiting for `figureCreator`");
+    const fc = await figureCreator;
+    console.log("Fetching version...");
+    const version = await fc.pyodideVersion;
     console.log("version read.");
     return version;
   });
