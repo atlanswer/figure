@@ -2,27 +2,17 @@
 
 import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
-import {
-  DEV,
-  ErrorBoundary,
-  lazy,
-  onMount,
-  type ParentComponent,
-} from "solid-js";
+import { ErrorBoundary, lazy, type ParentComponent } from "solid-js";
 import { render } from "solid-js/web";
 import { Footer } from "~/components/footer";
 import { Header } from "~/components/header";
-import {
-  VercelAnalytics,
-  VercelSpeedInsight,
-  addPartytown,
-} from "~/components/partytown";
+import { VercelAnalytics, VercelSpeedInsight } from "~/components/partytown";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
 import { PyodideProvider } from "./components/pyodide-provider";
 
 const App: ParentComponent = (props) => {
-  onMount(() => addPartytown({ debug: !!DEV }));
+  // onMount(() => addPartytown({ debug: !!DEV }));
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access

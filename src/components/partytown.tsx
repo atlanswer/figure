@@ -47,26 +47,19 @@ export const VercelAnalytics = () => {
       function (...params: unknown[]) {
         (window.vaq = window.vaq || []).push(params);
       };
+    const scriptElm = document.createElement("script");
+    scriptElm.defer = true;
+    scriptElm.dataset.sdkn = "@vercel/analytics";
+    scriptElm.dataset.sdkv = "1.1.2";
+    if (DEV) {
+      scriptElm.src = "https://va.vercel-scripts.com/v1/script.debug.js";
+    } else {
+      scriptElm.src = "/_vercel/insights/script.js";
+      scriptElm.dataset.debug = "false";
+    }
+    document.body.appendChild(scriptElm);
   }
-  if (DEV) {
-    // eslint-disable-next-line solid/components-return-once
-    return (
-      <script
-        type={SCRIPT_TYPE}
-        src="https://va.vercel-scripts.com/v1/script.debug.js"
-        data-sdkn="@vercel/analytics"
-        data-sdkv="1.1.2"
-      />
-    );
-  }
-  return (
-    <script
-      type={SCRIPT_TYPE}
-      src="/_vercel/insights/script.js"
-      data-sdkn="@vercel/analytics"
-      data-sdkv="1.1.2"
-    />
-  );
+  return <></>;
 };
 
 export const VercelSpeedInsight = () => {
@@ -76,26 +69,20 @@ export const VercelSpeedInsight = () => {
       function (...params: unknown[]) {
         (window.siq = window.siq || []).push(params);
       };
+    const scriptElm = document.createElement("script");
+    scriptElm.defer = true;
+    scriptElm.dataset.sdkn = "@vercel/speed-insights";
+    scriptElm.dataset.sdkv = "1.0.6";
+    if (DEV) {
+      scriptElm.src =
+        "https://va.vercel-scripts.com/v1/speed-insights/script.debug.js";
+    } else {
+      scriptElm.src = "/_vercel/speed-insights/script.js";
+      scriptElm.dataset.debug = "false";
+    }
+    document.body.appendChild(scriptElm);
   }
-  if (DEV) {
-    // eslint-disable-next-line solid/components-return-once
-    return (
-      <script
-        src="https://va.vercel-scripts.com/v1/speed-insights/script.debug.js"
-        defer
-        data-sdkn="@vercel/speed-insights"
-        data-sdkv="1.0.6"
-      />
-    );
-  }
-  return (
-    <script
-      src="/_vercel/speed-insights/script.js"
-      defer
-      data-sdkn="@vercel/speed-insights"
-      data-sdkv="1.0.6"
-    />
-  );
+  return <></>;
 };
 
 export const addPartytown = ({ ...props }: PartytownConfig = {}) => {
