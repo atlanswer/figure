@@ -1,6 +1,7 @@
 /* @refresh granular */
 
 import * as Comlink from "comlink";
+import type { PyProxy } from "pyodide/ffi";
 
 console.debug("Starting Pyodide web worker...");
 
@@ -13,7 +14,7 @@ const pyodideModule = (await import(
 const loadPyodideAndPackages = async () => {
   const pyodide = await pyodideModule.loadPyodide({
     indexURL: "/pyodide/",
-    // packages: ["numpy", "matplotlib"],
+    packages: ["numpy", "matplotlib"],
   });
   return pyodide;
 };
@@ -29,6 +30,18 @@ export class FigureCreator {
 
   get pyodideVersion() {
     return this.pyodide.version;
+  }
+
+  times2(x: number) {
+    const np = this.pyodide.pyimport("numpy") as PyProxy & {
+      sqrt: (x: number) => number;
+    };
+
+    const result = np.sqrt(x);
+
+    np.destroy();
+
+    return result;
   }
 }
 

@@ -35,7 +35,7 @@ export default [
     ],
   }),
   {
-    ignores: ["dist", "public/", "src-old/"],
+    ignores: ["dist", "public/", "src-old/", "venv"],
   },
   prettier,
 ];

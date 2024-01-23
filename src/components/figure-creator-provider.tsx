@@ -19,7 +19,7 @@ export const useFigureCreator = () => {
 
 export const FigureCreatorProvider: ParentComponent = (props) => {
   const pyodideWorker = new PyodideWorker();
-  const FigureCreator = Comlink.wrap<typeof FC>(pyodideWorker);
+  const RemoteFigureCreator = Comlink.wrap<typeof FC>(pyodideWorker);
 
   const workerShouldReady = new Promise(
     (resolve: (value: Worker) => void, reject) => {
@@ -37,7 +37,7 @@ export const FigureCreatorProvider: ParentComponent = (props) => {
 
   return (
     <FigureCreatorProviderContext.Provider
-      value={[workerShouldReady, FigureCreator]}
+      value={[workerShouldReady, RemoteFigureCreator]}
     >
       {props.children}
     </FigureCreatorProviderContext.Provider>

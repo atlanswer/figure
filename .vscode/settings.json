@@ -4,6 +4,7 @@
     "openpyxl",
     "orjson",
     "ptupdate",
+    "pyimport",
     "pyodide",
     "solidjs"
   ],
