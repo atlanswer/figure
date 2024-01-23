@@ -6,7 +6,8 @@ import {
   type PartytownConfig,
   SCRIPT_TYPE,
 } from "@builder.io/partytown/integration";
-import { type JSX, DEV } from "solid-js";
+import { useLocation } from "@solidjs/router";
+import { type JSX, DEV, createEffect } from "solid-js";
 import { isServer } from "solid-js/web";
 
 interface PartytownDocument extends Document {
@@ -81,6 +82,12 @@ export const VercelSpeedInsight = () => {
       scriptElm.dataset.debug = "false";
     }
     document.body.appendChild(scriptElm);
+
+    const location = useLocation();
+
+    createEffect(() => {
+      scriptElm.dataset.route = location.pathname;
+    });
   }
   return <></>;
 };
