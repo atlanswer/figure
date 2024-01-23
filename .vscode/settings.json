@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["numpy", "ptupdate", "pyodide", "solidjs"],
+  "cSpell.words": [
+    "numpy",
+    "openpyxl",
+    "orjson",
+    "ptupdate",
+    "pyodide",
+    "solidjs"
+  ],
   "eslint.experimental.useFlatConfig": true,
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "eslint.useESLintClass": true
