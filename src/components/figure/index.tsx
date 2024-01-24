@@ -9,6 +9,7 @@ import {
 } from "solid-js";
 import { useFigureCreator } from "~/components/figure-creator-provider";
 import { getFigureCreator } from "~/components/figure/figure-creator";
+// import type { FigureConfig } from "~/workers/pyodide";
 
 export const Figure = () => {
   const fcContext = useFigureCreator();
@@ -36,17 +37,27 @@ export const Figure = () => {
   );
 
   const [figPlane1] = createResource(async () => {
-    const fc = await getFigureCreator(fcContext);
+    const fc = await awaitableFc;
 
-    const svg = await fc.createFigPlane1();
+    const svg = await fc.createFigPlane1({
+      viewPlane: "YZ",
+      sources: [{ type: "E", phi: 90, theta: 90, amplitude: 1, phase: 0 }],
+    });
 
     // eslint-disable-next-line solid/no-innerhtml
     return <div innerHTML={svg} />;
   });
 
   const [figPlane2] = createResource(async () => {
-    await getFigureCreator(fcContext);
-    return <div>Hi</div>;
+    const fc = await awaitableFc;
+
+    const svg = await fc.createFigPlane1({
+      viewPlane: "XY",
+      sources: [{ type: "E", phi: 45, theta: 0, amplitude: 0.5, phase: 0 }],
+    });
+
+    // eslint-disable-next-line solid/no-innerhtml
+    return <div innerHTML={svg} />;
   });
 
   return (

@@ -22,6 +22,19 @@ const loadPyodideAndPackages = async () => {
 
 const pyodide = await loadPyodideAndPackages();
 
+export interface Source {
+  type: "E" | "M";
+  phi: number;
+  theta: number;
+  amplitude: number;
+  phase: number;
+}
+
+export interface FigureConfig {
+  viewPlane: "YZ" | "XZ" | "XY";
+  sources: Source[];
+}
+
 export class FigureCreator {
   private pyodide: typeof pyodide;
 
@@ -33,12 +46,12 @@ export class FigureCreator {
     return this.pyodide.version;
   }
 
-  createFigPlane1() {
+  createFigPlane1(config: FigureConfig) {
     const pyPlotFigPlane1 = this.pyodide.runPython(
       pyCodePlotFigPlane1,
     ) as PyCallable;
 
-    const svg = pyPlotFigPlane1() as string;
+    const svg = pyPlotFigPlane1(config) as string;
 
     pyPlotFigPlane1.destroy();
 
