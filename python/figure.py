@@ -44,6 +44,11 @@ class FigureConfig(TypedDict):
 
 
 def get_e_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
+    phi_rad = phi + source["phi"] / 180 * np.pi
+    return np.ones_like(theta) * np.sin(phi_rad)
+
+
+def get_m_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
     theta_rad = theta + source["theta"] / 180 * np.pi
     phi_rad = phi + source["phi"] / 180 * np.pi
     return np.sin(theta_rad) * np.cos(phi_rad)
@@ -55,23 +60,18 @@ def plotFigPlane1(config: FigureConfig):
 
     x = np.linspace(0, 2 * np.pi, 361)
 
-    phi: float = 0
-    theta: float = 0
+    phi: float = 0 if config["viewPlane"] == "XZ" else 90
 
-    match config["viewPlane"]:
-        case "YZ":
-            phi = np.pi / 2
-        case "XZ":
-            phi = 0
-        case _:
-            ...
-
-    e_theta = np.zeros_like(x)
+    y_theta = np.zeros_like(x)
 
     for s in config["sources"]:
-        e_theta += get_e_theta(x, phi, s)
+        match s["type"]:
+            case "E":
+                y_theta += get_e_theta(x, phi, s)
+            case "M":
+                y_theta += get_m_theta(x, phi, s)
 
-    y_co = np.abs(e_theta)
+    y_co = np.abs(y_theta)
     # r_x = np.abs()
 
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
