@@ -109,7 +109,7 @@ export const Figure = () => {
       const fc = await awaitableFc;
 
       const svg = await fc.createFigPlane1({
-        viewPlane: "XY",
+        viewPlane: "XZ",
         sources: unwrap(sources),
       });
 
