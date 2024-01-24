@@ -43,12 +43,12 @@ class FigureConfig(TypedDict):
     sources: list[Source]
 
 
-def get_e_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
+def get_m_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
     phi_rad = phi + source["phi"] / 180 * np.pi
     return np.ones_like(theta) * np.sin(phi_rad)
 
 
-def get_m_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
+def get_e_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
     theta_rad = theta + source["theta"] / 180 * np.pi
     phi_rad = phi + source["phi"] / 180 * np.pi
     return np.sin(theta_rad) * np.cos(phi_rad)
@@ -65,6 +65,8 @@ def plotFigPlane1(config: FigureConfig):
     y_theta = np.zeros_like(x)
 
     for s in config["sources"]:
+        print(s)
+        print(phi)
         match s["type"]:
             case "E":
                 y_theta += get_e_theta(x, phi, s)

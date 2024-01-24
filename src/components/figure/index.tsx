@@ -129,7 +129,7 @@ export const Figure = () => {
       <figure class="grid grid-flow-col place-content-center gap-6 rounded font-semibold text-black dark:text-white">
         <Show when={fcReady()} fallback={<NoFcFallback />}>
           <Figure viewPlane="YZ">{figPlane1()}</Figure>
-          <Figure viewPlane="XY">{figPlane2()}</Figure>
+          <Figure viewPlane="XZ">{figPlane2()}</Figure>
         </Show>
       </figure>
       <ControlPanel />
