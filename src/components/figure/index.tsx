@@ -30,14 +30,18 @@ export const Figure = () => {
   });
 
   const Figure: ParentComponent = (props) => (
-    <div class="flex h-[192px] w-[192px] flex-wrap place-content-center rounded bg-neutral-50 outline outline-1 outline-neutral-200">
+    <div class="flex h-[196px] w-[196px] flex-wrap place-content-center rounded bg-neutral-50 outline outline-1 outline-neutral-200">
       <Suspense fallback={<FigureLoading />}>{props.children}</Suspense>
     </div>
   );
 
   const [figPlane1] = createResource(async () => {
-    await getFigureCreator(fcContext);
-    return <div>Hi</div>;
+    const fc = await getFigureCreator(fcContext);
+
+    const svg = await fc.createFigPlane1();
+
+    // eslint-disable-next-line solid/no-innerhtml
+    return <div innerHTML={svg} />;
   });
 
   const [figPlane2] = createResource(async () => {
@@ -47,7 +51,7 @@ export const Figure = () => {
 
   return (
     <section class="flex flex-col place-content-center place-items-center gap-4 py-8">
-      <figure class="grid grid-flow-col place-content-center gap-6 rounded text-black">
+      <figure class="grid grid-flow-col place-content-center gap-6 rounded font-semibold text-black">
         <Show when={fcReady()} fallback={<NoFcFallback />}>
           <Figure>{figPlane1.latest}</Figure>
           <Figure>{figPlane2.latest}</Figure>
@@ -61,7 +65,7 @@ export const Figure = () => {
 };
 
 const NoFcFallback = () => (
-  <div class="flex h-48 w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-50 outline outline-1 outline-neutral-200">
+  <div class="flex h-[196px] w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-50 outline outline-1 outline-neutral-200">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6"
@@ -94,14 +98,22 @@ const FigureLoading = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      class="h-6 w-6 fill-black"
+      class="h-6 w-6 animate-spin fill-black"
     >
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      />
       <path
-        fill-rule="evenodd"
-        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-        clip-rule="evenodd"
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
       />
     </svg>
-    <span>Python loaded</span>
+    <span>Creating figure...</span>
   </div>
 );
