@@ -60,7 +60,15 @@ def plotFigPlane1(config: FigureConfig):
 
     x = np.linspace(0, 2 * np.pi, 361)
 
-    phi: float = 0 if config["viewPlane"] == "XZ" else 90
+    phi = 0
+
+    match config["viewPlane"]:
+        case "YZ":
+            phi = 90
+        case "XZ":
+            phi = 0
+        case "XY":
+            ...
 
     y_theta = np.zeros_like(x)
 
