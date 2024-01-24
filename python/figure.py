@@ -8,7 +8,7 @@ import numpy as np
 import numpy.typing as npt
 from matplotlib.projections.polar import PolarAxes
 
-mpl.rcParams["backend"] = "Agg"
+mpl.rcParams["backend"] = "SVG"
 if sys.platform == "emscripten":
     plt.style.use(["default", "seaborn-paper"])
 else:
