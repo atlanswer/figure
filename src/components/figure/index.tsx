@@ -1,60 +1,96 @@
 /* @refresh granular */
 
-import type { Remote } from "comlink";
-import { Suspense, createResource } from "solid-js";
+import {
+  Suspense,
+  createResource,
+  type ParentComponent,
+  Show,
+  createSignal,
+} from "solid-js";
 import { useFigureCreator } from "~/components/figure-creator-provider";
-import { FigureCreator } from "~/workers/pyodide";
+import { getFigureCreator } from "~/components/figure/figure-creator";
 
 export const Figure = () => {
-  const [workerShouldReady, RemoteFigureCreator] = useFigureCreator();
+  const fcContext = useFigureCreator();
+  const awaitableFc = getFigureCreator(fcContext);
 
-  const figureShouldCreate = new Promise(
-    (
-      resolve: (value: InstanceType<typeof RemoteFigureCreator>) => void,
-      reject,
-    ) => {
-      workerShouldReady.then(
-        () => resolve(new RemoteFigureCreator()),
-        () => reject(),
-      );
-    },
+  const [fcReady, setFcReady] = createSignal(false);
+
+  awaitableFc.then(
+    () => setFcReady(true),
+    () => null,
   );
-
-  const createFigure = (): Promise<Remote<FigureCreator>> =>
-    new Promise((resolve, reject) => {
-      figureShouldCreate.then(
-        (value) => resolve(value),
-        () => reject(),
-      );
-    });
 
   const [result] = createResource(async () => {
     console.debug("Waiting for `figureCreator`");
-    const fc = await createFigure();
+    const fc = await awaitableFc;
     console.debug("Got `figureCreator`");
     const times2 = await fc.times2(3);
     return times2.toPrecision(5);
   });
 
-  const FigureFallback = () => (
-    <div class="flex animate-pulse place-content-center gap-2">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        class="h-6 w-6"
-        aria-label="Figure loading indicator fill-black"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M2.25 2.25a.75.75 0 0 0 0 1.5H3v10.5a3 3 0 0 0 3 3h1.21l-1.172 3.513a.75.75 0 0 0 1.424.474l.329-.987h8.418l.33.987a.75.75 0 0 0 1.422-.474l-1.17-3.513H18a3 3 0 0 0 3-3V3.75h.75a.75.75 0 0 0 0-1.5H2.25Zm6.54 15h6.42l.5 1.5H8.29l.5-1.5Zm8.085-8.995a.75.75 0 1 0-.75-1.299 12.81 12.81 0 0 0-3.558 3.05L11.03 8.47a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l2.47-2.47 1.617 1.618a.75.75 0 0 0 1.146-.102 11.312 11.312 0 0 1 3.612-3.321Z"
-          clip-rule="evenodd"
-        />
-      </svg>
-      <span>Loading Python...</span>
+  const Figure: ParentComponent = (props) => (
+    <div class="flex h-[192px] w-[192px] flex-wrap place-content-center rounded bg-neutral-50 outline outline-1 outline-neutral-200">
+      <Suspense fallback={<FigureLoading />}>{props.children}</Suspense>
     </div>
   );
 
-  const FigureLoaded = () => (
+  const [figPlane1] = createResource(async () => {
+    await getFigureCreator(fcContext);
+    return <div>Hi</div>;
+  });
+
+  const [figPlane2] = createResource(async () => {
+    await getFigureCreator(fcContext);
+    return <div>Hi</div>;
+  });
+
+  return (
+    <section class="flex flex-col place-content-center place-items-center gap-4 py-8">
+      <figure class="grid grid-flow-col place-content-center gap-6 rounded text-black">
+        <Show when={fcReady()} fallback={<NoFcFallback />}>
+          <Figure>{figPlane1.latest}</Figure>
+          <Figure>{figPlane2.latest}</Figure>
+        </Show>
+      </figure>
+      <Suspense fallback={<p class="animate-pulse">Loading...</p>}>
+        <p class="">The square root of 3 is {result()}</p>
+      </Suspense>
+    </section>
+  );
+};
+
+const NoFcFallback = () => (
+  <div class="flex h-48 w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-50 outline outline-1 outline-neutral-200">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      viewBox="0 0 32 32"
+      aria-label="Python loading indicator"
+    >
+      <path
+        fill="currentColor"
+        d="M23.488 9.14v2.966a4.284 4.284 0 0 1-4.173 4.236h-6.672a3.408 3.408 0 0 0-3.34 3.394v6.36c0 1.81 1.574 2.876 3.34 3.395a11.176 11.176 0 0 0 6.672 0c1.682-.487 3.34-1.467 3.34-3.394V23.55h-6.672v-.849h10.012c1.941 0 2.665-1.354 3.34-3.386a11.464 11.464 0 0 0 0-6.79c-.48-1.932-1.396-3.386-3.34-3.386Zm-3.752 16.108a1.273 1.273 0 1 1-1.254 1.269a1.26 1.26 0 0 1 1.254-1.27"
+      />
+      <path
+        fill="none"
+        d="M19.736 25.248a1.273 1.273 0 1 1-1.254 1.269a1.26 1.26 0 0 1 1.254-1.27"
+      />
+      <path
+        fill="currentColor"
+        d="M15.835 2a19.072 19.072 0 0 0-3.192.273c-2.827.499-3.34 1.544-3.34 3.472V8.29h6.68v.849H6.796a4.17 4.17 0 0 0-4.173 3.387a12.486 12.486 0 0 0 0 6.789c.475 1.977 1.609 3.386 3.55 3.386H8.47V19.65a4.245 4.245 0 0 1 4.173-4.15h6.672a3.365 3.365 0 0 0 3.34-3.394V5.745a3.729 3.729 0 0 0-3.34-3.472A20.838 20.838 0 0 0 15.835 2m-3.612 2.048a1.273 1.273 0 1 1-1.254 1.277a1.268 1.268 0 0 1 1.254-1.277"
+      />
+      <path
+        fill="none"
+        d="M12.223 4.048a1.273 1.273 0 1 1-1.254 1.277a1.268 1.268 0 0 1 1.254-1.277"
+      />
+    </svg>
+    <span>Loading Python...</span>
+  </div>
+);
+
+const FigureLoading = () => (
+  <div class="flex place-content-center gap-2">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -66,26 +102,6 @@ export const Figure = () => {
         clip-rule="evenodd"
       />
     </svg>
-  );
-
-  const [loadedFigure] = createResource(async () => {
-    await createFigure();
-    return (
-      <div class="flex place-content-center gap-2">
-        <FigureLoaded />
-        <span>Python loaded</span>
-      </div>
-    );
-  });
-
-  return (
-    <section class="grid grid-flow-col place-content-center place-items-center gap-4 py-4">
-      <figure class="flex h-48 w-48 place-content-center place-items-center rounded border-t bg-neutral-50 text-black outline outline-1 outline-neutral-200">
-        <Suspense fallback={<FigureFallback />}>{loadedFigure()}</Suspense>
-      </figure>
-      <Suspense fallback={<p class="animate-pulse">Loading...</p>}>
-        <p>The square root of 3 is {result()}</p>
-      </Suspense>
-    </section>
-  );
-};
+    <span>Python loaded</span>
+  </div>
+);

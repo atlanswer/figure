@@ -1,6 +1,5 @@
 import io
 
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
@@ -8,7 +7,7 @@ from matplotlib.axes import Axes
 x = np.linspace(0, 2 * np.pi, 100)
 y = np.sin(x)
 
-fig, ax = plt.subplots(figsize=(3.5, 2))
+fig, ax = plt.subplots(figsize=(3.5, 3.5))
 assert isinstance(ax, Axes)
 
 ax.plot(x, y)

@@ -9,14 +9,14 @@ import { Header } from "~/components/header";
 import { VercelAnalytics, VercelSpeedInsight } from "~/components/partytown";
 import { ThemeProvider } from "~/components/theme-provider";
 import "~/global.css";
+import { Error } from "~/routes/error";
 import { FigureCreatorProvider } from "./components/figure-creator-provider";
 
 const App: ParentComponent = (props) => {
   // onMount(() => addPartytown({ debug: !!DEV }));
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    <ErrorBoundary fallback={(err) => <p>Solid Error: {err.toString()}</p>}>
+    <ErrorBoundary fallback={Error}>
       <FigureCreatorProvider>
         <MetaProvider>
           <ThemeProvider defaultTheme="dark">

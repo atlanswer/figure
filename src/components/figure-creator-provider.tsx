@@ -12,7 +12,7 @@ const FigureCreatorProviderContext =
 export const useFigureCreator = () => {
   const context = useContext(FigureCreatorProviderContext);
   if (!context) {
-    throw new Error("usePyodide: cannot find a PyodideProviderContext");
+    throw new Error("usePyodide: `PyodideProviderContext` not found");
   }
   return context;
 };
