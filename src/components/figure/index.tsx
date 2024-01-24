@@ -82,41 +82,47 @@ export const Figure = () => {
     );
   };
 
-  const [figPlane1] = createResource(sources, async () => {
-    const fc = await awaitableFc;
+  const [figPlane1] = createResource(
+    () => [...sources],
+    async () => {
+      const fc = await awaitableFc;
 
-    const svg = await fc.createFigPlane1({
-      viewPlane: "YZ",
-      sources: unwrap(sources),
-    });
+      const svg = await fc.createFigPlane1({
+        viewPlane: "YZ",
+        sources: unwrap(sources),
+      });
 
-    return (
-      <img
-        width="192"
-        height="192"
-        src={`data:image/svg+xml,${encodeURIComponent(svg)}`}
-        alt="Plane 1"
-      />
-    );
-  });
+      return (
+        <img
+          width="192"
+          height="192"
+          src={`data:image/svg+xml,${encodeURIComponent(svg)}`}
+          alt="Plane 1"
+        />
+      );
+    },
+  );
 
-  const [figPlane2] = createResource(sources, async () => {
-    const fc = await awaitableFc;
+  const [figPlane2] = createResource(
+    () => [...sources],
+    async () => {
+      const fc = await awaitableFc;
 
-    const svg = await fc.createFigPlane1({
-      viewPlane: "XY",
-      sources: unwrap(sources),
-    });
+      const svg = await fc.createFigPlane1({
+        viewPlane: "XY",
+        sources: unwrap(sources),
+      });
 
-    return (
-      <img
-        width="192"
-        height="192"
-        src={`data:image/svg+xml,${encodeURIComponent(svg)}`}
-        alt="Plane 2"
-      />
-    );
-  });
+      return (
+        <img
+          width="192"
+          height="192"
+          src={`data:image/svg+xml,${encodeURIComponent(svg)}`}
+          alt="Plane 2"
+        />
+      );
+    },
+  );
 
   return (
     <section class="flex flex-col place-content-center place-items-center gap-6 py-8">
@@ -200,6 +206,7 @@ const NumberInput: Component<{ tag: keyof Source; source: Source }> = (
           id="decrement-button"
           data-input-counter-decrement="quantity-input"
           class="h-11 rounded-s-lg border border-gray-300 bg-gray-100 p-3 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+          onClick={() => {}}
         >
           <svg
             class="h-3 w-3 text-gray-900 dark:text-white"
