@@ -1,27 +1,25 @@
 /* @refresh granular */
 
-import {
-  For,
-  Show,
-  Suspense,
-  createResource,
-  createSignal,
-  type Component,
-  type ParentComponent,
-} from "solid-js";
-import { createStore, unwrap } from "solid-js/store";
+import { For, Show, createSignal, type Component } from "solid-js";
+import { createStore } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
-import type { FigureConfig, Source } from "~/workers/pyodide";
+import { ViewPlane } from "~/components/figure/view-plane";
+import type { Source } from "~/workers/pyodide";
 
-export const Figure = () => {
+export const FigureArea = () => {
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
   const [fcReady, setFcReady] = createSignal(false);
-  const [sources, setSources] = createStore<FigureConfig["sources"]>([
+  const [sources, setSources] = createStore<Source[]>([
     { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
   ]);
+
+  awaitableFc.then(
+    () => setFcReady(true),
+    () => undefined,
+  );
 
   const addSource = () => {
     setSources([
@@ -29,30 +27,11 @@ export const Figure = () => {
       { type: "M", theta: 90, phi: 0, amplitude: 1, phase: 0 },
     ]);
   };
-
   const removeSource = (idx: number) => {
     if (sources.length > 1) {
       setSources([...sources.slice(0, idx), ...sources.slice(idx + 1)]);
     }
   };
-
-  awaitableFc.then(
-    () => setFcReady(true),
-    () => null,
-  );
-
-  const Figure: ParentComponent<{ viewPlane: FigureConfig["viewPlane"] }> = (
-    props,
-  ) => (
-    <div class="flex flex-col gap-2">
-      <div class="text-lg">
-        <em>{props.viewPlane}</em>-Plane
-      </div>
-      <div class="flex h-[196px] w-[196px] flex-wrap place-content-center rounded bg-neutral-50 outline outline-1 outline-neutral-200">
-        <Suspense fallback={<FigureLoading />}>{props.children}</Suspense>
-      </div>
-    </div>
-  );
 
   const SourceCard: Component<{ source: Source; idx: number }> = (props) => {
     return (
@@ -77,59 +56,18 @@ export const Figure = () => {
         <For each={sources}>
           {(source, idx) => <SourceCard source={source} idx={idx()} />}
         </For>
-        <AddNewSource addFn={addSource} />
+        <AddSource addFn={addSource} />
       </div>
     );
   };
 
-  const [figPlane1] = createResource(
-    () => [...sources],
-    async () => {
-      const fc = await awaitableFc;
-
-      const svg = await fc.createFigPlane1({
-        viewPlane: "YZ",
-        sources: unwrap(sources),
-      });
-
-      return (
-        <img
-          width="192"
-          height="192"
-          src={/*@once*/ `data:image/svg+xml,${encodeURIComponent(svg)}`}
-          alt="Plane 1"
-        />
-      );
-    },
-  );
-
-  const [figPlane2] = createResource(
-    () => [...sources],
-    async () => {
-      const fc = await awaitableFc;
-
-      const svg = await fc.createFigPlane1({
-        viewPlane: "XZ",
-        sources: unwrap(sources),
-      });
-
-      return (
-        <img
-          width="192"
-          height="192"
-          src={/*@once*/ `data:image/svg+xml,${encodeURIComponent(svg)}`}
-          alt="Plane 2"
-        />
-      );
-    },
-  );
-
   return (
     <section class="flex flex-col place-content-center place-items-center gap-6 py-8">
-      <figure class="grid grid-flow-col place-content-center gap-6 rounded font-semibold text-black">
-        <Show when={fcReady()} fallback={<NoFcFallback />}>
-          <Figure viewPlane="YZ">{figPlane1()}</Figure>
-          <Figure viewPlane="XZ">{figPlane2()}</Figure>
+      <figure class="grid grid-flow-col place-content-center gap-6 rounded font-semibold">
+        <Show when={fcReady()} fallback={<FigureAreaFallback />}>
+          <ViewPlane cutPlane="YZ" sources={sources} />
+          <ViewPlane cutPlane="XZ" sources={sources} />
+          <ViewPlane cutPlane="XY" sources={sources} />
         </Show>
       </figure>
       <ControlPanel />
@@ -137,8 +75,8 @@ export const Figure = () => {
   );
 };
 
-const NoFcFallback = () => (
-  <div class="flex h-[196px] w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-50 outline outline-1 outline-neutral-200">
+const FigureAreaFallback = () => (
+  <div class="flex h-[196px] w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-50 text-black outline outline-1 outline-neutral-200">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6"
@@ -163,31 +101,6 @@ const NoFcFallback = () => (
       />
     </svg>
     <span>Loading Python...</span>
-  </div>
-);
-
-const FigureLoading = () => (
-  <div class="flex place-content-center gap-2">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      class="h-6 w-6 animate-spin fill-black"
-    >
-      <circle
-        class="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        stroke-width="4"
-      />
-      <path
-        class="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      />
-    </svg>
-    <span>Creating figure...</span>
   </div>
 );
 
@@ -263,7 +176,7 @@ const NumberInput: Component<{ tag: keyof Source; source: Source }> = (
   );
 };
 
-const AddNewSource: Component<{ addFn: () => void }> = (props) => {
+const AddSource: Component<{ addFn: () => void }> = (props) => {
   return (
     <button
       class="rounded-full bg-white p-2 text-black outline outline-neutral-200 dark:bg-black dark:text-white"

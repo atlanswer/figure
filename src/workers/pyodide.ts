@@ -31,8 +31,10 @@ export interface Source {
   phase: number;
 }
 
-export interface FigureConfig {
-  viewPlane: "YZ" | "XZ" | "XY";
+export type CutPlane = "XZ" | "YZ" | "XY";
+
+export interface FigurePlaneConfig {
+  cutPlane: CutPlane;
   sources: Source[];
 }
 
@@ -47,7 +49,7 @@ export class FigureCreator {
     return this.pyodide.version;
   }
 
-  createFigPlane1(config: FigureConfig) {
+  createFigPlane1(config: FigurePlaneConfig) {
     const pyPlotFigPlane1 = this.pyodide.runPython(
       pyCodePlotFigPlane1,
     ) as PyCallable;
