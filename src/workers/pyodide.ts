@@ -14,7 +14,8 @@ const pyodideModule = (await import(
 
 const loadPyodideAndPackages = async () => {
   const pyodide = await pyodideModule.loadPyodide({
-    indexURL: "/pyodide/",
+    // indexURL: "/pyodide/",
+    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/",
     packages: ["numpy", "matplotlib"],
   });
   return pyodide;
