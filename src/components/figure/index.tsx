@@ -96,7 +96,7 @@ export const Figure = () => {
         <img
           width="192"
           height="192"
-          src={`data:image/svg+xml,${encodeURIComponent(svg)}`}
+          src={/*@once*/ `data:image/svg+xml,${encodeURIComponent(svg)}`}
           alt="Plane 1"
         />
       );
@@ -117,7 +117,7 @@ export const Figure = () => {
         <img
           width="192"
           height="192"
-          src={`data:image/svg+xml,${encodeURIComponent(svg)}`}
+          src={/*@once*/ `data:image/svg+xml,${encodeURIComponent(svg)}`}
           alt="Plane 2"
         />
       );
