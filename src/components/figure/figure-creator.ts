@@ -1,7 +1,7 @@
 /* @refresh granular */
 
 import { Remote } from "comlink";
-import type { useFigureCreator } from "~/components/figure-creator-provider";
+import type { useFigureCreator } from "~/components/contexts/figure-creator";
 import { FigureCreator } from "~/workers/pyodide";
 
 export const getFigureCreator = async ([

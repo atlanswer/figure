@@ -1,5 +1,5 @@
 import { Match, Switch } from "solid-js";
-import { useTheme } from "~/components/theme-provider";
+import { useTheme } from "~/components/contexts/theme";
 
 export const ThemeToggle = () => {
   const [theme, setTheme] = useTheme();

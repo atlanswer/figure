@@ -1,4 +1,4 @@
-export const Error = (err: { toString: () => string }, reset: () => void) => (
+export const ErrorPage = (err: { toString: () => string }, reset: () => void) => (
   <main class="grid flex-auto place-content-center p-8">
     <div class="grid w-fit min-w-48 grid-flow-row place-content-center place-items-center gap-4 rounded bg-red-100 p-4 text-red-500 outline outline-red-500">
       <h1 class="text-lg font-bold">This app has encountered an error:</h1>

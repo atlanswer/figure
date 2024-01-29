@@ -10,7 +10,7 @@ import {
   type ParentComponent,
 } from "solid-js";
 import { createStore, unwrap } from "solid-js/store";
-import { useFigureCreator } from "~/components/figure-creator-provider";
+import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
 import type { FigureConfig, Source } from "~/workers/pyodide";
 

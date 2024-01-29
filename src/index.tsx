@@ -7,16 +7,16 @@ import { render } from "solid-js/web";
 import { Footer } from "~/components/footer";
 import { Header } from "~/components/header";
 import { VercelAnalytics, VercelSpeedInsight } from "~/components/partytown";
-import { ThemeProvider } from "~/components/theme-provider";
+import { ThemeProvider } from "~/components/contexts/theme";
 import "~/global.css";
-import { Error } from "~/routes/error";
-import { FigureCreatorProvider } from "./components/figure-creator-provider";
+import { ErrorPage } from "~/routes/errorpage";
+import { FigureCreatorProvider } from "./components/contexts/figure-creator";
 
 const App: ParentComponent = (props) => {
   // onMount(() => addPartytown({ debug: !!DEV }));
 
   return (
-    <ErrorBoundary fallback={Error}>
+    <ErrorBoundary fallback={ErrorPage}>
       <FigureCreatorProvider>
         <MetaProvider>
           <ThemeProvider defaultTheme="dark">
