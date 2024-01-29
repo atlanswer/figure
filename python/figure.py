@@ -20,11 +20,14 @@ mpl.rcParams["axes.grid"] = True
 mpl.rcParams["grid.alpha"] = 0.5
 mpl.rcParams["grid.linewidth"] = 0.5
 mpl.rcParams["xtick.direction"] = "in"
+mpl.rcParams["xtick.labelsize"] = 10
 mpl.rcParams["ytick.direction"] = "in"
+mpl.rcParams["ytick.labelsize"] = 10
 mpl.rcParams["lines.linewidth"] = 2
+mpl.rcParams["svg.fonttype"] = "none"
 
 
-sf = 2 / 3.5
+sf = 3.5 / 3.5
 """Scale factor"""
 
 mpl.rcParams["figure.figsize"] = 3.5 * sf, 3.5 * sf
@@ -93,9 +96,7 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
 
-    # TODO: debug
-    print("I got here.")
-
+    ax.set_rlim(0, 1)
     ax.plot(x, y_co)
     # ax.set_rticks([])
     ax.set_theta_zero_location("N")

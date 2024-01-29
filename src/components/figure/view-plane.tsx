@@ -22,11 +22,11 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
       <div class="text-lg">
         <em>{props.cutPlane}</em>-Plane
       </div>
-      <div class="flex h-[196px] w-[196px] flex-wrap place-content-center rounded bg-neutral-50 text-black outline outline-1 outline-neutral-200">
+      <div class="flex h-[252px] w-[252px] flex-wrap place-content-center rounded bg-neutral-50 text-black outline outline-1 outline-neutral-200">
         <Suspense fallback={<ViewPlaneLoading />}>
           <img
-            width="192"
-            height="192"
+            width="252"
+            height="252"
             src={encodedSvgData()}
             alt={`${props.cutPlane} Plane`}
           />
