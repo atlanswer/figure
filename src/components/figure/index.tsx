@@ -126,7 +126,7 @@ export const Figure = () => {
 
   return (
     <section class="flex flex-col place-content-center place-items-center gap-6 py-8">
-      <figure class="grid grid-flow-col place-content-center gap-6 rounded font-semibold text-black dark:text-white">
+      <figure class="grid grid-flow-col place-content-center gap-6 rounded font-semibold text-black">
         <Show when={fcReady()} fallback={<NoFcFallback />}>
           <Figure viewPlane="YZ">{figPlane1()}</Figure>
           <Figure viewPlane="XZ">{figPlane2()}</Figure>
