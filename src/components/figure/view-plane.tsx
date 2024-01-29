@@ -18,11 +18,11 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   });
 
   return (
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 rounded bg-neutral-100 p-3 text-black shadow-md dark:bg-neutral-200 dark:shadow-none">
       <div class="text-lg">
         <em>{props.cutPlane}</em>-Plane
       </div>
-      <div class="flex h-[252px] w-[252px] flex-wrap place-content-center rounded bg-neutral-50 text-black outline outline-1 outline-neutral-200">
+      <div class="flex h-[252px] w-[252px] flex-wrap place-content-center rounded outline outline-neutral-100">
         <Suspense fallback={<ViewPlaneLoading />}>
           <img
             width="252"

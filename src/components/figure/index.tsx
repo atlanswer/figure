@@ -62,8 +62,8 @@ export const FigureArea = () => {
   };
 
   return (
-    <section class="flex flex-col place-content-center place-items-center gap-6 py-8">
-      <figure class="grid grid-flow-col place-content-center gap-6 rounded font-semibold">
+    <section class="flex flex-col place-items-center gap-4 py-4">
+      <figure class="grid max-w-full grid-flow-col gap-4 overflow-x-auto rounded p-2 font-semibold">
         <Show when={fcReady()} fallback={<FigureAreaFallback />}>
           <ViewPlane cutPlane="YZ" sources={sources} />
           <ViewPlane cutPlane="XZ" sources={sources} />
