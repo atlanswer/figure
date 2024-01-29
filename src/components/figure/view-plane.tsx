@@ -2,15 +2,15 @@ import { Suspense, createResource, type Component } from "solid-js";
 import { unwrap } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
-import type { FigurePlaneConfig } from "~/workers/pyodide";
+import type { ViewPlaneConfig } from "~/workers/pyodide";
 
-export const ViewPlane: Component<FigurePlaneConfig> = (props) => {
+export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
   const [encodedSvgData] = createResource(props, async () => {
     const fc = await awaitableFc;
-    const svgData = await fc.createFigPlane1({
+    const svgData = await fc.createViewPlane({
       cutPlane: props.cutPlane,
       sources: unwrap(props.sources),
     });

@@ -38,8 +38,11 @@ class Source(TypedDict):
     phase: float
 
 
-class FigureConfig(TypedDict):
-    viewPlane: Literal["YZ", "XZ", "XY"]
+CutPlane = Literal["XZ", "YZ", "XY"]
+
+
+class ViewPlaneConfig(TypedDict):
+    cutPlane: CutPlane
     sources: list[Source]
 
 
@@ -56,15 +59,17 @@ def get_e_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
     return np.sin(theta_rad) * np.cos(phi_rad)
 
 
-def plotFigPlane1(config: FigureConfig):
-    config = cast(FigureConfig, config.to_py())  # type: ignore
+def plot_view_plane(config: ViewPlaneConfig) -> str:
+    config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
+
+    # TODO: debug
     print(f"{config=}")
 
     x = np.linspace(0, 2 * np.pi, 361)
 
     phi = 0
 
-    match config["viewPlane"]:
+    match config["cutPlane"]:
         case "YZ":
             phi = 90
         case "XZ":
@@ -88,6 +93,9 @@ def plotFigPlane1(config: FigureConfig):
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
 
+    # TODO: debug
+    print("I got here.")
+
     ax.plot(x, y_co)
     # ax.set_rticks([])
     ax.set_theta_zero_location("N")
@@ -102,4 +110,4 @@ def plotFigPlane1(config: FigureConfig):
     return f.getvalue().decode()
 
 
-plotFigPlane1  # pyright: ignore[reportUnusedExpression] # noqa: B018
+plot_view_plane  # pyright: ignore[reportUnusedExpression] # noqa: B018

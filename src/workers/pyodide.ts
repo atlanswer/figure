@@ -1,8 +1,8 @@
 /* @refresh granular */
 
 import * as Comlink from "comlink";
-import type { PyCallable, PyProxy } from "pyodide/ffi";
-import pyCodePlotFigPlane1 from "python/figure.py?raw";
+import type { PyCallable } from "pyodide/ffi";
+import pyCodePlotViewPlane from "python/figure.py?raw";
 
 console.debug("Starting Pyodide web worker...");
 
@@ -33,7 +33,7 @@ export interface Source {
 
 export type CutPlane = "XZ" | "YZ" | "XY";
 
-export interface FigurePlaneConfig {
+export interface ViewPlaneConfig {
   cutPlane: CutPlane;
   sources: Source[];
 }
@@ -49,28 +49,16 @@ export class FigureCreator {
     return this.pyodide.version;
   }
 
-  createFigPlane1(config: FigurePlaneConfig) {
-    const pyPlotFigPlane1 = this.pyodide.runPython(
-      pyCodePlotFigPlane1,
+  createViewPlane(config: ViewPlaneConfig) {
+    const pyPlotViewPlane = this.pyodide.runPython(
+      pyCodePlotViewPlane,
     ) as PyCallable;
 
-    const svg = pyPlotFigPlane1(config) as string;
+    const svgData = pyPlotViewPlane(config) as string;
 
-    pyPlotFigPlane1.destroy();
+    pyPlotViewPlane.destroy();
 
-    return svg;
-  }
-
-  times2(x: number) {
-    const np = this.pyodide.pyimport("numpy") as PyProxy & {
-      sqrt: (x: number) => number;
-    };
-
-    const result = np.sqrt(x);
-
-    np.destroy();
-
-    return result;
+    return svgData;
   }
 }
 
