@@ -1,3 +1,5 @@
+# spell-checker:words rlim, rticks
+
 import io
 from typing import Literal, TypedDict, cast
 

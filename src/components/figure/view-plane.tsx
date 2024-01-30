@@ -8,7 +8,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
-  const [encodedSvgData] = createResource(props, async () => {
+  const [encodedSvgData] = createResource(async () => {
     const fc = await awaitableFc;
     const svgData = await fc.createViewPlane({
       cutPlane: props.cutPlane,
@@ -22,7 +22,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
       <div class="text-lg">
         <em>{props.cutPlane}</em>-Plane
       </div>
-      <div class="flex h-[252px] w-[252px] flex-wrap place-content-center rounded outline outline-neutral-100">
+      <div class="flex h-[252px] w-[252px] flex-wrap place-content-center rounded outline outline-1 outline-neutral-100">
         <Suspense fallback={<ViewPlaneLoading />}>
           <img
             width="252"
