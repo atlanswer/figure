@@ -2,6 +2,7 @@
 
 import * as Comlink from "comlink";
 import type { PyCallable } from "pyodide/ffi";
+import pyCodeInitialization from "python/initialization.py?raw";
 import pyCodePlotViewPlane from "python/figure.py?raw";
 
 console.debug("Starting Pyodide web worker...");
@@ -18,6 +19,7 @@ const loadPyodideAndPackages = async () => {
     indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/",
     packages: ["numpy", "matplotlib"],
   });
+  pyodide.runPython(pyCodeInitialization);
   return pyodide;
 };
 
