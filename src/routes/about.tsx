@@ -7,13 +7,28 @@ export const AboutPage = () => (
     <p>This project is built upon these technologies:</p>
     <ul>
       <li>
-        <a href="https://www.solidjs.com/" target="_blank">
+        <a href="https://solidjs.com/" target="_blank">
           Solid
         </a>
       </li>
       <li>
         <a href="https://tailwindcss.com/" target="_blank">
           Tailwind CSS
+        </a>
+      </li>
+      <li>
+        <a href="https://pyodide.org/" target="_blank">
+          Pyodide
+        </a>
+      </li>
+      <li>
+        <a href="https://numpy.org/" target="_blank">
+          Numpy
+        </a>
+      </li>
+      <li>
+        <a href="https://matplotlib.org/" target="_blank">
+          Matplotlib
         </a>
       </li>
     </ul>
@@ -27,12 +42,12 @@ export const AboutPage = () => (
     <h2>Privacy</h2>
     <p>
       This web app does not collect, store, or share any private data. The only
-      data it processes are files you choose to upload and your system theme.
-      The latter is stored locally in your browser.
+      data it processes are files you choose to upload and your system theme,
+      which are stored locally in your browser.
     </p>
     <p>
-      Information related to you are still be processed by the host provider
-      Vercel. Their privacy policy can be found here:
+      Analytics that contains your infomation are still being processed by the
+      host provider Vercel. Their privacy policy can be found here:
       <span> </span>
       <a href="https://vercel.com/legal/privacy-policy" target="_blank">
         Privacy Policy
@@ -86,8 +101,9 @@ export const AboutPage = () => (
         inches (216 millimeters / 54 picas).
       </p>
       <p>
-        Author photographs, color, and grayscale figures should be at least
-        300dpi. Lineart, including tables should be a minimum of <b>600dpi</b>.
+        Author photographs, color, and grayscale figures should be at least{" "}
+        <b>300 dpi</b>. Lineart, including tables should be a minimum of{" "}
+        <b>600 dpi</b>.
       </p>
       <p>
         While IEEE does accept vector artwork, it is our policy is to rasterize
