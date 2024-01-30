@@ -1,16 +1,10 @@
 import io
 from typing import Literal, TypedDict, cast
 
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
 from matplotlib.projections.polar import PolarAxes
-
-sf = 3.5 / 3.5
-"""Scale factor"""
-
-mpl.rcParams["figure.figsize"] = 3.5 * sf, 3.5 * sf
 
 
 class Source(TypedDict):

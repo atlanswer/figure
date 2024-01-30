@@ -1,7 +1,8 @@
 /* @refresh granular */
 
 import { A, useLocation } from "@solidjs/router";
-export default () => {
+
+export const NotFoundPage = () => {
   const location = useLocation();
 
   return (

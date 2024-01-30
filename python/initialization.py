@@ -20,3 +20,9 @@ mpl.rcParams["ytick.direction"] = "in"
 mpl.rcParams["ytick.labelsize"] = 10
 mpl.rcParams["lines.linewidth"] = 2
 mpl.rcParams["svg.fonttype"] = "none"
+
+# sf = 3.5 / 3.5
+# """Scale factor"""
+
+# mpl.rcParams["figure.figsize"] = 3.5 * sf, 3.5 * sf
+mpl.rcParams["figure.figsize"] = 3.5, 3.5
