@@ -1,7 +1,6 @@
 /* @refresh granular */
 
 import { Show, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
 import { ViewPlane } from "~/components/figure/view-plane";
@@ -13,7 +12,7 @@ export const FigureArea = () => {
   const awaitableFc = getFigureCreator(fcContext);
 
   const [fcReady, setFcReady] = createSignal(false);
-  const [sources, setSources] = createStore<Source[]>([
+  const [sources, setSources] = createSignal<Source[]>([
     { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
   ]);
 
@@ -26,12 +25,12 @@ export const FigureArea = () => {
     <section class="flex flex-col place-items-center gap-4 py-4">
       <figure class="grid max-w-full grid-flow-col gap-4 overflow-x-auto rounded p-2 font-semibold">
         <Show when={fcReady()} fallback={<FigureAreaFallback />}>
-          <ViewPlane cutPlane="YZ" sources={sources} />
-          <ViewPlane cutPlane="XZ" sources={sources} />
-          <ViewPlane cutPlane="XY" sources={sources} />
+          <ViewPlane cutPlane="YZ" sources={sources()} />
+          <ViewPlane cutPlane="XZ" sources={sources()} />
+          <ViewPlane cutPlane="XY" sources={sources()} />
         </Show>
       </figure>
-      <SourcesPanel sources={sources} setSources={setSources} />
+      <SourcesPanel sources={sources()} setSources={setSources} />
     </section>
   );
 };

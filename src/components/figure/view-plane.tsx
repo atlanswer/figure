@@ -8,14 +8,17 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
-  const [encodedSvgData] = createResource(async () => {
-    const fc = await awaitableFc;
-    const svgData = await fc.createViewPlane({
-      cutPlane: props.cutPlane,
-      sources: unwrap(props.sources),
-    });
-    return `data:image/svg+xml,${encodeURIComponent(svgData)}`;
-  });
+  const [encodedSvgData] = createResource(
+    () => [props.cutPlane, props.sources],
+    async () => {
+      const fc = await awaitableFc;
+      const svgData = await fc.createViewPlane({
+        cutPlane: props.cutPlane,
+        sources: unwrap(props.sources),
+      });
+      return `data:image/svg+xml,${encodeURIComponent(svgData)}`;
+    },
+  );
 
   return (
     <div class="flex flex-col gap-2 rounded bg-neutral-100 p-3 text-black shadow-md dark:bg-neutral-200 dark:shadow-none">
@@ -27,7 +30,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
           <img
             width="252"
             height="252"
-            src={encodedSvgData()}
+            src={encodedSvgData() ?? ""}
             alt={`${props.cutPlane} Plane`}
           />
         </Suspense>

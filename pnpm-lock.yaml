@@ -20,6 +20,9 @@ importers:
       '@tailwindcss/typography':
         specifier: ~0.5.10
         version: 0.5.10(tailwindcss@3.4.1)
+      '@tsconfig/strictest':
+        specifier: ^2.0.2
+        version: 2.0.2
       '@typescript-eslint/eslint-plugin':
         specifier: ~6.19.1
         version: 6.19.1(@typescript-eslint/parser@6.19.1)(eslint@8.56.0)(typescript@5.3.3)
@@ -986,6 +989,10 @@ packages:
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
+    dev: true
+
+  /@tsconfig/strictest@2.0.2:
+    resolution: {integrity: sha512-jt4jIsWKvUvuY6adJnQJlb/UR7DdjC8CjHI/OaSQruj2yX9/K6+KOvDt/vD6udqos/FUk5Op66CvYT7TBLYO5Q==}
     dev: true
 
   /@types/babel__core@7.20.5:

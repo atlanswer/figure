@@ -25,6 +25,7 @@
     "@solidjs/meta": "~0.29.3",
     "@solidjs/router": "~0.10.10",
     "@tailwindcss/typography": "~0.5.10",
+    "@tsconfig/strictest": "~2.0.2",
     "@typescript-eslint/eslint-plugin": "~6.19.1",
     "@typescript-eslint/parser": "~6.19.1",
     "autoprefixer": "~10.4.17",

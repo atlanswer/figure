@@ -1,10 +1,9 @@
-import { type Component, For, Show } from "solid-js";
-import { SetStoreFunction } from "solid-js/store";
+import { type Component, For, Show, Setter } from "solid-js";
 import { type Source } from "~/workers/pyodide";
 
 export const SourcesPanel: Component<{
   sources: Source[];
-  setSources: SetStoreFunction<Source[]>;
+  setSources: Setter<Source[]>;
 }> = (props) => {
   return (
     <div class="flex flex-wrap place-items-center gap-4">
@@ -26,7 +25,7 @@ export const SourcesPanel: Component<{
 const SourceCard: Component<{
   idx: number;
   source: Source;
-  setSource: SetStoreFunction<Source[]>;
+  setSource: Setter<Source[]>;
   numSource: number;
 }> = (props) => {
   const removeSource = (idx: number) => {
@@ -67,7 +66,7 @@ const SourceCard: Component<{
   );
 };
 
-const AddSourceCard: Component<{ setSources: SetStoreFunction<Source[]> }> = (
+const AddSourceCard: Component<{ setSources: Setter<Source[]> }> = (
   props,
 ) => {
   const addSource = () => {

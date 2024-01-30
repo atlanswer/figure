@@ -1,16 +1,13 @@
 {
+  "extends": ["@tsconfig/strictest/tsconfig.json"],
   "compilerOptions": {
-    "strict": true,
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "allowJs": true,
-    "checkJs": true,
     "noEmit": true,
     "types": ["vite/client"],
     "rootDir": ".",
