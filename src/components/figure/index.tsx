@@ -17,7 +17,7 @@ export const FigureArea = () => {
   const [sources, setSources] = createSignal<Source[]>(
     JSON.parse(
       localStorage.getItem(sourceKey) ??
-        "{'type': 'E', theta: 90, phi: 90, amplitude: 1, phase: 0}",
+        '{"type": "E", "theta": 90, "phi": 90, "amplitude": 1, "phase": 0}',
     ) as Source[],
   );
 
