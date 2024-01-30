@@ -9,16 +9,42 @@ import { SourcesPanel } from "./source";
 
 export const FigureArea = () => {
   const sourceKey = "figure-sources";
+  const sourcesDefault: Source[] = [
+    { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
+  ];
+  const isSources = (sources: unknown): sources is Source[] => {
+    if (!(sources instanceof Array)) return false;
+    if (
+      !sources.every(
+        (source) =>
+          "theta" in source &&
+          "phi" in source &&
+          "amplitude" in source &&
+          "phase" in source,
+      )
+    )
+      return false;
+    return true;
+  };
+  const getSourcesFromLocalStorage = () => {
+    const sources = localStorage.getItem(sourceKey);
+    if (sources === null) return sourcesDefault;
+    let parsedSources: unknown;
+    try {
+      parsedSources = JSON.parse(sources);
+    } catch {
+      return sourcesDefault;
+    }
+    if (!isSources(parsedSources)) return sourcesDefault;
+    return parsedSources;
+  };
 
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
   const [fcReady, setFcReady] = createSignal(false);
   const [sources, setSources] = createSignal<Source[]>(
-    JSON.parse(
-      localStorage.getItem(sourceKey) ??
-        '{"type": "E", "theta": 90, "phi": 90, "amplitude": 1, "phase": 0}',
-    ) as Source[],
+    getSourcesFromLocalStorage(),
   );
 
   awaitableFc.then(
