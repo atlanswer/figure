@@ -24,13 +24,11 @@ class ViewPlaneConfig(TypedDict):
 
 
 def get_m_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
-    print(f"m {phi=}")
     phi_rad = (phi + source["phi"]) / 180 * np.pi
     return np.ones_like(theta) * np.sin(phi_rad)
 
 
 def get_e_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
-    print(f"e {phi=}")
     theta_rad = theta + source["theta"] / 180 * np.pi
     phi_rad = (phi + source["phi"]) / 180 * np.pi
     return np.sin(theta_rad) * np.cos(phi_rad)
@@ -57,7 +55,6 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     y_theta = np.zeros_like(x)
 
     for s in config["sources"]:
-        print(s)
         match s["type"]:
             case "E":
                 y_theta += get_e_theta(x, phi, s)
