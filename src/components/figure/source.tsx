@@ -41,7 +41,7 @@ const SourceCard: Component<{
         <span class="text-lg font-semibold">
           {`${props.idx + 1}: ${props.source.type}-dipole`}
         </span>
-        <Show when={props.numSource > 1} fallback={<></>}>
+        <Show when={props.numSource > 1}>
           <button onClick={() => removeSource(props.idx)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -66,9 +66,7 @@ const SourceCard: Component<{
   );
 };
 
-const AddSourceCard: Component<{ setSources: Setter<Source[]> }> = (
-  props,
-) => {
+const AddSourceCard: Component<{ setSources: Setter<Source[]> }> = (props) => {
   const addSource = () => {
     props.setSources((source) => [
       ...source,
@@ -83,7 +81,7 @@ const AddSourceCard: Component<{ setSources: Setter<Source[]> }> = (
   };
 
   return (
-    <button class="rounded-full text-black dark:text-white" onClick={addSource}>
+    <button class="rounded-full bg-white text-sky-500" onClick={addSource}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
