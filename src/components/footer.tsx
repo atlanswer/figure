@@ -1,5 +1,7 @@
 /* @refresh granular */
 
+import { version } from "package.json";
+
 export const Footer = () => {
   const IconStatus = () => (
     <svg
@@ -45,18 +47,25 @@ export const Footer = () => {
             @atlanswer
           </a>
         </span>
-        <a href="https://status.atlanswer.com" target="_blank">
-          <IconStatus />
-          <span class="pl-1 underline underline-offset-4">Status</span>
-        </a>
         <a
-          href="https://github.com/atlanswer/figure"
+          href="https://status.atlanswer.com"
           target="_blank"
-          class="sm:ml-auto"
+          class="flex place-items-center gap-1"
         >
-          <IconGitHub />
-          <span class="pl-1 underline underline-offset-4">Source</span>
+          <IconStatus />
+          <span class="underline underline-offset-4">Status</span>
         </a>
+        <span class="flex place-items-center gap-1.5 sm:ml-auto">
+          <span>v{version}</span>
+          <a
+            href="https://github.com/atlanswer/figure"
+            target="_blank"
+            class="flex place-items-center gap-1.5"
+          >
+            <IconGitHub />
+            <span class="underline underline-offset-4">Source</span>
+          </a>
+        </span>
       </div>
     </footer>
   );
