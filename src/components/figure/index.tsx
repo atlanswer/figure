@@ -1,6 +1,6 @@
 /* @refresh granular */
 
-import { Show, createSignal } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
 import { ViewPlane } from "~/components/figure/view-plane";
@@ -8,18 +8,27 @@ import type { Source } from "~/workers/pyodide";
 import { SourcesPanel } from "./source";
 
 export const FigureArea = () => {
+  const sourceKey = "figure-sources";
+
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
   const [fcReady, setFcReady] = createSignal(false);
-  const [sources, setSources] = createSignal<Source[]>([
-    { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
-  ]);
+  const [sources, setSources] = createSignal<Source[]>(
+    JSON.parse(
+      localStorage.getItem(sourceKey) ??
+        "{'type': 'E', theta: 90, phi: 90, amplitude: 1, phase: 0}",
+    ) as Source[],
+  );
 
   awaitableFc.then(
     () => setFcReady(true),
     () => undefined,
   );
+
+  createEffect(() => {
+    localStorage.setItem("figure-sources", JSON.stringify(sources()));
+  });
 
   return (
     <section class="flex flex-col place-items-center gap-4 py-4">

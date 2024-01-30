@@ -69,7 +69,7 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
 
-    ax.set_rlim(0, 1)
+    # ax.set_rlim(0, 1)
     ax.plot(x, y_co)
     # ax.set_rticks([])
     ax.set_theta_zero_location("N")
