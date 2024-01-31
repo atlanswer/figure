@@ -60,7 +60,16 @@ export const FigureArea: Component<{
             </button>
           </div>
           <Show when={props.numFigures > 1}>
-            <button class="ml-auto">
+            <button
+              class="ml-auto"
+              onClick={() =>
+                // eslint-disable-next-line solid/reactivity
+                props.setFigureConfig((figureConfigs) => [
+                  ...figureConfigs.slice(0, props.idx),
+                  ...figureConfigs.slice(props.idx + 1),
+                ])
+              }
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

@@ -12,13 +12,12 @@ export interface FigureConfig extends Omit<ViewPlaneConfig, "cutPlane"> {
 const figureConfigsStorageKey = "figure-configs";
 
 export const FigurePage = () => {
-  const figureConfigsDefault: FigureConfig[] = [
-    {
-      title: "E-Dipole",
-      isDb: true,
-      sources: [{ type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 }],
-    },
-  ];
+  const figureConfigDefault: FigureConfig = {
+    title: "E-Dipole",
+    isDb: true,
+    sources: [{ type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 }],
+  };
+  const figureConfigsDefault: FigureConfig[] = [figureConfigDefault];
 
   // TODO: complete validation
   const isFigureConfigs = (
@@ -69,7 +68,12 @@ export const FigurePage = () => {
 
   const AddFigure: Component = () => {
     return (
-      <button class="mt-4 flex gap-1 place-self-center rounded bg-sky-500 px-4 py-2 text-white shadow">
+      <button
+        class="mt-4 flex gap-1 place-self-center rounded bg-sky-500 px-4 py-2 text-white shadow"
+        onClick={() =>
+          setFigureConfigs(figureConfigs.length, { ...figureConfigDefault })
+        }
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
