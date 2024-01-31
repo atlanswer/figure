@@ -58,6 +58,7 @@ export const ThemeToggle = () => {
 
   return (
     <button
+      title="Switch theme"
       class="h-8 w-8 rounded p-1 text-neutral-600 hover:text-neutral-800 focus-visible:outline-none focus-visible:ring dark:text-neutral-400 dark:hover:text-neutral-200"
       onClick={toggleTheme}
       aria-label="Toggle light/dark theme"

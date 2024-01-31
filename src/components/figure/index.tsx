@@ -39,6 +39,7 @@ export const FigureArea: Component<{
             }
           />
           <div
+            title="Switch axes scale"
             aria-orientation="horizontal"
             class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-100 p-1 text-neutral-500 shadow dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
           >
@@ -61,6 +62,7 @@ export const FigureArea: Component<{
           </div>
           <Show when={props.numFigures > 1}>
             <button
+              title="Remove figure"
               class="ml-auto"
               onClick={() =>
                 // eslint-disable-next-line solid/reactivity

@@ -128,6 +128,7 @@ const AddSource: Component<{
 
   return (
     <button
+      title="Add new source"
       class="rounded bg-sky-500 p-1 text-white shadow hover:bg-sky-700"
       onClick={addSource}
     >
