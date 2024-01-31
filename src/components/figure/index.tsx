@@ -58,12 +58,21 @@ export const FigureArea = () => {
 
   return (
     <section class="flex flex-col place-items-center gap-4 py-4">
-      <figure class="grid max-w-full grid-flow-col gap-4 overflow-x-auto rounded p-2 font-semibold">
-        <Show when={fcReady()} fallback={<FigureAreaFallback />}>
-          <ViewPlane cutPlane="YZ" sources={sources()} />
-          <ViewPlane cutPlane="XZ" sources={sources()} />
-          <ViewPlane cutPlane="XY" sources={sources()} />
-        </Show>
+      <figure class="flex flex-col gap-2 p-2">
+        <figcaption>
+          <input
+            type="text"
+            placeholder="Figure Title"
+            class="rounded border border-neutral-50 bg-white px-2 py-1 text-lg font-bold text-black focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
+          />
+        </figcaption>
+        <div class="grid max-w-full grid-flow-col gap-4 overflow-x-auto rounded font-semibold">
+          <Show when={fcReady()} fallback={<FigureAreaFallback />}>
+            <ViewPlane cutPlane="YZ" sources={sources()} />
+            <ViewPlane cutPlane="XZ" sources={sources()} />
+            <ViewPlane cutPlane="XY" sources={sources()} />
+          </Show>
+        </div>
       </figure>
       <SourcesPanel sources={sources()} setSources={setSources} />
     </section>
