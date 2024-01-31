@@ -63,7 +63,7 @@ export const FigureArea: Component<{
           <Show when={props.numFigures > 1}>
             <button
               title="Remove figure"
-              class="ml-auto"
+              class="ml-auto text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300"
               onClick={() =>
                 // eslint-disable-next-line solid/reactivity
                 props.setFigureConfig((figureConfigs) => [
