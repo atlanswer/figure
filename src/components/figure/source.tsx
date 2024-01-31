@@ -37,12 +37,15 @@ const SourceCard: Component<{
 
   return (
     <div class="grid grid-flow-row gap-2 rounded bg-neutral-100 p-2 text-black shadow-md outline outline-1 outline-neutral-200 dark:bg-black dark:text-white">
-      <div class="grid grid-flow-col place-content-between gap-2">
+      <div class="grid grid-flow-col place-content-between place-items-center gap-2">
         <span class="text-lg font-semibold">
           {`${props.idx + 1}: ${props.source.type}-dipole`}
         </span>
         <Show when={props.numSource > 1}>
-          <button onClick={() => removeSource(props.idx)}>
+          <button
+            class="rounded bg-neutral-500 text-white hover:bg-sky-500"
+            onClick={() => removeSource(props.idx)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -51,7 +54,7 @@ const SourceCard: Component<{
             >
               <path
                 fill-rule="evenodd"
-                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z"
+                d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z"
                 clip-rule="evenodd"
               />
             </svg>
@@ -59,10 +62,10 @@ const SourceCard: Component<{
         </Show>
       </div>
       <form class="grid grid-cols-2 grid-rows-2 place-items-end gap-2">
-        <div>a</div>
-        <div>b</div>
-        <div>c</div>
-        <div>d</div>
+        <div>Theta</div>
+        <div>Phi</div>
+        <div>Amplitude</div>
+        <div>Phase</div>
       </form>
     </div>
   );
@@ -77,16 +80,19 @@ const AddSourceCard: Component<{ setSources: Setter<Source[]> }> = (props) => {
   };
 
   return (
-    <button class="rounded-full bg-white text-sky-500" onClick={addSource}>
+    <button
+      class="rounded bg-sky-500 p-1.5 text-white shadow hover:bg-sky-700"
+      onClick={addSource}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        class="h-10 w-10"
+        class="h-6 w-6"
       >
         <path
           fill-rule="evenodd"
-          d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
+          d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
           clip-rule="evenodd"
         />
       </svg>
