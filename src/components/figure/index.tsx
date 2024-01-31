@@ -27,7 +27,7 @@ export const FigureArea: Component<{
   return (
     <section class="flex flex-col place-items-center gap-2 py-4">
       <figure class="flex max-w-full flex-col gap-2 p-2">
-        <figcaption class="flex place-items-center gap-4">
+        <figcaption class="flex flex-wrap place-items-center gap-4">
           <input
             type="text"
             name="Figure Title"
