@@ -77,7 +77,7 @@ export const FigureArea = () => {
             type="text"
             name="Figure Title"
             placeholder="Figure Title"
-            class="rounded bg-white px-2 py-1 text-xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
+            class="rounded bg-neutral-100 px-2 py-1 text-xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
             value={title()}
             onChange={(event) => setTitle(event.target.value)}
           />
