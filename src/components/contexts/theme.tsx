@@ -6,6 +6,7 @@ import {
   createRenderEffect,
   createSignal,
   mergeProps,
+  onCleanup,
   useContext,
 } from "solid-js";
 
@@ -83,6 +84,9 @@ export function ThemeProvider(props: ThemeProviderProps) {
         body.classList.add("dark");
         break;
     }
+    onCleanup(() =>
+      prefersDarkScheme.removeEventListener("change", syncSystemTheme),
+    );
   });
 
   return (

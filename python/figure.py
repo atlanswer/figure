@@ -95,8 +95,8 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     y_theta = np.abs(y_theta)
     y_phi = np.abs(y_phi)
     if config["isDb"]:
-        y_theta = np.log10(y_theta)
-        y_phi = np.log10(y_phi)
+        y_theta = 10 * np.log(y_theta)
+        y_phi = 10 * np.log10(y_phi)
 
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
