@@ -1,4 +1,4 @@
-import { type Component, For, Show } from "solid-js";
+import { type Component, For, Show, createUniqueId } from "solid-js";
 import { type SetStoreFunction } from "solid-js/store";
 import { type FigureConfig } from "~/routes/figure";
 import { type Source } from "~/workers/pyodide";
@@ -33,8 +33,10 @@ const SourceCard: Component<{
   figIdx: number;
   idx: number;
 }> = (props) => {
+  const sourceInfos = ["theta", "phi", "amplitude", "phase"] as const;
+
   return (
-    <div class="grid grid-flow-row gap-2 rounded-lg bg-neutral-100 p-2 text-black shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-white dark:outline">
+    <div class="grid grid-flow-row gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
       <div class="grid grid-flow-col place-content-between place-items-center gap-2">
         <span class="flex gap-2 text-lg font-semibold">
           <span class="rounded bg-neutral-500 px-2 text-white">
@@ -106,13 +108,64 @@ const SourceCard: Component<{
         </Show>
       </div>
       <form class="grid grid-cols-2 grid-rows-2 place-items-end gap-2">
-        <div class="flex flex-col">
-          <label>Theta</label>
-          <input type="number" />
-        </div>
-        <div>Phi</div>
-        <div>Amplitude</div>
-        <div>Phase</div>
+        <For each={sourceInfos}>
+          {(info) => {
+            const inputId = createUniqueId();
+            return (
+              <div class="flex flex-col gap-1">
+                <label for={inputId} class="text-sm">
+                  {info[0]?.toUpperCase() + info.slice(1)}
+                </label>
+                <div class="flex">
+                  <button
+                    type="button"
+                    class="rounded-s border border-neutral-500 px-1"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                  <input
+                    id={inputId}
+                    value={props.source[info]}
+                    type="number"
+                    min="0"
+                    max="359"
+                    step={info === "amplitude" ? "0.1" : "1"}
+                    class="w-12 border border-x-0 border-neutral-500 bg-transparent text-center focus-visible:outline-none"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="rounded-e border border-neutral-500 px-1"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            );
+          }}
+        </For>
       </form>
     </div>
   );
