@@ -1,4 +1,5 @@
 import { Suspense, createResource, type Component } from "solid-js";
+import { unwrap } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
 import type { ViewPlaneConfig } from "~/workers/pyodide";
@@ -8,10 +9,14 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   const awaitableFc = getFigureCreator(fcContext);
 
   const [encodedSvgData] = createResource(
-    () => [props.cutPlane, props.isDb, props.sources],
+    () => [props.isDb, JSON.stringify(props.sources)],
     async () => {
       const fc = await awaitableFc;
-      const svgData = await fc.createViewPlane(props);
+      const svgData = await fc.createViewPlane({
+        cutPlane: props.cutPlane,
+        isDb: props.isDb,
+        sources: unwrap(props.sources),
+      });
       return `data:image/svg+xml,${encodeURIComponent(svgData)}`;
     },
   );

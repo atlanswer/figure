@@ -37,13 +37,17 @@ def get_e_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
     return np.sin(theta_rad) * np.cos(phi_rad)
 
 
+x: npt.NDArray[np.float64]
+
+
 def plot_view_plane(config: ViewPlaneConfig) -> str:
     config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
 
+    global x
+    assert isinstance(x, np.ndarray)
+
     # TODO: debug
     print(f"{config=}")
-
-    x = np.linspace(0, 2 * np.pi, 361)
 
     phi = 0
 

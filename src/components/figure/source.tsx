@@ -1,40 +1,41 @@
-import { type Component, For, Show, Setter } from "solid-js";
+import { type Component, For, Show } from "solid-js";
+import { type SetStoreFunction } from "solid-js/store";
+import { type FigureConfig } from "~/routes/figure";
 import { type Source } from "~/workers/pyodide";
 
 export const SourcesPanel: Component<{
   sources: Source[];
-  setSources: Setter<Source[]>;
+  setFigureConfigs: SetStoreFunction<FigureConfig[]>;
+  idx: number;
 }> = (props) => {
   return (
     <div class="flex flex-wrap place-items-center gap-4">
       <For each={props.sources}>
         {(source, idx) => (
           <SourceCard
-            idx={idx()}
             source={source}
-            setSource={props.setSources}
-            numSource={props.sources.length}
+            setFigureConfigs={props.setFigureConfigs}
+            numSources={props.sources.length}
+            figIdx={props.idx}
+            idx={idx()}
           />
         )}
       </For>
-      <AddSourceCard setSources={props.setSources} />
+      <AddSourceCard
+        setFigureConfigs={props.setFigureConfigs}
+        idx={props.idx}
+      />
     </div>
   );
 };
 
 const SourceCard: Component<{
-  idx: number;
   source: Source;
-  setSource: Setter<Source[]>;
-  numSource: number;
+  setFigureConfigs: SetStoreFunction<FigureConfig[]>;
+  numSources: number;
+  figIdx: number;
+  idx: number;
 }> = (props) => {
-  const removeSource = (idx: number) => {
-    props.setSource((sources) => [
-      ...sources.slice(0, idx),
-      ...sources.slice(idx + 1),
-    ]);
-  };
-
   return (
     <div class="grid grid-flow-row gap-2 rounded bg-neutral-100 p-2 text-black shadow-md outline outline-1 outline-neutral-200 dark:bg-black dark:text-white">
       <div class="grid grid-flow-col place-content-between place-items-center gap-2">
@@ -53,11 +54,13 @@ const SourceCard: Component<{
             class="whitespace-nowrap rounded px-2"
             classList={{ active: props.source.type === "E" }}
             onClick={() =>
-              props.setSource((sources) => [
-                ...sources.slice(0, props.idx),
-                { ...sources[props.idx]!, type: "E" },
-                ...sources.slice(props.idx + 1),
-              ])
+              props.setFigureConfigs(
+                props.figIdx,
+                "sources",
+                props.idx,
+                "type",
+                "E",
+              )
             }
           >
             J
@@ -67,20 +70,28 @@ const SourceCard: Component<{
             class="whitespace-nowrap rounded px-2"
             classList={{ active: props.source.type === "M" }}
             onClick={() =>
-              props.setSource((sources) => [
-                ...sources.slice(0, props.idx),
-                { ...sources[props.idx]!, type: "M" },
-                ...sources.slice(props.idx + 1),
-              ])
+              props.setFigureConfigs(
+                props.figIdx,
+                "sources",
+                props.idx,
+                "type",
+                "M",
+              )
             }
           >
             M
           </button>
         </div>
-        <Show when={props.numSource > 1}>
+        <Show when={props.numSources > 1}>
           <button
             class="rounded bg-neutral-500 text-white hover:bg-sky-500"
-            onClick={() => removeSource(props.idx)}
+            onClick={() =>
+              // eslint-disable-next-line solid/reactivity
+              props.setFigureConfigs(props.figIdx, "sources", (sources) => [
+                ...sources.slice(0, props.idx),
+                ...sources.slice(props.idx + 1),
+              ])
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -107,11 +118,14 @@ const SourceCard: Component<{
   );
 };
 
-const AddSourceCard: Component<{ setSources: Setter<Source[]> }> = (props) => {
+const AddSourceCard: Component<{
+  setFigureConfigs: SetStoreFunction<FigureConfig[]>;
+  idx: number;
+}> = (props) => {
   const addSource = () => {
-    props.setSources((source) => [
-      ...source,
-      { type: "M", theta: 90, phi: 0, amplitude: 1, phase: 0 },
+    props.setFigureConfigs(props.idx, "sources", (sources) => [
+      ...sources,
+      { type: "M", theta: 90, phi: 0, amplitude: 1, phase: 0 } satisfies Source,
     ]);
   };
 

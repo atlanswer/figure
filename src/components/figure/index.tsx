@@ -1,73 +1,27 @@
 /* @refresh granular */
 
-import { Show, createEffect, createSignal } from "solid-js";
+import { Show, createSignal, type Component } from "solid-js";
+import { type SetStoreFunction } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
 import { ViewPlane } from "~/components/figure/view-plane";
-import type { Source } from "~/workers/pyodide";
+import { type FigureConfig } from "~/routes/figure";
 import { SourcesPanel } from "./source";
 
-export const FigureArea = () => {
-  const titleKey = "figure-title";
-  const sourceKey = "figure-sources";
-  const isDbKey = "figure-isDb";
-
-  const sourcesDefault: Source[] = [
-    { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
-  ];
-  const isSources = (sources: unknown): sources is Source[] => {
-    if (!(sources instanceof Array)) return false;
-    if (
-      !sources.every(
-        (source) =>
-          "theta" in source &&
-          "phi" in source &&
-          "amplitude" in source &&
-          "phase" in source,
-      )
-    )
-      return false;
-    return true;
-  };
-  const getSourcesFromLocalStorage = () => {
-    const sources = localStorage.getItem(sourceKey);
-    if (sources === null) return sourcesDefault;
-    let parsedSources: unknown;
-    try {
-      parsedSources = JSON.parse(sources);
-    } catch {
-      return sourcesDefault;
-    }
-    if (!isSources(parsedSources)) return sourcesDefault;
-    return parsedSources;
-  };
-
+export const FigureArea: Component<{
+  figureConfig: FigureConfig;
+  setFigureConfig: SetStoreFunction<FigureConfig[]>;
+  idx: number;
+}> = (props) => {
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
   const [fcReady, setFcReady] = createSignal<boolean>(false);
-  const [title, setTitle] = createSignal<string>(
-    localStorage.getItem(titleKey) ?? "",
-  );
-  const [isDb, setIsDb] = createSignal<boolean>(
-    (localStorage.getItem(isDbKey) ?? "true") === "true" ? true : false,
-  );
-  const [sources, setSources] = createSignal<Source[]>(
-    getSourcesFromLocalStorage(),
-  );
 
   awaitableFc.then(
     () => setFcReady(true),
     () => undefined,
   );
-
-  createEffect(() => {
-    localStorage.setItem(titleKey, title());
-  });
-  createEffect(() => {
-    localStorage.setItem(sourceKey, JSON.stringify(sources()));
-  });
-  createEffect(() => localStorage.setItem("figure-isDb", isDb().toString()));
 
   return (
     <section class="flex flex-col place-items-center gap-2 py-4">
@@ -78,8 +32,10 @@ export const FigureArea = () => {
             name="Figure Title"
             placeholder="Figure Title"
             class="rounded bg-neutral-100 px-2 py-1 text-xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
-            value={title()}
-            onChange={(event) => setTitle(event.target.value)}
+            value={props.figureConfig.title}
+            onChange={(event) =>
+              props.setFigureConfig(props.idx, "title", event.target.value)
+            }
           />
           <div
             aria-orientation="horizontal"
@@ -88,16 +44,16 @@ export const FigureArea = () => {
             <button
               aria-selected="true"
               class="whitespace-nowrap rounded px-2"
-              classList={{ active: isDb() }}
-              onClick={() => setIsDb(true)}
+              classList={{ active: props.figureConfig.isDb }}
+              onClick={() => props.setFigureConfig(props.idx, "isDb", true)}
             >
               dB
             </button>
             <button
               aria-selected="false"
               class="whitespace-nowrap rounded px-2"
-              classList={{ active: !isDb() }}
-              onClick={() => setIsDb(false)}
+              classList={{ active: !props.figureConfig.isDb }}
+              onClick={() => props.setFigureConfig(props.idx, "isDb", false)}
             >
               Linear
             </button>
@@ -105,13 +61,29 @@ export const FigureArea = () => {
         </figcaption>
         <div class="grid grid-flow-col gap-4 overflow-x-auto rounded font-semibold">
           <Show when={fcReady()} fallback={<FigureAreaFallback />}>
-            <ViewPlane cutPlane="YZ" isDb={isDb()} sources={sources()} />
-            <ViewPlane cutPlane="XZ" isDb={isDb()} sources={sources()} />
-            <ViewPlane cutPlane="XY" isDb={isDb()} sources={sources()} />
+            <ViewPlane
+              cutPlane="YZ"
+              isDb={props.figureConfig.isDb}
+              sources={props.figureConfig.sources}
+            />
+            <ViewPlane
+              cutPlane="XZ"
+              isDb={props.figureConfig.isDb}
+              sources={props.figureConfig.sources}
+            />
+            <ViewPlane
+              cutPlane="XY"
+              isDb={props.figureConfig.isDb}
+              sources={props.figureConfig.sources}
+            />
           </Show>
         </div>
       </figure>
-      <SourcesPanel sources={sources()} setSources={setSources} />
+      <SourcesPanel
+        sources={props.figureConfig.sources}
+        setFigureConfigs={props.setFigureConfig}
+        idx={props.idx}
+      />
     </section>
   );
 };
