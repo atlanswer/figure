@@ -13,7 +13,7 @@
       "headers": [
         {
           "key": "cache-control",
-          "value": "public, immutable, max-age=604800, s-maxage=86400"
+          "value": "public, immutable, max-age=1209600, s-maxage=604800"
         }
       ]
     }

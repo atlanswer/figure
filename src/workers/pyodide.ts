@@ -5,7 +5,7 @@ import type { PyCallable } from "pyodide/ffi";
 import pyCodeInitialization from "python/initialization.py?raw";
 import pyCodePlotViewPlane from "python/figure.py?raw";
 
-console.debug("Starting Pyodide web worker...");
+// console.debug("Starting Pyodide web worker...");
 
 /* Load Pyodide */
 
@@ -65,7 +65,7 @@ export class FigureCreator {
   }
 }
 
-console.debug("Pyodide web worker initialized.");
+// console.debug("Pyodide web worker initialized.");
 
 Comlink.expose(FigureCreator);
 postMessage("ready");
