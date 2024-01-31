@@ -131,7 +131,11 @@ const SourceCard: Component<{
                             prev <= 1 ?
                               prev
                             : prev - 1
-                          : prev - 90 < 0 ? prev + 270
+                          : info === "theta" ?
+                            prev < 90 ?
+                              prev + 90
+                            : prev - 90
+                          : prev < 90 ? prev + 270
                           : prev - 90,
                       )
                     }
@@ -154,7 +158,7 @@ const SourceCard: Component<{
                     value={props.source[info]}
                     type="number"
                     min="0"
-                    max="359"
+                    max={info === "theta" ? "180" : "359"}
                     step={info === "amplitude" ? "0.1" : "1"}
                     class="w-12 border border-x-0 border-neutral-500 bg-transparent text-center focus-visible:outline-none"
                     required
@@ -179,7 +183,11 @@ const SourceCard: Component<{
                         info,
                         (prev) =>
                           info === "amplitude" ? prev + 1
-                          : prev + 90 >= 360 ? prev - 270
+                          : info === "theta" ?
+                            prev > 90 ?
+                              prev - 90
+                            : prev + 90
+                          : prev >= 270 ? prev - 270
                           : prev + 90,
                       )
                     }

@@ -1,4 +1,4 @@
-# spell-checker:words rlim, rticks, rscale
+# spell-checker:words rlim, rticks, rscale, arange
 
 import io
 from typing import Literal, TypedDict, cast
@@ -26,15 +26,34 @@ class ViewPlaneConfig(TypedDict):
     sources: list[Source]
 
 
-def get_m_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
-    phi_rad = (phi + source["phi"]) / 180 * np.pi
-    return np.ones_like(theta) * np.sin(phi_rad)
+def get_m_theta(
+    theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
+):
+    phi_rad = phi + source["phi"] / 180 * np.pi
+    return np.sin(phi_rad)
 
 
-def get_e_theta(theta: npt.NDArray[np.float64], phi: float, source: Source):
+def get_m_phi(
+    theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
+):
     theta_rad = theta + source["theta"] / 180 * np.pi
-    phi_rad = (phi + source["phi"]) / 180 * np.pi
+    phi_rad = phi + source["phi"] / 180 * np.pi
+    return -np.cos(theta_rad) * np.cos(phi_rad)
+
+
+def get_e_theta(
+    theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
+):
+    theta_rad = theta + source["theta"] / 180 * np.pi
+    phi_rad = phi + source["phi"] / 180 * np.pi
     return np.sin(theta_rad) * np.cos(phi_rad)
+
+
+def get_e_phi(
+    theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
+):
+    phi_rad = phi + source["phi"] / 180 * np.pi
+    return -np.sin(phi_rad)
 
 
 x: npt.NDArray[np.float64]
@@ -49,36 +68,47 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     # TODO: debug
     print(f"{config=}")
 
-    phi = 0
+    phi = np.zeros_like(x)
+    theta = np.pi / 2 * np.ones_like(x)
 
     match config["cutPlane"]:
         case "YZ":
-            phi = 90
+            theta = x
+            phi = np.pi / 2 * np.ones_like(x)
         case "XZ":
-            phi = 0
+            theta = x
         case "XY":
-            ...
+            phi = x
 
     y_theta = np.zeros_like(x)
+    y_phi = np.zeros_like(x)
 
     for s in config["sources"]:
         match s["type"]:
             case "E":
-                y_theta += get_e_theta(x, phi, s)
+                y_theta += s["amplitude"] * get_e_theta(theta, phi, s)
+                y_phi += s["amplitude"] * get_e_phi(theta, phi, s)
             case "M":
-                y_theta += get_m_theta(x, phi, s)
+                y_theta += s["amplitude"] * get_m_theta(theta, phi, s)
+                y_phi += s["amplitude"] * get_m_phi(theta, phi, s)
 
-    y_co = np.abs(y_theta)
+    y_theta = np.abs(y_theta)
+    y_phi = np.abs(y_phi)
     if config["isDb"]:
-        y_co = np.log10(y_co)
+        y_theta = np.log10(y_theta)
+        y_phi = np.log10(y_phi)
 
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
+    # ax.xaxis.set_zorder(-1)
 
-    ax.plot(x, y_co)
+    ax.plot(x, y_theta)
+    ax.plot(x, y_phi)
     if config["isDb"]:
         ax.set_rlim(-41, 11)
-    # ax.set_rticks([])
+    else:
+        ax.set_rlim(0, len(config["sources"]))
+        ax.set_rticks(np.arange(0, len(config["sources"]) + 0.1, 0.5))
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
     # ax.tick_params(pad=0)
