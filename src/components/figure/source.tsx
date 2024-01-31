@@ -38,74 +38,76 @@ const SourceCard: Component<{
   return (
     <div class="grid grid-flow-row gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
       <div class="grid grid-flow-col place-content-between place-items-center gap-2">
-        <span class="flex gap-2 text-lg font-semibold">
+        <span class="flex place-items-center gap-2 text-lg font-semibold">
           <span class="rounded bg-neutral-500 px-2 text-white">
             {props.idx + 1}
           </span>
-          <span class="w-20">{props.source.type}-dipole</span>
+          <span class="w-fit">{props.source.type}-dipole</span>
         </span>
-        <div
-          aria-orientation="horizontal"
-          class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-200 p-1 font-bold text-neutral-500 dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
-        >
-          <button
-            aria-selected="true"
-            class="whitespace-nowrap rounded px-2"
-            classList={{ active: props.source.type === "E" }}
-            onClick={() =>
-              props.setFigureConfigs(
-                props.figIdx,
-                "sources",
-                props.idx,
-                "type",
-                "E",
-              )
-            }
+        <span class="flex place-items-center gap-2">
+          <span
+            aria-orientation="horizontal"
+            class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-200 p-1 font-bold text-neutral-500 dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
           >
-            J
-          </button>
-          <button
-            aria-selected="false"
-            class="whitespace-nowrap rounded px-2"
-            classList={{ active: props.source.type === "M" }}
-            onClick={() =>
-              props.setFigureConfigs(
-                props.figIdx,
-                "sources",
-                props.idx,
-                "type",
-                "M",
-              )
-            }
-          >
-            M
-          </button>
-        </div>
-        <Show when={props.numSources > 1}>
-          <button
-            class="rounded bg-neutral-500 text-white hover:bg-sky-500"
-            onClick={() =>
-              // eslint-disable-next-line solid/reactivity
-              props.setFigureConfigs(props.figIdx, "sources", (sources) => [
-                ...sources.slice(0, props.idx),
-                ...sources.slice(props.idx + 1),
-              ])
-            }
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="h-6 w-6"
+            <button
+              aria-selected="true"
+              class="whitespace-nowrap rounded px-2"
+              classList={{ active: props.source.type === "E" }}
+              onClick={() =>
+                props.setFigureConfigs(
+                  props.figIdx,
+                  "sources",
+                  props.idx,
+                  "type",
+                  "E",
+                )
+              }
             >
-              <path
-                fill-rule="evenodd"
-                d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
-        </Show>
+              J
+            </button>
+            <button
+              aria-selected="false"
+              class="whitespace-nowrap rounded px-2"
+              classList={{ active: props.source.type === "M" }}
+              onClick={() =>
+                props.setFigureConfigs(
+                  props.figIdx,
+                  "sources",
+                  props.idx,
+                  "type",
+                  "M",
+                )
+              }
+            >
+              M
+            </button>
+          </span>
+          <Show when={props.numSources > 1}>
+            <button
+              class="rounded bg-neutral-500 text-white hover:bg-sky-500"
+              onClick={() =>
+                // eslint-disable-next-line solid/reactivity
+                props.setFigureConfigs(props.figIdx, "sources", (sources) => [
+                  ...sources.slice(0, props.idx),
+                  ...sources.slice(props.idx + 1),
+                ])
+              }
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="h-6 w-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </Show>
+        </span>
       </div>
       <form class="grid grid-cols-2 grid-rows-2 place-items-end gap-2">
         <For each={sourceInfos}>
