@@ -38,11 +38,13 @@ const SourceCard: Component<{
   return (
     <div class="grid grid-flow-row gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
       <div class="grid grid-flow-col place-content-between place-items-center gap-2">
-        <span class="flex place-items-center gap-2 text-lg font-semibold">
+        <span class="flex place-items-center gap-2 ">
           <span class="rounded bg-neutral-500 px-2 text-white">
             {props.idx + 1}
           </span>
-          <span class="w-fit">{props.source.type}-dipole</span>
+          <span class="w-fit text-lg font-semibold">
+            {props.source.type}-dipole
+          </span>
         </span>
         <span class="flex place-items-center gap-2">
           <span
