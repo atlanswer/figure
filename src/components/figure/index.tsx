@@ -8,8 +8,10 @@ import type { Source } from "~/workers/pyodide";
 import { SourcesPanel } from "./source";
 
 export const FigureArea = () => {
+  const titleKey = "figure-title";
   const sourceKey = "figure-sources";
   const isDbKey = "figure-isDb";
+
   const sourcesDefault: Source[] = [
     { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
   ];
@@ -44,6 +46,9 @@ export const FigureArea = () => {
   const awaitableFc = getFigureCreator(fcContext);
 
   const [fcReady, setFcReady] = createSignal<boolean>(false);
+  const [title, setTitle] = createSignal<string>(
+    localStorage.getItem(titleKey) ?? "",
+  );
   const [isDb, setIsDb] = createSignal<boolean>(
     (localStorage.getItem(isDbKey) ?? "true") === "true" ? true : false,
   );
@@ -56,6 +61,9 @@ export const FigureArea = () => {
     () => undefined,
   );
 
+  createEffect(() => {
+    localStorage.setItem(titleKey, title());
+  });
   createEffect(() => {
     localStorage.setItem(sourceKey, JSON.stringify(sources()));
   });
@@ -70,6 +78,8 @@ export const FigureArea = () => {
             name="Figure Title"
             placeholder="Figure Title"
             class="rounded bg-white px-2 py-1 text-xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
+            value={title()}
+            onChange={(event) => setTitle(event.target.value)}
           />
           <div
             aria-orientation="horizontal"
