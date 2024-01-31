@@ -100,10 +100,9 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
 
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
-    # ax.xaxis.set_zorder(-1)
 
-    ax.plot(x, y_theta)
-    ax.plot(x, y_phi)
+    ax.plot(x, y_theta, clip_on=False)
+    ax.plot(x, y_phi, clip_on=False)
     if config["isDb"]:
         ax.set_rlim(-41, 11)
     else:
