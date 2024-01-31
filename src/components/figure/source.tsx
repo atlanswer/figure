@@ -21,10 +21,7 @@ export const SourcesPanel: Component<{
           />
         )}
       </For>
-      <AddSourceCard
-        setFigureConfigs={props.setFigureConfigs}
-        idx={props.idx}
-      />
+      <AddSource setFigureConfigs={props.setFigureConfigs} idx={props.idx} />
     </div>
   );
 };
@@ -37,10 +34,10 @@ const SourceCard: Component<{
   idx: number;
 }> = (props) => {
   return (
-    <div class="grid grid-flow-row gap-2 rounded bg-neutral-100 p-2 text-black shadow-md outline outline-1 outline-neutral-200 dark:bg-black dark:text-white">
+    <div class="grid grid-flow-row gap-2 rounded-lg bg-neutral-100 p-2 text-black shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-white dark:outline">
       <div class="grid grid-flow-col place-content-between place-items-center gap-2">
         <span class="flex gap-2 text-lg font-semibold">
-          <span class="rounded bg-sky-500 px-2 text-white">
+          <span class="rounded bg-neutral-500 px-2 text-white">
             {props.idx + 1}
           </span>
           <span class="w-20">{props.source.type}-dipole</span>
@@ -118,7 +115,7 @@ const SourceCard: Component<{
   );
 };
 
-const AddSourceCard: Component<{
+const AddSource: Component<{
   setFigureConfigs: SetStoreFunction<FigureConfig[]>;
   idx: number;
 }> = (props) => {
@@ -131,7 +128,7 @@ const AddSourceCard: Component<{
 
   return (
     <button
-      class="rounded bg-sky-500 p-1.5 text-white shadow hover:bg-sky-700"
+      class="rounded bg-sky-500 p-1 text-white shadow hover:bg-sky-700"
       onClick={addSource}
     >
       <svg

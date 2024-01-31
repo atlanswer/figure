@@ -9,6 +9,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   const awaitableFc = getFigureCreator(fcContext);
 
   const [encodedSvgData] = createResource(
+    // TODO: optimize here
     () => [props.isDb, JSON.stringify(props.sources)],
     async () => {
       const fc = await awaitableFc;
