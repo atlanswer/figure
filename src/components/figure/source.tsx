@@ -38,9 +38,45 @@ const SourceCard: Component<{
   return (
     <div class="grid grid-flow-row gap-2 rounded bg-neutral-100 p-2 text-black shadow-md outline outline-1 outline-neutral-200 dark:bg-black dark:text-white">
       <div class="grid grid-flow-col place-content-between place-items-center gap-2">
-        <span class="text-lg font-semibold">
-          {`${props.idx + 1}: ${props.source.type}-dipole`}
+        <span class="flex gap-2 text-lg font-semibold">
+          <span class="rounded bg-sky-500 px-2 text-white">
+            {props.idx + 1}
+          </span>
+          <span class="w-20">{props.source.type}-dipole</span>
         </span>
+        <div
+          aria-orientation="horizontal"
+          class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-200 p-1 font-bold text-neutral-500 dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
+        >
+          <button
+            aria-selected="true"
+            class="whitespace-nowrap rounded px-2"
+            classList={{ active: props.source.type === "E" }}
+            onClick={() =>
+              props.setSource((sources) => [
+                ...sources.slice(0, props.idx),
+                { ...sources[props.idx]!, type: "E" },
+                ...sources.slice(props.idx + 1),
+              ])
+            }
+          >
+            J
+          </button>
+          <button
+            aria-selected="false"
+            class="whitespace-nowrap rounded px-2"
+            classList={{ active: props.source.type === "M" }}
+            onClick={() =>
+              props.setSource((sources) => [
+                ...sources.slice(0, props.idx),
+                { ...sources[props.idx]!, type: "M" },
+                ...sources.slice(props.idx + 1),
+              ])
+            }
+          >
+            M
+          </button>
+        </div>
         <Show when={props.numSource > 1}>
           <button
             class="rounded bg-neutral-500 text-white hover:bg-sky-500"
