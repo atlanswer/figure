@@ -27,7 +27,7 @@ const Navigator = () => {
           {(route) => (
             <A
               href={route.route}
-              class="inline-block border-sky-500 px-1 py-4 [&.active]:border-b-2 [&.inactive]:hover:border-b-2 [&.inactive]:hover:border-neutral-300 dark:[&.inactive]:hover:border-neutral-700"
+              class="inline-block border-sky-500 px-1 py-4 focus-visible:outline-none focus-visible:ring [&.active]:border-b-2 [&.inactive]:hover:border-b-2 [&.inactive]:hover:border-neutral-300 dark:[&.inactive]:hover:border-neutral-700"
               end
             >
               {route.name}
