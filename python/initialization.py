@@ -1,8 +1,11 @@
+import logging
 import sys
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+
+logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
 
 mpl.rcParams["backend"] = "SVG"
 if sys.platform == "emscripten":
