@@ -65,9 +65,6 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     global x
     assert isinstance(x, np.ndarray)
 
-    # TODO: debug
-    print(f"{config=}")
-
     phi = np.zeros_like(x)
     theta = np.pi / 2 * np.ones_like(x)
 
