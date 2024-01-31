@@ -106,7 +106,10 @@ const SourceCard: Component<{
         </Show>
       </div>
       <form class="grid grid-cols-2 grid-rows-2 place-items-end gap-2">
-        <div>Theta</div>
+        <div class="flex flex-col">
+          <label>Theta</label>
+          <input type="number" />
+        </div>
         <div>Phi</div>
         <div>Amplitude</div>
         <div>Phase</div>

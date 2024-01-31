@@ -42,8 +42,8 @@ export const AboutPage = () => (
     <h2>Privacy</h2>
     <p>
       This web app does not collect, store, or share any private data. The only
-      data it processes are files you choose to upload and your system theme,
-      which are stored locally in your browser.
+      data it processes are the files you choose to upload and your system
+      theme, which are stored locally in your browser.
     </p>
     <p>
       Analytics that contains your infomation are still being processed by the
