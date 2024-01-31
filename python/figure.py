@@ -1,4 +1,4 @@
-# spell-checker:words rlim, rticks
+# spell-checker:words rlim, rticks, rscale
 
 import io
 from typing import Literal, TypedDict, cast
@@ -22,6 +22,7 @@ CutPlane = Literal["XZ", "YZ", "XY"]
 
 class ViewPlaneConfig(TypedDict):
     cutPlane: CutPlane
+    isDb: bool
     sources: list[Source]
 
 
@@ -64,13 +65,14 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
                 y_theta += get_m_theta(x, phi, s)
 
     y_co = np.abs(y_theta)
-    # r_x = np.abs()
+    if config["isDb"]:
+        y_co = np.log10(y_co)
 
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
 
-    # ax.set_rlim(0, 1)
     ax.plot(x, y_co)
+    # ax.set_rlim(0, 1)
     # ax.set_rticks([])
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)

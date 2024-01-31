@@ -37,6 +37,7 @@ export type CutPlane = "XZ" | "YZ" | "XY";
 
 export interface ViewPlaneConfig {
   cutPlane: CutPlane;
+  isDb: boolean;
   sources: Source[];
 }
 

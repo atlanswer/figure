@@ -9,6 +9,7 @@ import { SourcesPanel } from "./source";
 
 export const FigureArea = () => {
   const sourceKey = "figure-sources";
+  const isDbKey = "figure-isDb";
   const sourcesDefault: Source[] = [
     { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
   ];
@@ -42,7 +43,10 @@ export const FigureArea = () => {
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
-  const [fcReady, setFcReady] = createSignal(false);
+  const [fcReady, setFcReady] = createSignal<boolean>(false);
+  const [isDb, setIsDb] = createSignal<boolean>(
+    (localStorage.getItem(isDbKey) ?? "true") === "true" ? true : false,
+  );
   const [sources, setSources] = createSignal<Source[]>(
     getSourcesFromLocalStorage(),
   );
@@ -53,24 +57,47 @@ export const FigureArea = () => {
   );
 
   createEffect(() => {
-    localStorage.setItem("figure-sources", JSON.stringify(sources()));
+    localStorage.setItem(sourceKey, JSON.stringify(sources()));
   });
+  createEffect(() => localStorage.setItem("figure-isDb", isDb().toString()));
 
   return (
-    <section class="flex flex-col place-items-center gap-4 py-4">
-      <figure class="flex flex-col gap-2 p-2">
-        <figcaption>
+    <section class="flex flex-col place-items-center gap-2 py-4">
+      <figure class="flex max-w-full flex-col gap-2 p-2">
+        <figcaption class="flex place-items-center gap-4">
           <input
             type="text"
+            name="Figure Title"
             placeholder="Figure Title"
             class="rounded bg-white px-2 py-1 text-xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
           />
+          <div
+            aria-orientation="horizontal"
+            class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-100 p-1 text-neutral-500 shadow dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
+          >
+            <button
+              aria-selected="true"
+              class="whitespace-nowrap rounded px-2"
+              classList={{ active: isDb() }}
+              onClick={() => setIsDb(true)}
+            >
+              dB
+            </button>
+            <button
+              aria-selected="false"
+              class="whitespace-nowrap rounded px-2"
+              classList={{ active: !isDb() }}
+              onClick={() => setIsDb(false)}
+            >
+              Linear
+            </button>
+          </div>
         </figcaption>
-        <div class="grid max-w-full grid-flow-col gap-4 overflow-x-auto rounded font-semibold">
+        <div class="grid grid-flow-col gap-4 overflow-x-auto rounded font-semibold">
           <Show when={fcReady()} fallback={<FigureAreaFallback />}>
-            <ViewPlane cutPlane="YZ" sources={sources()} />
-            <ViewPlane cutPlane="XZ" sources={sources()} />
-            <ViewPlane cutPlane="XY" sources={sources()} />
+            <ViewPlane cutPlane="YZ" isDb={isDb()} sources={sources()} />
+            <ViewPlane cutPlane="XZ" isDb={isDb()} sources={sources()} />
+            <ViewPlane cutPlane="XY" isDb={isDb()} sources={sources()} />
           </Show>
         </div>
       </figure>
