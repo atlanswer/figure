@@ -120,6 +120,21 @@ const SourceCard: Component<{
                   <button
                     type="button"
                     class="rounded-s border border-neutral-500 px-1"
+                    onClick={() =>
+                      props.setFigureConfigs(
+                        props.figIdx,
+                        "sources",
+                        props.idx,
+                        info,
+                        (prev) =>
+                          info === "amplitude" ?
+                            prev <= 1 ?
+                              prev
+                            : prev - 1
+                          : prev - 90 < 0 ? prev + 270
+                          : prev - 90,
+                      )
+                    }
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +144,7 @@ const SourceCard: Component<{
                     >
                       <path
                         fill-rule="evenodd"
-                        d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z"
+                        d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
                         clip-rule="evenodd"
                       />
                     </svg>
@@ -143,10 +158,31 @@ const SourceCard: Component<{
                     step={info === "amplitude" ? "0.1" : "1"}
                     class="w-12 border border-x-0 border-neutral-500 bg-transparent text-center focus-visible:outline-none"
                     required
+                    onChange={(event) =>
+                      props.setFigureConfigs(
+                        props.figIdx,
+                        "sources",
+                        props.idx,
+                        info,
+                        +event.target.value,
+                      )
+                    }
                   />
                   <button
                     type="button"
                     class="rounded-e border border-neutral-500 px-1"
+                    onClick={() =>
+                      props.setFigureConfigs(
+                        props.figIdx,
+                        "sources",
+                        props.idx,
+                        info,
+                        (prev) =>
+                          info === "amplitude" ? prev + 1
+                          : prev + 90 >= 360 ? prev - 270
+                          : prev + 90,
+                      )
+                    }
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +192,7 @@ const SourceCard: Component<{
                     >
                       <path
                         fill-rule="evenodd"
-                        d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                        d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z"
                         clip-rule="evenodd"
                       />
                     </svg>
