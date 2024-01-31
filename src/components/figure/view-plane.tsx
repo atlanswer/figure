@@ -2,7 +2,7 @@ import { Suspense, createResource, type Component, Show } from "solid-js";
 import { unwrap } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
-import type { ViewPlaneConfig } from "~/workers/pyodide";
+import type { CutPlane, ViewPlaneConfig } from "~/workers/pyodide";
 
 export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   const fcContext = useFigureCreator();
@@ -22,11 +22,18 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
     },
   );
 
+  const cutPlaneVar: { [K in CutPlane]: string } = {
+    XZ: "θ",
+    YZ: "θ",
+    XY: "ϕ",
+  };
+
   return (
     <div class="flex flex-col gap-2 rounded bg-neutral-100 p-3 text-black shadow-md dark:bg-neutral-200 dark:shadow-none">
       <div class="flex place-content-between gap-2">
         <span class="text-lg">
-          <em>{props.cutPlane}</em>-Plane
+          <em>{props.cutPlane}</em>-Plane<span> </span>(
+          <em>{cutPlaneVar[props.cutPlane]}</em>)
         </span>
         <Show when={encodedSvgData.loading}>
           <svg

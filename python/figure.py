@@ -30,7 +30,7 @@ def get_m_theta(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
     phi_rad = phi + source["phi"] / 180 * np.pi
-    return np.sin(phi_rad)
+    return -np.sin(phi_rad) * source["amplitude"]
 
 
 def get_m_phi(
@@ -38,7 +38,7 @@ def get_m_phi(
 ):
     theta_rad = theta + source["theta"] / 180 * np.pi
     phi_rad = phi + source["phi"] / 180 * np.pi
-    return -np.cos(theta_rad) * np.cos(phi_rad)
+    return -np.sin(theta_rad) * np.cos(phi_rad) * source["amplitude"]
 
 
 def get_e_theta(
@@ -46,14 +46,14 @@ def get_e_theta(
 ):
     theta_rad = theta + source["theta"] / 180 * np.pi
     phi_rad = phi + source["phi"] / 180 * np.pi
-    return np.sin(theta_rad) * np.cos(phi_rad)
+    return np.sin(theta_rad) * np.cos(phi_rad) * source["amplitude"]
 
 
 def get_e_phi(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
     phi_rad = phi + source["phi"] / 180 * np.pi
-    return -np.sin(phi_rad)
+    return -np.sin(phi_rad) * source["amplitude"]
 
 
 x: npt.NDArray[np.float64]
@@ -86,11 +86,11 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     for s in config["sources"]:
         match s["type"]:
             case "E":
-                y_theta += s["amplitude"] * get_e_theta(theta, phi, s)
-                y_phi += s["amplitude"] * get_e_phi(theta, phi, s)
+                y_theta += get_e_theta(theta, phi, s)
+                y_phi += get_e_phi(theta, phi, s)
             case "M":
-                y_theta += s["amplitude"] * get_m_theta(theta, phi, s)
-                y_phi += s["amplitude"] * get_m_phi(theta, phi, s)
+                y_theta += get_m_theta(theta, phi, s)
+                y_phi += get_m_phi(theta, phi, s)
 
     y_theta = np.abs(y_theta)
     y_phi = np.abs(y_phi)
