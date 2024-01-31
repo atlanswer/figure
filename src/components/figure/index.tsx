@@ -63,7 +63,7 @@ export const FigureArea = () => {
           <input
             type="text"
             placeholder="Figure Title"
-            class="rounded border border-neutral-50 bg-white px-2 py-1 text-lg font-bold text-black focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
+            class="rounded bg-white px-2 py-1 text-xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
           />
         </figcaption>
         <div class="grid max-w-full grid-flow-col gap-4 overflow-x-auto rounded font-semibold">
