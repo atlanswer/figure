@@ -1,5 +1,6 @@
 /* @refresh granular */
 
+import { Title } from "@solidjs/meta";
 import { type Component, For, createEffect, on } from "solid-js";
 import { createStore } from "solid-js/store";
 import { FigureArea } from "~/components/figure";
@@ -110,6 +111,7 @@ export const FigurePage = () => {
 
   return (
     <div class="grid grid-cols-1 place-content-stretch divide-y-2 divide-neutral-200 px-4 pb-8 dark:divide-neutral-800 sm:px-6 lg:px-8 lg:pb-16">
+      <Title>Figure - AntCal</Title>
       <For each={figureConfigs}>
         {(figureConfig, idx) => (
           <FigureArea
