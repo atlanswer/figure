@@ -31,31 +31,45 @@ class ViewPlaneConfig(TypedDict):
 def get_m_theta(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
-    phi_rad = phi + source["phi"] / 180 * np.pi
-    return -np.sin(phi_rad) * source["amplitude"]
+    phi_rad = phi + np.radians(source["phi"])
+    phase = np.radians(source["phase"])
+    return -np.sin(phi_rad) * source["amplitude"] * np.cos(phase)
 
 
 def get_m_phi(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
-    theta_rad = theta + source["theta"] / 180 * np.pi
-    phi_rad = phi + source["phi"] / 180 * np.pi
-    return -np.sin(theta_rad) * np.cos(phi_rad) * source["amplitude"]
+    theta_rad = theta + np.radians(source["theta"])
+    phi_rad = phi + np.radians(source["phi"])
+    phase = np.radians(source["phase"])
+    return (
+        -np.sin(theta_rad)
+        * np.cos(phi_rad)
+        * source["amplitude"]
+        * np.cos(phase)
+    )
 
 
 def get_e_theta(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
-    theta_rad = theta + source["theta"] / 180 * np.pi
-    phi_rad = phi + source["phi"] / 180 * np.pi
-    return np.sin(theta_rad) * np.cos(phi_rad) * source["amplitude"]
+    theta_rad = theta + np.radians(source["theta"])
+    phi_rad = phi + np.radians(source["phi"])
+    phase = np.radians(source["phase"])
+    return (
+        np.sin(theta_rad)
+        * np.cos(phi_rad)
+        * source["amplitude"]
+        * np.cos(phase)
+    )
 
 
 def get_e_phi(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
-    phi_rad = phi + source["phi"] / 180 * np.pi
-    return -np.sin(phi_rad) * source["amplitude"]
+    phi_rad = phi + np.radians(source["phi"])
+    phase = np.radians(source["phase"])
+    return -np.sin(phi_rad) * source["amplitude"] * np.cos(phase)
 
 
 x: npt.NDArray[np.float64]
