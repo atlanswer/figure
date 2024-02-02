@@ -129,7 +129,7 @@ export const FigureArea: Component<{
             }
           >
             <span class="before:inline-block before:h-1 before:w-12 before:rounded before:bg-[#1f77b4] before:align-middle">
-              <span> </span>Gain Total <em>θ</em>
+              <span> </span>Gain Total
             </span>
           </Show>
         </figcaption>

@@ -1,3 +1,6 @@
+/* @refresh granular */
+// spell-checker:words HPBW
+
 import { Suspense, createResource, type Component, Show } from "solid-js";
 import { unwrap } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
@@ -8,18 +11,22 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
 
-  const [encodedSvgData] = createResource(
+  const [viewPlaneData] = createResource(
     // TODO: optimize here
     () => [props.isDb, props.isGainTotal, JSON.stringify(props.sources)],
     async () => {
       const fc = await awaitableFc;
-      const svgData = await fc.createViewPlane({
+      const [maxD, hpbw, svgData] = await fc.createViewPlane({
         cutPlane: props.cutPlane,
         isDb: props.isDb,
         isGainTotal: props.isGainTotal,
         sources: unwrap(props.sources),
       });
-      return `data:image/svg+xml,${encodeURIComponent(svgData)}`;
+      return [
+        maxD,
+        hpbw,
+        `data:image/svg+xml,${encodeURIComponent(svgData)}`,
+      ] as const;
     },
   );
 
@@ -36,7 +43,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
           <em>{props.cutPlane}</em>-Plane<span> </span>(
           <em>{cutPlaneVar[props.cutPlane]}</em>)
         </span>
-        <Show when={encodedSvgData.loading}>
+        <Show when={viewPlaneData.loading}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -49,12 +56,16 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
           </svg>
         </Show>
       </div>
+      <div class="flex place-content-between gap-4">
+        <span>Max Direction: {viewPlaneData.latest?.[0] ?? "-"}°</span>
+        <span>HPBW: {"-"}°</span>
+      </div>
       <div class="flex h-[252px] w-[252px] flex-wrap place-content-center rounded outline outline-1 outline-neutral-100">
         <Suspense fallback={<ViewPlaneLoading />}>
           <img
             width="252"
             height="252"
-            src={encodedSvgData.latest ?? ""}
+            src={viewPlaneData.latest?.[2] ?? ""}
             alt={`${props.cutPlane} Plane`}
           />
         </Suspense>

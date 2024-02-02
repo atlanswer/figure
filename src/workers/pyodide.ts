@@ -1,7 +1,8 @@
 /* @refresh granular */
+// spell-checker:words HPBW
 
 import * as Comlink from "comlink";
-import type { PyCallable } from "pyodide/ffi";
+import type { PyCallable, PySequence } from "pyodide/ffi";
 import pyCodeInitialization from "python/initialization.py?raw";
 import pyCodePlotViewPlane from "python/figure.py?raw";
 
@@ -53,16 +54,18 @@ export class FigureCreator {
     return this.pyodide.version;
   }
 
-  createViewPlane(config: ViewPlaneConfig) {
+  createViewPlane(config: ViewPlaneConfig): [number, number, string] {
     const pyPlotViewPlane = this.pyodide.runPython(
       pyCodePlotViewPlane,
     ) as PyCallable;
 
-    const svgData = pyPlotViewPlane(config) as string;
+    const pyResult = pyPlotViewPlane(config) as PySequence;
+    const result = pyResult.toJs() as [number, number, string];
 
     pyPlotViewPlane.destroy();
+    pyResult.destroy();
 
-    return svgData;
+    return result;
   }
 }
 

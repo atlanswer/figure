@@ -1,4 +1,4 @@
-# spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis
+# spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis, intp
 
 import io
 from typing import Literal, TypedDict, cast
@@ -75,7 +75,7 @@ def get_e_phi(
 x: npt.NDArray[np.float64]
 
 
-def plot_view_plane(config: ViewPlaneConfig) -> str:
+def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
 
     global x
@@ -108,17 +108,17 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
 
+    y_total = np.sqrt(y_theta**2 + y_phi**2)
+    y_theta = np.abs(y_theta)
+    y_phi = np.abs(y_phi)
+    if config["isDb"]:
+        y_total = 10 * np.log10(y_total)
+        y_theta = 10 * np.log10(y_theta)
+        y_phi = 10 * np.log10(y_phi)
+
     if config["isGainTotal"]:
-        y_total = np.sqrt(y_theta**2 + y_phi**2)
-        if config["isDb"]:
-            y_total = 10 * np.log10(y_total)
         ax.plot(x, y_total, clip_on=False)
     else:
-        y_theta = np.abs(y_theta)
-        y_phi = np.abs(y_phi)
-        if config["isDb"]:
-            y_theta = 10 * np.log10(y_theta)
-            y_phi = 10 * np.log10(y_phi)
         ax.plot(x, y_theta, clip_on=False)
         ax.plot(x, y_phi, clip_on=False)
 
@@ -140,7 +140,10 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
     plt.close(fig)
     f.seek(0)
 
-    return f.getvalue().decode()
+    peak = np.max(y_total)
+    peak_idx = np.argmax(y_total)
+
+    return int(peak_idx), 0, f.getvalue().decode()
 
 
 plot_view_plane  # pyright: ignore[reportUnusedExpression] # noqa: B018
