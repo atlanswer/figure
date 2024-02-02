@@ -103,7 +103,7 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
         y_theta = np.abs(y_theta)
         y_phi = np.abs(y_phi)
         if config["isDb"]:
-            y_theta = 10 * np.log(y_theta)
+            y_theta = 10 * np.log10(y_theta)
             y_phi = 10 * np.log10(y_phi)
         ax.plot(x, y_theta, clip_on=False)
         ax.plot(x, y_phi, clip_on=False)

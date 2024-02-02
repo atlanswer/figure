@@ -68,7 +68,7 @@ export const FigureArea: Component<{
                 props.setFigureConfig(props.idx, "isGainTotal", false)
               }
             >
-              Gain θ/ϕ
+              Gain <em>θ</em>/<em>ϕ</em>
             </button>
             <button
               class="whitespace-nowrap rounded px-2"
