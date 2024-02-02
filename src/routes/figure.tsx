@@ -74,7 +74,13 @@ export const FigurePage = () => {
         title="Add new figure"
         class="mb-12 mt-4 flex gap-1 place-self-center rounded bg-sky-500 px-4 py-2 text-white shadow hover:bg-sky-700"
         onClick={() =>
-          setFigureConfigs(figureConfigs.length, { ...figureConfigDefault })
+          setFigureConfigs(figureConfigs.length, {
+            isDb: true,
+            isGainTotal: false,
+            sources: [
+              { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
+            ],
+          })
         }
       >
         <svg
