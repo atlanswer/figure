@@ -84,7 +84,7 @@ export const FigureArea: Component<{
             </button>
           </Show>
         </figcaption>
-        <div class="grid grid-flow-col gap-4 overflow-x-auto rounded font-semibold">
+        <div class="grid grid-flow-col place-items-center gap-4 overflow-x-auto rounded font-semibold">
           <Show when={fcReady()} fallback={<FigureAreaFallback />}>
             <ViewPlane
               cutPlane="YZ"
