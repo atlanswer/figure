@@ -75,6 +75,7 @@ export const FigurePage = () => {
         class="mb-12 mt-4 flex gap-1 place-self-center rounded bg-sky-500 px-4 py-2 text-white shadow hover:bg-sky-700"
         onClick={() =>
           setFigureConfigs(figureConfigs.length, {
+            title: "E-dipole",
             isDb: true,
             isGainTotal: false,
             sources: [

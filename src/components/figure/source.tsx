@@ -47,9 +47,7 @@ const SourceCard: Component<{
           </span>
         </span>
         <span class="flex place-items-center gap-2">
-          <span
-            class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-200 p-1 font-bold text-neutral-500 dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
-          >
+          <span class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-200 p-1 font-bold text-neutral-500 dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white">
             <button
               class="whitespace-nowrap rounded px-2"
               classList={{ active: props.source.type === "E" }}
@@ -116,7 +114,9 @@ const SourceCard: Component<{
             return (
               <div class="flex flex-col gap-1">
                 <label for={inputId} class="text-sm">
-                  {info[0]?.toUpperCase() + info.slice(1)}
+                  {info[0]?.toUpperCase() +
+                    info.slice(1) +
+                    (info === "amplitude" ? " (relative)" : " (deg)")}
                 </label>
                 <div class="flex">
                   <button
@@ -163,7 +163,7 @@ const SourceCard: Component<{
                     min="0"
                     max={info === "theta" ? "180" : "359"}
                     step={info === "amplitude" ? "0.1" : "1"}
-                    class="w-12 border border-x-0 border-neutral-500 bg-transparent text-center focus-visible:outline-none"
+                    class="w-16 border border-x-0 border-neutral-500 bg-transparent text-center focus-visible:outline-none"
                     required
                     onChange={(event) =>
                       props.setFigureConfigs(
