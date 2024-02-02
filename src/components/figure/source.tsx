@@ -48,11 +48,9 @@ const SourceCard: Component<{
         </span>
         <span class="flex place-items-center gap-2">
           <span
-            aria-orientation="horizontal"
             class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-200 p-1 font-bold text-neutral-500 dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
           >
             <button
-              aria-selected="true"
               class="whitespace-nowrap rounded px-2"
               classList={{ active: props.source.type === "E" }}
               onClick={() =>
@@ -68,7 +66,6 @@ const SourceCard: Component<{
               J
             </button>
             <button
-              aria-selected="false"
               class="whitespace-nowrap rounded px-2"
               classList={{ active: props.source.type === "M" }}
               onClick={() =>
@@ -86,6 +83,7 @@ const SourceCard: Component<{
           </span>
           <Show when={props.numSources > 1}>
             <button
+              aria-label="Remove source"
               class="rounded bg-neutral-500 text-white hover:bg-sky-500"
               onClick={() =>
                 // eslint-disable-next-line solid/reactivity
@@ -123,6 +121,7 @@ const SourceCard: Component<{
                 <div class="flex">
                   <button
                     type="button"
+                    aria-label="Decrease value"
                     class="rounded-s border border-neutral-500 px-1"
                     onClick={() =>
                       props.setFigureConfigs(
@@ -178,6 +177,7 @@ const SourceCard: Component<{
                   />
                   <button
                     type="button"
+                    aria-label="Increase value"
                     class="rounded-e border border-neutral-500 px-1"
                     onClick={() =>
                       props.setFigureConfigs(

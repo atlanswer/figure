@@ -40,11 +40,9 @@ export const FigureArea: Component<{
           />
           <div
             title="Switch axes scale"
-            aria-orientation="horizontal"
             class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-100 p-1 text-neutral-500 shadow dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
           >
             <button
-              aria-selected="true"
               class="whitespace-nowrap rounded px-2"
               classList={{ active: props.figureConfig.isDb }}
               onClick={() => props.setFigureConfig(props.idx, "isDb", true)}
@@ -52,7 +50,6 @@ export const FigureArea: Component<{
               dB
             </button>
             <button
-              aria-selected="false"
               class="whitespace-nowrap rounded px-2"
               classList={{ active: !props.figureConfig.isDb }}
               onClick={() => props.setFigureConfig(props.idx, "isDb", false)}
