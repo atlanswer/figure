@@ -72,7 +72,7 @@ export const FigurePage = () => {
     return (
       <button
         title="Add new figure"
-        class="mt-4 flex gap-1 place-self-center rounded bg-sky-500 px-4 py-2 text-white shadow hover:bg-sky-700"
+        class="mb-12 mt-4 flex gap-1 place-self-center rounded bg-sky-500 px-4 py-2 text-white shadow hover:bg-sky-700"
         onClick={() =>
           setFigureConfigs(figureConfigs.length, { ...figureConfigDefault })
         }
@@ -111,7 +111,7 @@ export const FigurePage = () => {
   };
 
   return (
-    <div class="grid grid-cols-1 place-content-stretch divide-y-2 divide-neutral-200 px-4 pb-8 dark:divide-neutral-800 sm:px-6 lg:px-8 lg:pb-16">
+    <div class="grid grid-cols-1 place-content-stretch divide-y-2 divide-neutral-200 px-4 dark:divide-neutral-800 sm:px-6 lg:px-8">
       <Title>Figure - AntCal</Title>
       <For each={figureConfigs}>
         {(figureConfig, idx) => (

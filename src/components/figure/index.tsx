@@ -25,8 +25,8 @@ export const FigureArea: Component<{
   );
 
   return (
-    <section class="flex flex-col place-items-center gap-2 py-8">
-      <figure class="flex max-w-full flex-col gap-2 p-2">
+    <section class="flex flex-col place-items-center gap-4 py-8">
+      <figure class="flex max-w-full flex-col gap-2">
         <figcaption class="flex flex-wrap place-items-center gap-2">
           <input
             type="text"
@@ -114,6 +114,25 @@ export const FigureArea: Component<{
             <ViewPlane cutPlane="XY" {...props.figureConfig} />
           </Show>
         </div>
+        <figcaption class="flex flex-wrap place-content-center place-items-center gap-8 text-black dark:text-white">
+          <Show
+            when={props.figureConfig.isGainTotal}
+            fallback={
+              <>
+                <span class="before:inline-block before:h-1 before:w-12 before:rounded before:bg-[#1f77b4] before:align-middle">
+                  <span> </span>Gain <em>θ</em>
+                </span>
+                <span class="before:inline-block before:h-1 before:w-12 before:rounded before:bg-[#ff7f0e] before:align-middle">
+                  <span> </span>Gain <em>ϕ</em>
+                </span>
+              </>
+            }
+          >
+            <span class="before:inline-block before:h-1 before:w-12 before:rounded before:bg-[#1f77b4] before:align-middle">
+              <span> </span>Gain Total <em>θ</em>
+            </span>
+          </Show>
+        </figcaption>
       </figure>
       <SourcesPanel
         sources={props.figureConfig.sources}
