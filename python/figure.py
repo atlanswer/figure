@@ -1,4 +1,4 @@
-# spell-checker:words rlim, rticks, rscale, arange
+# spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis
 
 import io
 from typing import Literal, TypedDict, cast
@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
 from matplotlib.projections.polar import PolarAxes
+from matplotlib.ticker import MaxNLocator
 
 
 class Source(TypedDict):
@@ -23,6 +24,7 @@ CutPlane = Literal["XZ", "YZ", "XY"]
 class ViewPlaneConfig(TypedDict):
     cutPlane: CutPlane
     isDb: bool
+    isGainTotal: bool
     sources: list[Source]
 
 
@@ -89,22 +91,32 @@ def plot_view_plane(config: ViewPlaneConfig) -> str:
                 y_theta += get_m_theta(theta, phi, s)
                 y_phi += get_m_phi(theta, phi, s)
 
-    y_theta = np.abs(y_theta)
-    y_phi = np.abs(y_phi)
-    if config["isDb"]:
-        y_theta = 10 * np.log(y_theta)
-        y_phi = 10 * np.log10(y_phi)
-
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
 
-    ax.plot(x, y_theta, clip_on=False)
-    ax.plot(x, y_phi, clip_on=False)
+    if config["isGainTotal"]:
+        y_total = np.sqrt(y_theta**2 + y_phi**2)
+        if config["isDb"]:
+            y_total = 10 * np.log10(y_total)
+        ax.plot(x, y_total, clip_on=False)
+    else:
+        y_theta = np.abs(y_theta)
+        y_phi = np.abs(y_phi)
+        if config["isDb"]:
+            y_theta = 10 * np.log(y_theta)
+            y_phi = 10 * np.log10(y_phi)
+        ax.plot(x, y_theta, clip_on=False)
+        ax.plot(x, y_phi, clip_on=False)
+
     if config["isDb"]:
         ax.set_rlim(-41, 11)
     else:
-        ax.set_rlim(0, len(config["sources"]))
-        ax.set_rticks(np.arange(0, len(config["sources"]) + 0.1, 0.5))
+        upper_lim = 0
+        for s in config["sources"]:
+            upper_lim += s["amplitude"]
+        ax.set_rlim(0, upper_lim)
+        r_locator = MaxNLocator(nbins=4)
+        ax.yaxis.set_major_locator(r_locator)
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
     # ax.tick_params(pad=0)

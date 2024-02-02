@@ -16,6 +16,7 @@ export const FigurePage = () => {
   const figureConfigDefault: FigureConfig = {
     title: "E-Dipole",
     isDb: true,
+    isGainTotal: false,
     sources: [{ type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 }],
   };
   const figureConfigsDefault: FigureConfig[] = [figureConfigDefault];

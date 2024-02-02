@@ -10,12 +10,13 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
 
   const [encodedSvgData] = createResource(
     // TODO: optimize here
-    () => [props.isDb, JSON.stringify(props.sources)],
+    () => [props.isDb, props.isGainTotal, JSON.stringify(props.sources)],
     async () => {
       const fc = await awaitableFc;
       const svgData = await fc.createViewPlane({
         cutPlane: props.cutPlane,
         isDb: props.isDb,
+        isGainTotal: props.isGainTotal,
         sources: unwrap(props.sources),
       });
       return `data:image/svg+xml,${encodeURIComponent(svgData)}`;

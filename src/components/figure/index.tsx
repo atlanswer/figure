@@ -57,6 +57,29 @@ export const FigureArea: Component<{
               Linear
             </button>
           </div>
+          <div
+            title="Switch gain type"
+            class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-100 p-1 text-neutral-500 shadow dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
+          >
+            <button
+              class="whitespace-nowrap rounded px-2"
+              classList={{ active: !props.figureConfig.isGainTotal }}
+              onClick={() =>
+                props.setFigureConfig(props.idx, "isGainTotal", false)
+              }
+            >
+              Gain θ/ϕ
+            </button>
+            <button
+              class="whitespace-nowrap rounded px-2"
+              classList={{ active: props.figureConfig.isGainTotal }}
+              onClick={() =>
+                props.setFigureConfig(props.idx, "isGainTotal", true)
+              }
+            >
+              Gain Total
+            </button>
+          </div>
           <Show when={props.numFigures > 1}>
             <button
               title="Remove figure"
@@ -86,21 +109,9 @@ export const FigureArea: Component<{
         </figcaption>
         <div class="grid grid-flow-col place-items-center gap-4 overflow-x-auto rounded font-semibold">
           <Show when={fcReady()} fallback={<FigureAreaFallback />}>
-            <ViewPlane
-              cutPlane="YZ"
-              isDb={props.figureConfig.isDb}
-              sources={props.figureConfig.sources}
-            />
-            <ViewPlane
-              cutPlane="XZ"
-              isDb={props.figureConfig.isDb}
-              sources={props.figureConfig.sources}
-            />
-            <ViewPlane
-              cutPlane="XY"
-              isDb={props.figureConfig.isDb}
-              sources={props.figureConfig.sources}
-            />
+            <ViewPlane cutPlane="YZ" {...props.figureConfig} />
+            <ViewPlane cutPlane="XZ" {...props.figureConfig} />
+            <ViewPlane cutPlane="XY" {...props.figureConfig} />
           </Show>
         </div>
       </figure>

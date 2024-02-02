@@ -38,6 +38,7 @@ export type CutPlane = "XZ" | "YZ" | "XY";
 export interface ViewPlaneConfig {
   cutPlane: CutPlane;
   isDb: boolean;
+  isGainTotal: boolean;
   sources: Source[];
 }
 
