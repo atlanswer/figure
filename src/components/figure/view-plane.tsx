@@ -58,7 +58,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
       </div>
       <div class="flex place-content-between gap-4">
         <span>Max Direction: {viewPlaneData.latest?.[0] ?? "-"}°</span>
-        <span>HPBW: {"-"}°</span>
+        <span>HPBW: {viewPlaneData.latest?.[1] ?? "-"}°</span>
       </div>
       <div class="flex h-[252px] w-[252px] flex-wrap place-content-center rounded outline outline-1 outline-neutral-100">
         <Suspense fallback={<ViewPlaneLoading />}>

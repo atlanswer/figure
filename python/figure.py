@@ -1,4 +1,4 @@
-# spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis, intp
+# spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis, intp, hpbw
 
 import io
 from typing import Literal, TypedDict, cast
@@ -109,15 +109,18 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     assert isinstance(ax, PolarAxes)
 
     y_total = np.sqrt(y_theta**2 + y_phi**2)
+    y_total_db = 10 * np.log10(y_total)
     y_theta = np.abs(y_theta)
     y_phi = np.abs(y_phi)
     if config["isDb"]:
-        y_total = 10 * np.log10(y_total)
         y_theta = 10 * np.log10(y_theta)
         y_phi = 10 * np.log10(y_phi)
 
     if config["isGainTotal"]:
-        ax.plot(x, y_total, clip_on=False)
+        if config["isDb"]:
+            ax.plot(x, y_total_db, clip_on=False)
+        else:
+            ax.plot(x, y_total, clip_on=False)
     else:
         ax.plot(x, y_theta, clip_on=False)
         ax.plot(x, y_phi, clip_on=False)
@@ -140,10 +143,28 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     plt.close(fig)
     f.seek(0)
 
-    peak = np.max(y_total)
-    peak_idx = np.argmax(y_total)
+    peak: np.float64 = np.max(y_total_db)
+    peak_idx = np.argmax(y_total_db)
+    hp = np.subtract(peak, 3)
 
-    return int(peak_idx), 0, f.getvalue().decode()
+    def get_hpbw() -> int:
+        hpbw = 1
+        r_idx = int(peak_idx)
+        while y_total_db[r_idx] >= hp:
+            r_idx += 1
+            if r_idx >= 360:
+                r_idx = 0
+            if r_idx == peak_idx:
+                return 360
+        l_idx = r_idx - 2
+        while y_total_db[l_idx] >= hp:
+            l_idx -= 1
+            hpbw += 1
+            if l_idx <= 0:
+                l_idx = 359
+        return hpbw + 1
+
+    return int(peak_idx), get_hpbw(), f.getvalue().decode()
 
 
 plot_view_plane  # pyright: ignore[reportUnusedExpression] # noqa: B018
