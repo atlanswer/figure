@@ -144,7 +144,7 @@ export const FigureArea: Component<{
 };
 
 const FigureAreaFallback = () => (
-  <div class="flex h-[312px] w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-50 text-black outline outline-1 outline-neutral-200">
+  <div class="flex h-[344px] w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-100 text-black shadow dark:bg-neutral-800 dark:text-white">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6"
