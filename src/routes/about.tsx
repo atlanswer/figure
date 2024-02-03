@@ -1,13 +1,25 @@
 /* @refresh granular */
+// spell-checker:words CMYK
 
 import { Title } from "@solidjs/meta";
 
 export const AboutPage = () => (
   <article class="prose prose-neutral mx-auto max-w-screen-xl px-8 py-16 dark:prose-invert md:px-16">
     <Title>About - AntCal</Title>
+
     <h1>Figure</h1>
+
     <b>Create publication quality figures. Work in progress!</b>
-    <p>This project is built upon these technologies:</p>
+    <p>
+      Part of the
+      <span> </span>
+      <a href="https://github.com/atlanswer/AntCal" target="_black">
+        AntCal
+      </a>
+      <span> </span>
+      project.
+    </p>
+    <p>This web app is built with the following tools:</p>
     <ul>
       <li>
         <a href="https://solidjs.com/" target="_blank">
@@ -42,7 +54,18 @@ export const AboutPage = () => (
       </a>
       .
     </p>
+
+    <h2>Notes</h2>
+
+    <h3>Figure</h3>
+    <ul>
+      <li>Source's phase is not implemented yet.</li>
+    </ul>
+    <h3>Report</h3>
+    <p>Work in progress!</p>
+
     <h2>Privacy</h2>
+
     <p>
       This web app does not collect, store, or share any private data. The only
       data it processes are the files you choose to upload and your system
@@ -70,7 +93,9 @@ export const AboutPage = () => (
         Speed Insights Privacy and Compliance
       </a>
     </p>
+
     <h2>Reference</h2>
+
     <figure>
       <figcaption>
         <cite>
