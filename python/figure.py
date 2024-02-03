@@ -39,37 +39,24 @@ def get_m_theta(
 def get_m_phi(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
-    theta_rad = theta + np.radians(source["theta"])
-    phi_rad = phi + np.radians(source["phi"])
-    phase = np.radians(source["phase"])
-    return (
-        -np.sin(theta_rad)
-        * np.cos(phi_rad)
-        * source["amplitude"]
-        * np.cos(phase)
-    )
+    theta_rad = theta + source["theta"]
+    phi_rad = phi + source["phi"]
+    return -np.sin(theta_rad) * np.cos(phi_rad) * source["amplitude"]
 
 
 def get_e_theta(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
-    theta_rad = theta + np.radians(source["theta"])
-    phi_rad = phi + np.radians(source["phi"])
-    phase = np.radians(source["phase"])
-    return (
-        np.sin(theta_rad)
-        * np.cos(phi_rad)
-        * source["amplitude"]
-        * np.cos(phase)
-    )
+    theta_rad = theta + source["theta"]
+    phi_rad = phi + source["phi"]
+    return np.sin(theta_rad) * np.cos(phi_rad) * source["amplitude"]
 
 
 def get_e_phi(
     theta: npt.NDArray[np.float64], phi: npt.NDArray[np.float64], source: Source
 ):
-    phi_rad = phi + np.radians(source["phi"])
-    phase = np.radians(source["phase"])
-    return -np.sin(phi_rad) * source["amplitude"] * np.cos(phase)
+    phi_rad = phi + source["phi"]
+    return -np.sin(phi_rad) * source["amplitude"]
 
 
 x: npt.NDArray[np.float64]
@@ -97,6 +84,9 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     y_phi = np.zeros_like(x)
 
     for s in config["sources"]:
+        s["theta"] = np.radians(s["theta"])
+        s["phi"] = np.radians(s["phi"])
+        s["phase"] = np.radians(s["phase"])
         match s["type"]:
             case "E":
                 y_theta += get_e_theta(theta, phi, s)

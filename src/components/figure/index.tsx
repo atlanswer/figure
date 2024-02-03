@@ -26,13 +26,13 @@ export const FigureArea: Component<{
 
   return (
     <section class="flex flex-col place-items-center gap-4 py-8">
-      <figure class="flex max-w-full flex-col gap-2">
-        <figcaption class="flex flex-wrap place-items-center gap-2">
+      <figure class="flex max-w-full flex-col gap-4">
+        <figcaption class="flex flex-wrap place-items-center gap-4">
           <input
             type="text"
             name="Figure Title"
             placeholder="Figure Title"
-            class="rounded bg-neutral-100 px-2 py-1 text-2xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-black dark:text-white"
+            class="rounded bg-neutral-100 px-2 py-1 text-2xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-neutral-800 dark:text-white"
             value={props.figureConfig.title}
             onChange={(event) =>
               props.setFigureConfig(props.idx, "title", event.target.value)

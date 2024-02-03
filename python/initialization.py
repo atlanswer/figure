@@ -1,3 +1,5 @@
+# spell-checker:words emscripten, xtick, ytick
+
 import logging
 import sys
 

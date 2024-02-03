@@ -37,7 +37,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   };
 
   return (
-    <div class="flex flex-col gap-2 rounded bg-neutral-100 p-3 text-black shadow-md dark:bg-neutral-200 dark:shadow-none">
+    <div class="flex flex-col gap-2 rounded bg-neutral-100 p-3 text-black shadow-md dark:bg-neutral-800 dark:text-white dark:shadow-none">
       <div class="flex place-content-between gap-2">
         <span class="text-lg">
           <em>{props.cutPlane}</em>-Plane<span> </span>(
