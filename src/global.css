@@ -35,11 +35,11 @@
 }
 
 main {
-  background: radial-gradient(circle, #d8d8d8 0.1rem, #f6f1f1 0.1rem) top left /
+  background: radial-gradient(circle, #d6d3d1 0.1rem, #f5f5f4 0.1rem) top left /
     2rem 2rem;
 }
 
 .dark main {
-  background: radial-gradient(circle, #1b262c 0.1rem, #000000 0.1rem) top left /
+  background: radial-gradient(circle, #292524 0.1rem, #000000 0.1rem) top left /
     2rem 2rem;
 }
