@@ -109,14 +109,14 @@ const SourceCard: Component<{
       </div>
       <form class="grid grid-cols-2 grid-rows-2 place-items-end gap-2">
         <For each={sourceInfos}>
-          {(info) => {
+          {(param) => {
             const inputId = createUniqueId();
             return (
               <div class="flex flex-col gap-1">
                 <label for={inputId} class="text-sm">
-                  {info[0]?.toUpperCase() +
-                    info.slice(1) +
-                    (info === "amplitude" ? " (relative)" : " (deg)")}
+                  {param[0]?.toUpperCase() +
+                    param.slice(1) +
+                    (param === "amplitude" ? " (relative)" : " (deg)")}
                 </label>
                 <div class="flex">
                   <button
@@ -128,15 +128,19 @@ const SourceCard: Component<{
                         props.figIdx,
                         "sources",
                         props.idx,
-                        info,
+                        param,
                         (prev) =>
-                          info === "amplitude" ?
-                            prev <= 1 ?
+                          param === "amplitude" ?
+                            prev <= 0.1 ?
                               prev
-                            : prev - 1
-                          : info === "theta" ?
+                            : prev - 0.1
+                          : param === "theta" ?
                             prev < 90 ?
                               prev + 90
+                            : prev - 90
+                          : param === "phase" ?
+                            prev <= -90 ?
+                              prev + 270
                             : prev - 90
                           : prev < 90 ? prev + 270
                           : prev - 90,
@@ -158,11 +162,11 @@ const SourceCard: Component<{
                   </button>
                   <input
                     id={inputId}
-                    value={props.source[info]}
+                    value={props.source[param]}
                     type="number"
-                    min="0"
-                    max={info === "theta" ? "180" : "359"}
-                    step={info === "amplitude" ? "0.1" : "1"}
+                    min={param === "phase" ? "-180" : "0"}
+                    max={param === "theta" || param === "phase" ? "180" : "359"}
+                    step={param === "amplitude" ? "0.01" : "1"}
                     class="w-16 border border-x-0 border-neutral-500 bg-transparent text-center focus-visible:outline-none"
                     required
                     onChange={(event) =>
@@ -170,7 +174,7 @@ const SourceCard: Component<{
                         props.figIdx,
                         "sources",
                         props.idx,
-                        info,
+                        param,
                         +event.target.value,
                       )
                     }
@@ -184,12 +188,16 @@ const SourceCard: Component<{
                         props.figIdx,
                         "sources",
                         props.idx,
-                        info,
+                        param,
                         (prev) =>
-                          info === "amplitude" ? prev + 1
-                          : info === "theta" ?
+                          param === "amplitude" ? prev + 0.1
+                          : param === "theta" ?
                             prev > 90 ?
                               prev - 90
+                            : prev + 90
+                          : param === "phase" ?
+                            prev > 90 ?
+                              prev - 270
                             : prev + 90
                           : prev >= 270 ? prev - 270
                           : prev + 90,

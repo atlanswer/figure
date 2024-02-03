@@ -1,7 +1,8 @@
 # spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis, intp, hpbw
 
 import io
-import time
+
+# import time
 from typing import Literal, TypedDict, cast
 
 import matplotlib.pyplot as plt
@@ -33,7 +34,7 @@ x: npt.NDArray[np.float64]
 
 
 def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
-    t_start = time.perf_counter()
+    # t_start = time.perf_counter()
 
     config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
 
@@ -162,8 +163,8 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
                 l_idx = 359
         return hpbw + 1
 
-    t_finish = time.perf_counter()
-    print(f"plot_view_plane: {( t_finish - t_start ) * 1000:.3f} ms")
+    # t_finish = time.perf_counter()
+    # print(f"plot_view_plane: {( t_finish - t_start ) * 1000:.3f} ms")
 
     return int(peak_idx), get_hpbw(), f.getvalue().decode()
 
