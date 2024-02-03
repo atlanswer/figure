@@ -34,7 +34,7 @@ export const Footer = () => {
   );
 
   return (
-    <footer class="border-t border-neutral-300 bg-neutral-200 px-8 py-4 text-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
+    <footer class="border-t border-neutral-300 bg-neutral-200 p-8 text-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
       <div class="mx-auto flex max-w-screen-xl flex-col gap-4 sm:flex-row sm:gap-8">
         <span>
           Built by
