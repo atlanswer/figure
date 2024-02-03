@@ -60,7 +60,7 @@ export const AboutPage = () => (
     <h3>Figure</h3>
     <ul>
       <li>Far fields are sampled every 1°.</li>
-      <li>Source's phase is not implemented yet.</li>
+      <li>Source phase is not working as intended.</li>
     </ul>
     <h3>Report</h3>
     <p>Work in progress!</p>
