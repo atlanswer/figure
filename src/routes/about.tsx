@@ -59,8 +59,12 @@ export const AboutPage = () => (
 
     <h3>Figure</h3>
     <ul>
-      <li>Far fields are sampled every 1°.</li>
-      <li>Source phase is not working as intended.</li>
+      <li>
+        Amplitude is normalized to the maximum radiation of E-/M-dipole
+        respectively
+      </li>
+      <li>Far fields are sampled every 1°</li>
+      <li>There may be bugs in the implementation of source phase</li>
     </ul>
     <h3>Report</h3>
     <p>Work in progress!</p>
