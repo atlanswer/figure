@@ -5,12 +5,10 @@ import { Show, Suspense, createResource, type Component } from "solid-js";
 import { unwrap } from "solid-js/store";
 import { useDrawPerf } from "~/components/contexts/draw-perf";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
-import { getFigureCreator } from "~/components/figure/figure-creator";
 import type { CutPlane, ViewPlaneConfig } from "~/workers/pyodide";
 
 export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
-  const fcContext = useFigureCreator();
-  const awaitableFc = getFigureCreator(fcContext);
+  const [figureCreatorReady] = useFigureCreator();
   const [, updateAvgTime] = useDrawPerf();
 
   const [viewPlaneData] = createResource(
@@ -19,7 +17,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
     async () => {
       const t_start = Date.now();
 
-      const fc = await awaitableFc;
+      const fc = await figureCreatorReady;
       const [maxD, hpbw, svgData] = await fc.createViewPlane({
         cutPlane: props.cutPlane,
         isDb: props.isDb,

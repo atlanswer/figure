@@ -1,13 +1,13 @@
 /* @refresh granular */
 
-import * as Comlink from "comlink";
-import { type ParentComponent, createContext, useContext } from "solid-js";
+import { wrap, type Remote } from "comlink";
+import { createContext, useContext, type ParentComponent } from "solid-js";
+import type { FigureCreator } from "~/workers/pyodide";
 import PyodideWorker from "~/workers/pyodide?worker";
-import type { FigureCreator as FC } from "~/workers/pyodide";
 
 /** Global Pyodide worker */
 const FigureCreatorProviderContext =
-  createContext<[Promise<Worker>, Comlink.Remote<typeof FC>]>();
+  createContext<[Promise<Remote<FigureCreator>>]>();
 
 export const useFigureCreator = () => {
   const context = useContext(FigureCreatorProviderContext);
@@ -19,9 +19,9 @@ export const useFigureCreator = () => {
 
 export const FigureCreatorProvider: ParentComponent = (props) => {
   const pyodideWorker = new PyodideWorker();
-  const RemoteFigureCreator = Comlink.wrap<typeof FC>(pyodideWorker);
+  const RemoteFigureCreator = wrap<typeof FigureCreator>(pyodideWorker);
 
-  const workerShouldReady = new Promise(
+  const workerReady = new Promise(
     (resolve: (value: Worker) => void, reject) => {
       pyodideWorker.addEventListener("error", reject);
       pyodideWorker.addEventListener(
@@ -35,10 +35,29 @@ export const FigureCreatorProvider: ParentComponent = (props) => {
     },
   );
 
+  const RemoteFigureCreatorReady = new Promise(
+    (
+      resolve: (value: InstanceType<typeof RemoteFigureCreator>) => void,
+      reject,
+    ) => {
+      workerReady.then(
+        () => resolve(new RemoteFigureCreator()),
+        () => reject(),
+      );
+    },
+  );
+
+  const FigureCreatorReady = new Promise(
+    (resolve: (value: Remote<FigureCreator>) => void, reject) => {
+      RemoteFigureCreatorReady.then(
+        (value) => resolve(value),
+        () => reject(),
+      );
+    },
+  );
+
   return (
-    <FigureCreatorProviderContext.Provider
-      value={[workerShouldReady, RemoteFigureCreator]}
-    >
+    <FigureCreatorProviderContext.Provider value={[FigureCreatorReady]}>
       {props.children}
     </FigureCreatorProviderContext.Provider>
   );

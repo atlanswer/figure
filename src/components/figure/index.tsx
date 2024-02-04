@@ -3,7 +3,6 @@
 import { Show, createSignal, type Component } from "solid-js";
 import { type SetStoreFunction } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
-import { getFigureCreator } from "~/components/figure/figure-creator";
 import { ViewPlane } from "~/components/figure/view-plane";
 import { type FigureConfig } from "~/routes/figure";
 import { SourcesPanel } from "./source";
@@ -14,12 +13,11 @@ export const FigureArea: Component<{
   numFigures: number;
   idx: number;
 }> = (props) => {
-  const fcContext = useFigureCreator();
-  const awaitableFc = getFigureCreator(fcContext);
+  const [figureCreatorReady] = useFigureCreator();
 
   const [fcReady, setFcReady] = createSignal<boolean>(false);
 
-  awaitableFc.then(
+  figureCreatorReady.then(
     () => setFcReady(true),
     () => undefined,
   );
