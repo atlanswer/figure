@@ -128,11 +128,14 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     assert isinstance(phi_a, np.ndarray)
     y_total = np.sqrt(theta_a**2 + phi_a**2)
     y_total_db = 10 * np.log10(y_total)
+    y_total_db[y_total_db < -40] = -40
     y_theta = np.abs(theta_a)
     y_phi = np.abs(phi_a)
     if config["isDb"]:
         y_theta = 10 * np.log10(y_theta)
+        y_theta[y_theta < -40] = -40
         y_phi = 10 * np.log10(y_phi)
+        y_phi[y_phi < -40] = -40
 
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
