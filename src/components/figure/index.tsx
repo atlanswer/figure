@@ -27,58 +27,60 @@ export const FigureArea: Component<{
   return (
     <section class="flex flex-col place-items-center gap-4 py-8">
       <figure class="flex max-w-full flex-col gap-4">
-        <figcaption class="flex flex-wrap place-items-center gap-4">
-          <input
-            type="text"
-            name="Figure Title"
-            placeholder="Figure Title"
-            class="rounded bg-neutral-100 px-2 py-1 text-2xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-neutral-800 dark:text-white"
-            value={props.figureConfig.title}
-            onChange={(event) =>
-              props.setFigureConfig(props.idx, "title", event.target.value)
-            }
-          />
-          <div
-            title="Switch axes scale"
-            class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-100 p-1 text-neutral-500 shadow dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
-          >
-            <button
-              class="whitespace-nowrap rounded px-2"
-              classList={{ active: props.figureConfig.isDb }}
-              onClick={() => props.setFigureConfig(props.idx, "isDb", true)}
-            >
-              dB
-            </button>
-            <button
-              class="whitespace-nowrap rounded px-2"
-              classList={{ active: !props.figureConfig.isDb }}
-              onClick={() => props.setFigureConfig(props.idx, "isDb", false)}
-            >
-              Linear
-            </button>
-          </div>
-          <div
-            title="Switch gain type"
-            class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-100 p-1 text-neutral-500 shadow dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
-          >
-            <button
-              class="whitespace-nowrap rounded px-2"
-              classList={{ active: !props.figureConfig.isGainTotal }}
-              onClick={() =>
-                props.setFigureConfig(props.idx, "isGainTotal", false)
+        <figcaption class="flex place-content-around place-items-center gap-4">
+          <div class="flex flex-wrap place-items-center gap-4">
+            <input
+              type="text"
+              name="Figure Title"
+              placeholder="Figure Title"
+              class="rounded bg-neutral-100 px-2 py-1 text-2xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-neutral-800 dark:text-white"
+              value={props.figureConfig.title}
+              onChange={(event) =>
+                props.setFigureConfig(props.idx, "title", event.target.value)
               }
+            />
+            <div
+              title="Switch axes scale"
+              class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-100 p-1 text-neutral-500 shadow dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
             >
-              Gain <em>θ</em>/<em>ϕ</em>
-            </button>
-            <button
-              class="whitespace-nowrap rounded px-2"
-              classList={{ active: props.figureConfig.isGainTotal }}
-              onClick={() =>
-                props.setFigureConfig(props.idx, "isGainTotal", true)
-              }
+              <button
+                class="whitespace-nowrap rounded px-2"
+                classList={{ active: props.figureConfig.isDb }}
+                onClick={() => props.setFigureConfig(props.idx, "isDb", true)}
+              >
+                dB
+              </button>
+              <button
+                class="whitespace-nowrap rounded px-2"
+                classList={{ active: !props.figureConfig.isDb }}
+                onClick={() => props.setFigureConfig(props.idx, "isDb", false)}
+              >
+                Linear
+              </button>
+            </div>
+            <div
+              title="Switch gain type"
+              class="grid grid-cols-2 place-content-center place-items-stretch rounded bg-neutral-100 p-1 text-neutral-500 shadow dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white"
             >
-              Gain Total
-            </button>
+              <button
+                class="whitespace-nowrap rounded px-2"
+                classList={{ active: !props.figureConfig.isGainTotal }}
+                onClick={() =>
+                  props.setFigureConfig(props.idx, "isGainTotal", false)
+                }
+              >
+                Gain <em>θ</em>/<em>ϕ</em>
+              </button>
+              <button
+                class="whitespace-nowrap rounded px-2"
+                classList={{ active: props.figureConfig.isGainTotal }}
+                onClick={() =>
+                  props.setFigureConfig(props.idx, "isGainTotal", true)
+                }
+              >
+                Gain Total
+              </button>
+            </div>
           </div>
           <Show when={props.numFigures > 1}>
             <button
