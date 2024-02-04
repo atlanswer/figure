@@ -1,6 +1,6 @@
-# Figure
+# Figure - AntCal
 
-https://figure.atlanswer.com
+https://antcal.atlanswer.com
 
 Create publication quality figures, work in progress.
 
