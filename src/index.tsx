@@ -11,6 +11,7 @@ import { VercelAnalytics, VercelSpeedInsight } from "~/components/partytown";
 import "~/global.css";
 import { NotFoundPage } from "~/routes/404";
 import { ErrorPage } from "~/routes/errorpage";
+import { DrawPerfProvider } from "./components/contexts/draw-perf";
 import { FigureCreatorProvider } from "./components/contexts/figure-creator";
 import { AboutPage } from "./routes/about";
 import { FigurePage } from "./routes/figure";
@@ -21,17 +22,19 @@ const App: ParentComponent = (props) => {
 
   return (
     <ErrorBoundary fallback={ErrorPage}>
-      <FigureCreatorProvider>
-        <MetaProvider>
-          <ThemeProvider defaultTheme="dark">
-            <Header />
-            <main class="flex-auto">{props.children}</main>
-            <Footer />
-            <VercelSpeedInsight />
-            <VercelAnalytics />
-          </ThemeProvider>
-        </MetaProvider>
-      </FigureCreatorProvider>
+      <DrawPerfProvider>
+        <FigureCreatorProvider>
+          <MetaProvider>
+            <ThemeProvider defaultTheme="dark">
+              <Header />
+              <main class="flex-auto">{props.children}</main>
+              <Footer />
+              <VercelSpeedInsight />
+              <VercelAnalytics />
+            </ThemeProvider>
+          </MetaProvider>
+        </FigureCreatorProvider>
+      </DrawPerfProvider>
     </ErrorBoundary>
   );
 };

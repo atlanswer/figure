@@ -70,7 +70,16 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
             case "M":
                 theta_b = np.sin(phi - phi_s)
                 phi_b = -np.sin(theta - theta_s) * np.cos(phi - phi_s)
-        theta_a = amplitude * np.sqrt(
+        theta_b *= amplitude
+        phi_b *= amplitude
+        # phase_s *= np.ones_like(x)
+        # phase_s[theta_b < 0] = phase_s[theta_b < 0] + np.pi
+        # theta_b = np.abs(theta_b)
+        # print(
+        #     f"{theta_a[180]=} | {theta_phase[180]=} | {theta_b[180]=} | {phase_s[180]/np.pi=}"
+        # )
+        # theta_s[theta_s > np.pi] = theta_s[theta_s > np.pi] - 2 * np.pi
+        theta_a = np.sqrt(
             theta_a**2
             + theta_b**2
             + 2 * theta_a * theta_b * np.cos(theta_phase - phase_s)
@@ -87,7 +96,7 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
             theta_phase_numerator[theta_phase_numerator_nonzero]
             / theta_phase_denominator[theta_phase_numerator_nonzero]
         )
-        phi_a = amplitude * np.sqrt(
+        phi_a = np.sqrt(
             phi_a**2
             + phi_b**2
             + 2 * phi_a * phi_b * np.cos(phi_phase - phase_s)

@@ -1,8 +1,9 @@
 /* @refresh granular */
 // spell-checker:words HPBW
 
-import { Suspense, createResource, type Component, Show } from "solid-js";
+import { Show, Suspense, createResource, type Component } from "solid-js";
 import { unwrap } from "solid-js/store";
+import { useDrawPerf } from "~/components/contexts/draw-perf";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { getFigureCreator } from "~/components/figure/figure-creator";
 import type { CutPlane, ViewPlaneConfig } from "~/workers/pyodide";
@@ -10,11 +11,14 @@ import type { CutPlane, ViewPlaneConfig } from "~/workers/pyodide";
 export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
   const fcContext = useFigureCreator();
   const awaitableFc = getFigureCreator(fcContext);
+  const [, updateAvgTime] = useDrawPerf();
 
   const [viewPlaneData] = createResource(
     // TODO: optimize here
     () => [props.isDb, props.isGainTotal, JSON.stringify(props.sources)],
     async () => {
+      const t_start = Date.now();
+
       const fc = await awaitableFc;
       const [maxD, hpbw, svgData] = await fc.createViewPlane({
         cutPlane: props.cutPlane,
@@ -22,6 +26,10 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
         isGainTotal: props.isGainTotal,
         sources: unwrap(props.sources),
       });
+
+      const t_finish = Date.now();
+      updateAvgTime(t_finish - t_start);
+
       return [
         maxD,
         hpbw,
