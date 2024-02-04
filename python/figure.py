@@ -41,6 +41,9 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     global x
     assert isinstance(x, np.ndarray)
 
+    db_min, db_max = -20, 10
+    lin_min = 0
+
     phi = np.zeros_like(x)
     theta = np.pi / 2 * np.ones_like(x)
 
@@ -128,14 +131,14 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     assert isinstance(phi_a, np.ndarray)
     y_total = np.sqrt(theta_a**2 + phi_a**2)
     y_total_db = 10 * np.log10(y_total)
-    y_total_db[y_total_db < -40] = -40
+    y_total_db[y_total_db < db_min] = db_min
     y_theta = np.abs(theta_a)
     y_phi = np.abs(phi_a)
     if config["isDb"]:
         y_theta = 10 * np.log10(y_theta)
-        y_theta[y_theta < -40] = -40
+        y_theta[y_theta < db_min] = db_min
         y_phi = 10 * np.log10(y_phi)
-        y_phi[y_phi < -40] = -40
+        y_phi[y_phi < db_min] = db_min
 
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
@@ -150,14 +153,15 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
         ax.plot(x, y_phi, clip_on=False)
 
     if config["isDb"]:
-        ax.set_rlim(-41, 11)
+        r_locator = MaxNLocator(nbins=3)
+        ax.set_rlim(db_min, db_max)
     else:
-        upper_lim = 0
+        lin_max = 0
         for s in config["sources"]:
-            upper_lim += s["amplitude"]
-        ax.set_rlim(0, upper_lim)
+            lin_max += s["amplitude"]
         r_locator = MaxNLocator(nbins=4)
-        ax.yaxis.set_major_locator(r_locator)
+        ax.set_rlim(lin_min, lin_max)
+    ax.yaxis.set_major_locator(r_locator)
     ax.set_theta_zero_location("N")
     ax.set_theta_direction(-1)
     # ax.tick_params(pad=0)
