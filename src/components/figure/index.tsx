@@ -33,7 +33,7 @@ export const FigureArea: Component<{
               type="text"
               name="Figure Title"
               placeholder="Figure Title"
-              class="rounded bg-neutral-100 px-2 py-1 text-2xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-neutral-800 dark:text-white"
+              class="w-72 max-w-full rounded bg-neutral-100 px-2 py-1 text-2xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-neutral-800 dark:text-white"
               value={props.figureConfig.title}
               onChange={(event) =>
                 props.setFigureConfig(props.idx, "title", event.target.value)
