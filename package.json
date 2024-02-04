@@ -1,6 +1,6 @@
 {
   "name": "figure",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Generate publication quality figures",
   "license": "MIT",
   "private": "true",
