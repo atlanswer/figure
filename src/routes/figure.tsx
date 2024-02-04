@@ -13,13 +13,29 @@ export interface FigureConfig extends Omit<ViewPlaneConfig, "cutPlane"> {
 const figureConfigsStorageKey = "figure-configs";
 
 export const FigurePage = () => {
-  const figureConfigDefault: FigureConfig = {
-    title: "E-Dipole",
-    isDb: true,
-    isGainTotal: false,
-    sources: [{ type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 }],
-  };
-  const figureConfigsDefault: FigureConfig[] = [figureConfigDefault];
+  const figureConfigsDefault: FigureConfig[] = [
+    {
+      title: "ME-Dipole",
+      isDb: true,
+      isGainTotal: false,
+      sources: [
+        { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
+        { type: "M", theta: 90, phi: 0, amplitude: 1, phase: 0 },
+      ],
+    },
+    {
+      title: "E-Dipole",
+      isDb: true,
+      isGainTotal: false,
+      sources: [{ type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 }],
+    },
+    {
+      title: "M-Dipole",
+      isDb: true,
+      isGainTotal: false,
+      sources: [{ type: "M", theta: 90, phi: 0, amplitude: 1, phase: 0 }],
+    },
+  ];
 
   // TODO: complete validation
   const isFigureConfigs = (
