@@ -65,8 +65,9 @@ export class FigureCreator {
     return pyodide;
   }
 
-  async ready() {
+  async ready(callback: () => void) {
     await this.pyodide;
+    callback();
   }
 
   async createViewPlane(

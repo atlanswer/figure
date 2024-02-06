@@ -1,5 +1,6 @@
 /* @refresh granular */
 
+import { proxy } from "comlink";
 import { Show, createSignal, type Component } from "solid-js";
 import { type SetStoreFunction } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
@@ -15,15 +16,11 @@ export const FigureArea: Component<{
 }> = (props) => {
   const [figureCreatorReady] = useFigureCreator();
 
-  const waitForPyodide = new Promise<void>((resolve) => {
-    void figureCreatorReady.then(
-      (figureCreator) => void figureCreator.ready().then(() => resolve()),
-    );
-  });
-
-  void waitForPyodide.then(() => setPyodideReady(true));
-
   const [pyodideReady, setPyodideReady] = createSignal(false);
+
+  void figureCreatorReady.then((figureCreator) =>
+    figureCreator.ready(proxy(() => setPyodideReady(true))),
+  );
 
   return (
     <section class="flex flex-col place-items-center gap-4 py-8">
@@ -212,6 +209,7 @@ const PyodideLoading: Component<{ progress: number }> = (props) => {
           />
         </div>
       </div>
+      <progress class="w-full" value={props.progress} max="100" />
     </div>
   );
 };
