@@ -7,18 +7,6 @@ import type { PyCallable, PySequence } from "pyodide/ffi";
 import pyCodePlotViewPlane from "python/figure.py?raw";
 import pyCodeInitialization from "python/initialization.py?raw";
 
-const perfObserver = new PerformanceObserver((entries) => {
-  entries.getEntries().forEach((entry) => {
-    if (entry instanceof PerformanceResourceTiming) {
-      console.debug(entry.name);
-    }
-  });
-});
-
-perfObserver.observe({
-  type: "resource",
-});
-
 const pyodideModule = (await import(
   "/pyodide/pyodide.mjs"
 )) as typeof import("/pyodide");
@@ -42,8 +30,19 @@ export interface ViewPlaneConfig {
 
 export class FigureCreator {
   private pyodide: Promise<PyodideInterface>;
+  private perfObserver: PerformanceObserver;
 
   constructor() {
+    this.perfObserver = new PerformanceObserver((entries) => {
+      entries.getEntries().forEach((entry) => {
+        if (entry instanceof PerformanceResourceTiming) {
+          console.debug(entry.name);
+        }
+      });
+    });
+    this.perfObserver.observe({
+      type: "resource",
+    });
     this.pyodide = this.initializePyodide();
   }
 
