@@ -2,29 +2,26 @@
 // spell-checker:words HPBW
 
 import * as Comlink from "comlink";
+import type { PyodideInterface } from "pyodide";
 import type { PyCallable, PySequence } from "pyodide/ffi";
-import pyCodeInitialization from "python/initialization.py?raw";
 import pyCodePlotViewPlane from "python/figure.py?raw";
+import pyCodeInitialization from "python/initialization.py?raw";
 
-// console.debug("Starting Pyodide web worker...");
+const perfObserver = new PerformanceObserver((entries) => {
+  entries.getEntries().forEach((entry) => {
+    if (entry instanceof PerformanceResourceTiming) {
+      console.debug(entry.name);
+    }
+  });
+});
 
-/* Load Pyodide */
+perfObserver.observe({
+  type: "resource",
+});
 
 const pyodideModule = (await import(
   "/pyodide/pyodide.mjs"
 )) as typeof import("/pyodide");
-
-const loadPyodideAndPackages = async () => {
-  const pyodide = await pyodideModule.loadPyodide({
-    indexURL: "/pyodide/",
-    // indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/",
-    packages: ["numpy", "matplotlib"],
-  });
-  pyodide.runPython(pyCodeInitialization);
-  return pyodide;
-};
-
-const pyodide = await loadPyodideAndPackages();
 
 export interface Source {
   type: "E" | "M";
@@ -44,18 +41,26 @@ export interface ViewPlaneConfig {
 }
 
 export class FigureCreator {
-  private pyodide: typeof pyodide;
+  private pyodide: Promise<PyodideInterface>;
 
   constructor() {
-    this.pyodide = pyodide;
+    this.pyodide = this.initializePyodide();
   }
 
-  get pyodideVersion() {
-    return this.pyodide.version;
+  async initializePyodide() {
+    const pyodide = await pyodideModule.loadPyodide({
+      indexURL: "/pyodide/",
+      // indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/",
+      packages: ["numpy", "matplotlib"],
+    });
+    pyodide.runPython(pyCodeInitialization);
+    return pyodide;
   }
 
-  createViewPlane(config: ViewPlaneConfig): [number, number, string] {
-    const pyPlotViewPlane = this.pyodide.runPython(
+  async createViewPlane(
+    config: ViewPlaneConfig,
+  ): Promise<[number, number, string]> {
+    const pyPlotViewPlane = (await this.pyodide).runPython(
       pyCodePlotViewPlane,
     ) as PyCallable;
 
@@ -68,8 +73,6 @@ export class FigureCreator {
     return result;
   }
 }
-
-// console.debug("Pyodide web worker initialized.");
 
 Comlink.expose(FigureCreator);
 postMessage("ready");

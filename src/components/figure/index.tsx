@@ -13,12 +13,13 @@ export const FigureArea: Component<{
   numFigures: number;
   idx: number;
 }> = (props) => {
-  const [figureCreatorReady] = useFigureCreator();
+  const [webWorkerReady] = useFigureCreator();
 
-  const [fcReady, setFcReady] = createSignal<boolean>(false);
+  const [webWorkerInitialized, setWebWorkerInitalized] =
+    createSignal<boolean>(false);
 
-  figureCreatorReady.then(
-    () => setFcReady(true),
+  webWorkerReady.then(
+    () => setWebWorkerInitalized(true),
     () => undefined,
   );
 
@@ -108,7 +109,7 @@ export const FigureArea: Component<{
           </Show>
         </figcaption>
         <div class="grid grid-flow-col place-items-center gap-4 overflow-x-auto rounded font-semibold">
-          <Show when={fcReady()} fallback={<FigureAreaFallback />}>
+          <Show when={webWorkerInitialized()} fallback={<FigureAreaFallback />}>
             <ViewPlane cutPlane="YZ" {...props.figureConfig} />
             <ViewPlane cutPlane="XZ" {...props.figureConfig} />
             <ViewPlane cutPlane="XY" {...props.figureConfig} />
@@ -149,7 +150,7 @@ const FigureAreaFallback = () => (
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6"
       viewBox="0 0 32 32"
-      aria-label="Python loading indicator"
+      aria-label="Web worker loading indicator"
     >
       <path
         fill="currentColor"
@@ -168,6 +169,6 @@ const FigureAreaFallback = () => (
         d="M12.223 4.048a1.273 1.273 0 1 1-1.254 1.277a1.268 1.268 0 0 1 1.254-1.277"
       />
     </svg>
-    <span>Loading Python...</span>
+    <span>Loading Web Worker...</span>
   </div>
 );
