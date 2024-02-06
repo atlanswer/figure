@@ -18,7 +18,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
       const t_start = Date.now();
 
       const fc = await figureCreatorReady;
-      const [maxD, hpbw, svgData] = await fc.createViewPlane({
+      const [maxD, hpbw, svgData] = await fc.plotViewPlane({
         cutPlane: props.cutPlane,
         isDb: props.isDb,
         isGainTotal: props.isGainTotal,
@@ -71,6 +71,7 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
           <img
             width="252"
             height="252"
+            class="rounded"
             src={viewPlaneData.latest?.[2] ?? ""}
             alt={`${props.cutPlane} Plane`}
           />

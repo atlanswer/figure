@@ -1,7 +1,15 @@
-import { type Component, For, Show, createUniqueId } from "solid-js";
-import { type SetStoreFunction } from "solid-js/store";
+import {
+  For,
+  Show,
+  createUniqueId,
+  type Component,
+  createResource,
+  Suspense,
+} from "solid-js";
+import { unwrap, type SetStoreFunction } from "solid-js/store";
 import { type FigureConfig } from "~/routes/figure";
 import { type Source } from "~/workers/pyodide";
+import { useFigureCreator } from "../contexts/figure-creator";
 
 export const SourcesPanel: Component<{
   sources: Source[];
@@ -9,7 +17,8 @@ export const SourcesPanel: Component<{
   idx: number;
 }> = (props) => {
   return (
-    <div class="flex flex-wrap place-items-center gap-4">
+    <div class="flex flex-wrap place-content-center place-items-center gap-4">
+      <SourcePreview sources={props.sources} />
       <For each={props.sources}>
         {(source, idx) => (
           <SourceCard
@@ -26,6 +35,45 @@ export const SourcesPanel: Component<{
   );
 };
 
+const SourcePreview: Component<{ sources: Source[] }> = (props) => {
+  const [figureCreatorReady] = useFigureCreator();
+  const [sourcesPreviewData] = createResource(
+    () => JSON.stringify(props.sources),
+    async () => {
+      const fc = await figureCreatorReady;
+      const [svgData] = await fc.plotSources(unwrap(props.sources));
+      return `data:image/svg+xml,${encodeURIComponent(svgData)}`;
+    },
+  );
+
+  return (
+    <figure class="flex h-44 w-44 place-content-center place-items-center rounded outline outline-1 outline-neutral-500">
+      <Suspense fallback={<SourcePreviewLoading />}>
+        <img
+          width="176"
+          height="176"
+          class="rounded"
+          src={sourcesPreviewData.latest ?? ""}
+          alt="Source Preview"
+        />
+      </Suspense>
+    </figure>
+  );
+};
+
+export const SourcePreviewLoading = () => (
+  <div class="flex place-content-center gap-2 p-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      class="h-6 w-6 animate-spin"
+    >
+      <path fill="currentColor" d="M12 4V2A10 10 0 0 0 2 12h2a8 8 0 0 1 8-8" />
+    </svg>
+    <span>Creating source preview...</span>
+  </div>
+);
+
 const SourceCard: Component<{
   source: Source;
   setFigureConfigs: SetStoreFunction<FigureConfig[]>;
@@ -36,7 +84,7 @@ const SourceCard: Component<{
   const sourceInfos = ["theta", "phi", "amplitude", "phase"] as const;
 
   return (
-    <div class="grid grid-flow-row gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
+    <div class="grid h-44 grid-flow-row place-content-around gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
       <div class="grid grid-flow-col place-content-between place-items-center gap-2">
         <span class="flex place-items-center gap-2 ">
           <span class="rounded bg-neutral-500 px-2 text-white">

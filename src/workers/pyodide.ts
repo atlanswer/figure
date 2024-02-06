@@ -6,6 +6,7 @@ import type { PyodideInterface } from "pyodide";
 import type { PyCallable, PySequence } from "pyodide/ffi";
 import pyCodePlotViewPlane from "python/figure.py?raw";
 import pyCodeInitialization from "python/initialization.py?raw";
+import pyCodePlotSources from "python/plot_sources.py?raw";
 
 const pyodideModule = (await import(
   "/pyodide/pyodide.mjs"
@@ -68,7 +69,7 @@ export class FigureCreator {
     callback();
   }
 
-  async createViewPlane(
+  async plotViewPlane(
     config: ViewPlaneConfig,
   ): Promise<[number, number, string]> {
     const pyPlotViewPlane = (await this.pyodide).runPython(
@@ -82,6 +83,18 @@ export class FigureCreator {
     pyResult.destroy();
 
     return result;
+  }
+
+  async plotSources(sources: Source[]): Promise<[string]> {
+    const pyPlotSources = (await this.pyodide).runPython(
+      pyCodePlotSources,
+    ) as PyCallable;
+
+    const pyResult = pyPlotSources(sources) as string;
+
+    pyPlotSources.destroy();
+
+    return [pyResult];
   }
 }
 
