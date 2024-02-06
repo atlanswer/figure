@@ -56,6 +56,10 @@ export class FigureCreator {
     return pyodide;
   }
 
+  async ready() {
+    await this.pyodide;
+  }
+
   async createViewPlane(
     config: ViewPlaneConfig,
   ): Promise<[number, number, string]> {

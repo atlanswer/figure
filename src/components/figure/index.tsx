@@ -13,7 +13,17 @@ export const FigureArea: Component<{
   numFigures: number;
   idx: number;
 }> = (props) => {
-  const [figureCreatorReady, setFigureCreatorReady] = createSignal(false);
+  const [figureCreatorReady] = useFigureCreator();
+
+  const waitForPyodide = new Promise<void>((resolve) => {
+    void figureCreatorReady.then(
+      (figureCreator) => void figureCreator.ready().then(() => resolve()),
+    );
+  });
+
+  void waitForPyodide.then(() => setPyodideReady(true));
+
+  const [pyodideReady, setPyodideReady] = createSignal(false);
 
   return (
     <section class="flex flex-col place-items-center gap-4 py-8">
@@ -101,7 +111,7 @@ export const FigureArea: Component<{
           </Show>
         </figcaption>
         <div class="grid grid-flow-col place-items-center gap-4 overflow-x-auto rounded py-2 font-semibold">
-          <Show when={figureCreatorReady()} fallback={<FigureAreaFallback />}>
+          <Show when={pyodideReady()} fallback={<FigureAreaFallback />}>
             <ViewPlane cutPlane="YZ" {...props.figureConfig} />
             <ViewPlane cutPlane="XZ" {...props.figureConfig} />
             <ViewPlane cutPlane="XY" {...props.figureConfig} />
@@ -137,19 +147,16 @@ export const FigureArea: Component<{
 };
 
 const FigureAreaFallback = () => {
-  // const [webWorkerReady] = useFigureCreator();
+  const [figureCreatorReady] = useFigureCreator();
 
-  // const [webWorkerInitialized, setWebWorkerInitalized] =
-  //   createSignal<boolean>(false);
+  const [webWorkerInitialized, setWebWorkerInitalized] =
+    createSignal<boolean>(false);
 
-  // webWorkerReady.then(
-  //   () => setWebWorkerInitalized(true),
-  //   () => undefined,
-  // );
+  void figureCreatorReady.then(() => setWebWorkerInitalized(true));
 
   return (
     <div class="flex h-[344px] w-80 place-content-center place-items-center rounded bg-neutral-100 px-4 text-black shadow dark:bg-neutral-800 dark:text-white">
-      <Show when={true} fallback={<WebWorkerLoading />}>
+      <Show when={webWorkerInitialized()} fallback={<WebWorkerLoading />}>
         <PyodideLoading progress={69} />
       </Show>
     </div>
