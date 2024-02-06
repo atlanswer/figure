@@ -31,12 +31,21 @@ export interface ViewPlaneConfig {
 export class FigureCreator {
   private pyodide: Promise<PyodideInterface>;
   private perfObserver: PerformanceObserver;
+  private totalFetchSize: number;
+  private fetchedSize: number;
 
   constructor() {
+    this.totalFetchSize = 60_000_000;
+    this.fetchedSize = 0;
     this.perfObserver = new PerformanceObserver((entries) => {
       entries.getEntries().forEach((entry) => {
         if (entry instanceof PerformanceResourceTiming) {
-          console.debug(entry.name);
+          this.fetchedSize += entry.encodedBodySize;
+          console.debug(
+            entry.name,
+            entry.encodedBodySize,
+            ((this.fetchedSize / this.totalFetchSize) * 100).toFixed() + "%",
+          );
         }
       });
     });
