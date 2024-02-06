@@ -26,9 +26,11 @@ const App: ParentComponent = (props) => {
         <FigureCreatorProvider>
           <MetaProvider>
             <ThemeProvider defaultTheme="dark">
-              <Header />
-              <main class="flex-auto">{props.children}</main>
-              <Footer />
+              <ErrorBoundary fallback={ErrorPage}>
+                <Header />
+                <main class="flex-auto">{props.children}</main>
+                <Footer />
+              </ErrorBoundary>
               <VercelSpeedInsight />
               <VercelAnalytics />
             </ThemeProvider>

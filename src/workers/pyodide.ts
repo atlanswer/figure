@@ -4,7 +4,7 @@
 import * as Comlink from "comlink";
 import type { PyodideInterface } from "pyodide";
 import type { PyCallable, PySequence } from "pyodide/ffi";
-import pyCodePlotViewPlane from "python/figure.py?raw";
+import pyCodePlotViewPlane from "python/plot_view_plane.py?raw";
 import pyCodeInitialization from "python/initialization.py?raw";
 import pyCodePlotSources from "python/plot_sources.py?raw";
 
