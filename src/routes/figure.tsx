@@ -1,7 +1,7 @@
 /* @refresh granular */
 
 import { Title } from "@solidjs/meta";
-import { type Component, For, createEffect, on } from "solid-js";
+import { For, createEffect, on, type Component } from "solid-js";
 import { createStore } from "solid-js/store";
 import { FigureArea } from "~/components/figure";
 import { type ViewPlaneConfig } from "~/workers/pyodide";

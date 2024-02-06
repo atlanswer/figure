@@ -13,19 +13,11 @@ export const FigureArea: Component<{
   numFigures: number;
   idx: number;
 }> = (props) => {
-  const [webWorkerReady] = useFigureCreator();
-
-  const [webWorkerInitialized, setWebWorkerInitalized] =
-    createSignal<boolean>(false);
-
-  webWorkerReady.then(
-    () => setWebWorkerInitalized(true),
-    () => undefined,
-  );
+  const [figureCreatorReady, setFigureCreatorReady] = createSignal(false);
 
   return (
     <section class="flex flex-col place-items-center gap-4 py-8">
-      <figure class="flex max-w-full flex-col gap-4">
+      <figure class="flex max-w-full flex-col gap-2">
         <figcaption class="flex place-content-around place-items-center gap-4">
           <div class="flex flex-wrap place-items-center gap-4">
             <input
@@ -108,8 +100,8 @@ export const FigureArea: Component<{
             </button>
           </Show>
         </figcaption>
-        <div class="grid grid-flow-col place-items-center gap-4 overflow-x-auto rounded font-semibold">
-          <Show when={webWorkerInitialized()} fallback={<FigureAreaFallback />}>
+        <div class="grid grid-flow-col place-items-center gap-4 overflow-x-auto rounded py-2 font-semibold">
+          <Show when={figureCreatorReady()} fallback={<FigureAreaFallback />}>
             <ViewPlane cutPlane="YZ" {...props.figureConfig} />
             <ViewPlane cutPlane="XZ" {...props.figureConfig} />
             <ViewPlane cutPlane="XY" {...props.figureConfig} />
@@ -144,7 +136,25 @@ export const FigureArea: Component<{
   );
 };
 
-const FigureAreaFallback = () => (
+const FigureAreaFallback = () => {
+  // const [webWorkerReady] = useFigureCreator();
+
+  // const [webWorkerInitialized, setWebWorkerInitalized] =
+  //   createSignal<boolean>(false);
+
+  // webWorkerReady.then(
+  //   () => setWebWorkerInitalized(true),
+  //   () => undefined,
+  // );
+
+  return (
+    <Show when={true}>
+      <WebWorkerLoading />
+    </Show>
+  );
+};
+
+const WebWorkerLoading = () => (
   <div class="flex h-[344px] w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-100 text-black shadow dark:bg-neutral-800 dark:text-white">
     <svg
       xmlns="http://www.w3.org/2000/svg"
