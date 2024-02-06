@@ -47,7 +47,7 @@ const SourcePreview: Component<{ sources: Source[] }> = (props) => {
   );
 
   return (
-    <figure class="flex h-44 w-44 place-content-center place-items-center rounded outline outline-1 outline-neutral-500">
+    <figure class="flex h-44 w-44 place-content-center place-items-center rounded bg-neutral-100 text-black shadow-md outline-1 outline-neutral-500 dark:bg-neutral-800 dark:text-white dark:outline">
       <Suspense fallback={<SourcePreviewLoading />}>
         <img
           width="176"

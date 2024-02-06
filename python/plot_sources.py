@@ -19,6 +19,8 @@ def plot_sources(sources: list[Source]):
     fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
     assert isinstance(ax, Axes3D)
 
+    # ax.view_init(elev=45, azim=45, roll=45)
+
     f = io.BytesIO()
     fig.savefig(f, format="svg")
     plt.close(fig)
