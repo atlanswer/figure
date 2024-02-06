@@ -148,35 +148,79 @@ const FigureAreaFallback = () => {
   // );
 
   return (
-    <Show when={true}>
-      <WebWorkerLoading />
-    </Show>
+    <div class="flex h-[344px] w-80 place-content-center place-items-center rounded bg-neutral-100 px-4 text-black shadow dark:bg-neutral-800 dark:text-white">
+      <Show when={true} fallback={<WebWorkerLoading />}>
+        <PyodideLoading progress={69} />
+      </Show>
+    </div>
+  );
+};
+
+const PyodideLoading: Component<{ progress: number }> = (props) => {
+  return (
+    <div class="grid w-full grid-flow-row place-items-center gap-4">
+      <div class="flex place-items-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          viewBox="0 0 32 32"
+          aria-label="Pyodide loading indicator"
+        >
+          <path
+            fill="currentColor"
+            d="M23.488 9.14v2.966a4.284 4.284 0 0 1-4.173 4.236h-6.672a3.408 3.408 0 0 0-3.34 3.394v6.36c0 1.81 1.574 2.876 3.34 3.395a11.176 11.176 0 0 0 6.672 0c1.682-.487 3.34-1.467 3.34-3.394V23.55h-6.672v-.849h10.012c1.941 0 2.665-1.354 3.34-3.386a11.464 11.464 0 0 0 0-6.79c-.48-1.932-1.396-3.386-3.34-3.386Zm-3.752 16.108a1.273 1.273 0 1 1-1.254 1.269a1.26 1.26 0 0 1 1.254-1.27"
+          />
+          <path
+            fill="none"
+            d="M19.736 25.248a1.273 1.273 0 1 1-1.254 1.269a1.26 1.26 0 0 1 1.254-1.27"
+          />
+          <path
+            fill="currentColor"
+            d="M15.835 2a19.072 19.072 0 0 0-3.192.273c-2.827.499-3.34 1.544-3.34 3.472V8.29h6.68v.849H6.796a4.17 4.17 0 0 0-4.173 3.387a12.486 12.486 0 0 0 0 6.789c.475 1.977 1.609 3.386 3.55 3.386H8.47V19.65a4.245 4.245 0 0 1 4.173-4.15h6.672a3.365 3.365 0 0 0 3.34-3.394V5.745a3.729 3.729 0 0 0-3.34-3.472A20.838 20.838 0 0 0 15.835 2m-3.612 2.048a1.273 1.273 0 1 1-1.254 1.277a1.268 1.268 0 0 1 1.254-1.277"
+          />
+          <path
+            fill="none"
+            d="M12.223 4.048a1.273 1.273 0 1 1-1.254 1.277a1.268 1.268 0 0 1 1.254-1.277"
+          />
+        </svg>
+        <span>Loading Python...</span>
+      </div>
+      <div class="w-full">
+        <div
+          class="mb-2 ms-[calc(var(--progress)-1.25rem)] inline-block rounded-lg border border-sky-200 bg-sky-50 px-1.5 py-0.5 text-xs font-medium text-sky-500 dark:border-sky-800 dark:bg-sky-800/30"
+          style={{ "--progress": `${props.progress}%` }}
+        >
+          {props.progress}%
+        </div>
+        <div
+          class="flex h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
+          role="progressbar"
+          aria-valuenow={props.progress}
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div
+            class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-sky-500 text-center text-xs text-white transition duration-500"
+            style={{ width: `${props.progress}%` }}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 
 const WebWorkerLoading = () => (
-  <div class="flex h-[344px] w-80 animate-pulse place-content-center place-items-center gap-2 self-stretch rounded bg-neutral-100 text-black shadow dark:bg-neutral-800 dark:text-white">
+  <div class="flex animate-pulse place-items-center gap-2">
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
       class="h-6 w-6"
-      viewBox="0 0 32 32"
-      aria-label="Web worker loading indicator"
     >
       <path
-        fill="currentColor"
-        d="M23.488 9.14v2.966a4.284 4.284 0 0 1-4.173 4.236h-6.672a3.408 3.408 0 0 0-3.34 3.394v6.36c0 1.81 1.574 2.876 3.34 3.395a11.176 11.176 0 0 0 6.672 0c1.682-.487 3.34-1.467 3.34-3.394V23.55h-6.672v-.849h10.012c1.941 0 2.665-1.354 3.34-3.386a11.464 11.464 0 0 0 0-6.79c-.48-1.932-1.396-3.386-3.34-3.386Zm-3.752 16.108a1.273 1.273 0 1 1-1.254 1.269a1.26 1.26 0 0 1 1.254-1.27"
-      />
-      <path
-        fill="none"
-        d="M19.736 25.248a1.273 1.273 0 1 1-1.254 1.269a1.26 1.26 0 0 1 1.254-1.27"
-      />
-      <path
-        fill="currentColor"
-        d="M15.835 2a19.072 19.072 0 0 0-3.192.273c-2.827.499-3.34 1.544-3.34 3.472V8.29h6.68v.849H6.796a4.17 4.17 0 0 0-4.173 3.387a12.486 12.486 0 0 0 0 6.789c.475 1.977 1.609 3.386 3.55 3.386H8.47V19.65a4.245 4.245 0 0 1 4.173-4.15h6.672a3.365 3.365 0 0 0 3.34-3.394V5.745a3.729 3.729 0 0 0-3.34-3.472A20.838 20.838 0 0 0 15.835 2m-3.612 2.048a1.273 1.273 0 1 1-1.254 1.277a1.268 1.268 0 0 1 1.254-1.277"
-      />
-      <path
-        fill="none"
-        d="M12.223 4.048a1.273 1.273 0 1 1-1.254 1.277a1.268 1.268 0 0 1 1.254-1.277"
+        fill-rule="evenodd"
+        d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 0 0-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 0 0-2.282.819l-.922 1.597a1.875 1.875 0 0 0 .432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 0 0 0 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 0 0-.432 2.385l.922 1.597a1.875 1.875 0 0 0 2.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 0 0 2.28-.819l.923-1.597a1.875 1.875 0 0 0-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 0 0 0-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 0 0-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 0 0-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 0 0-1.85-1.567h-1.843ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"
+        clip-rule="evenodd"
       />
     </svg>
     <span>Loading Web Worker...</span>
