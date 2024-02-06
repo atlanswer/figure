@@ -144,7 +144,7 @@ export const FigureArea: Component<{
 };
 
 const FigureAreaFallback = () => {
-  const [figureCreatorReady] = useFigureCreator();
+  const [figureCreatorReady, progress] = useFigureCreator();
 
   const [webWorkerInitialized, setWebWorkerInitalized] =
     createSignal<boolean>(false);
@@ -152,15 +152,15 @@ const FigureAreaFallback = () => {
   void figureCreatorReady.then(() => setWebWorkerInitalized(true));
 
   return (
-    <div class="flex h-[344px] w-80 place-content-center place-items-center rounded bg-neutral-100 px-4 text-black shadow dark:bg-neutral-800 dark:text-white">
+    <div class="flex h-[344px] w-80 place-content-center place-items-center rounded bg-neutral-100 px-8 text-black shadow dark:bg-neutral-800 dark:text-white">
       <Show when={webWorkerInitialized()} fallback={<WebWorkerLoading />}>
-        <PyodideLoading progress={69} />
+        <PyodideLoading progress={progress()} />
       </Show>
     </div>
   );
 };
 
-const PyodideLoading: Component<{ progress: number }> = (props) => {
+const PyodideLoading: Component<{ progress: string }> = (props) => {
   return (
     <div class="grid w-full grid-flow-row place-items-center gap-4">
       <div class="flex place-items-center gap-2">
@@ -191,25 +191,24 @@ const PyodideLoading: Component<{ progress: number }> = (props) => {
       </div>
       <div class="w-full">
         <div
-          class="mb-2 ms-[calc(var(--progress)-1.25rem)] inline-block rounded-lg border border-sky-200 bg-sky-50 px-1.5 py-0.5 text-xs font-medium text-sky-500 dark:border-sky-800 dark:bg-sky-800/30"
-          style={{ "--progress": `${props.progress}%` }}
+          class="mb-2 ms-[calc(var(--progress)-1.25rem)] inline-block rounded-lg border border-sky-200 bg-sky-50 px-1.5 py-0.5 text-xs font-medium text-sky-500 transition-[margin-inline-start] duration-1000 dark:border-sky-800 dark:bg-sky-800/30"
+          style={{ "--progress": props.progress }}
         >
-          {props.progress}%
+          {props.progress}
         </div>
         <div
           class="flex h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
           role="progressbar"
-          aria-valuenow={props.progress}
+          aria-valuenow={props.progress.replace("$", "")}
           aria-valuemin="0"
           aria-valuemax="100"
         >
           <div
-            class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-sky-500 text-center text-xs text-white transition duration-500"
-            style={{ width: `${props.progress}%` }}
+            class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-sky-500 text-center text-xs text-white transition-[width] duration-1000"
+            style={{ width: props.progress }}
           />
         </div>
       </div>
-      <progress class="w-full" value={props.progress} max="100" />
     </div>
   );
 };

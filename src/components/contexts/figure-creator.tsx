@@ -1,13 +1,19 @@
 /* @refresh granular */
 
-import { wrap, type Remote } from "comlink";
-import { createContext, useContext, type ParentComponent } from "solid-js";
+import { proxy, wrap, type Remote } from "comlink";
+import {
+  createContext,
+  useContext,
+  type Accessor,
+  type ParentComponent,
+  createSignal,
+} from "solid-js";
 import type { FigureCreator } from "~/workers/pyodide";
 import PyodideWorker from "~/workers/pyodide?worker";
 
 /** Global Pyodide worker */
 const FigureCreatorProviderContext =
-  createContext<[Promise<Remote<FigureCreator>>]>();
+  createContext<[Promise<Remote<FigureCreator>>, Accessor<string>]>();
 
 export const useFigureCreator = () => {
   const context = useContext(FigureCreatorProviderContext);
@@ -20,6 +26,8 @@ export const useFigureCreator = () => {
 export const FigureCreatorProvider: ParentComponent = (props) => {
   const pyodideWorker = new PyodideWorker();
   const RemoteFigureCreator = wrap<typeof FigureCreator>(pyodideWorker);
+
+  const [progress, setProgress] = createSignal("0%");
 
   const workerReady = new Promise(
     (resolve: (value: Worker) => void, reject) => {
@@ -41,7 +49,12 @@ export const FigureCreatorProvider: ParentComponent = (props) => {
       reject,
     ) => {
       workerReady.then(
-        () => resolve(new RemoteFigureCreator()),
+        () =>
+          resolve(
+            new RemoteFigureCreator(
+              proxy((progress: string) => setProgress(progress)),
+            ),
+          ),
         () => reject(),
       );
     },
@@ -57,7 +70,9 @@ export const FigureCreatorProvider: ParentComponent = (props) => {
   );
 
   return (
-    <FigureCreatorProviderContext.Provider value={[FigureCreatorReady]}>
+    <FigureCreatorProviderContext.Provider
+      value={[FigureCreatorReady, progress]}
+    >
       {props.children}
     </FigureCreatorProviderContext.Provider>
   );
