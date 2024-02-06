@@ -34,18 +34,16 @@ export class FigureCreator {
   private totalFetchSize: number;
   private fetchedSize: number;
 
-  constructor() {
+  constructor(callback: (progress: string) => void) {
+    // TODO: update when needed
     this.totalFetchSize = 60_000_000;
     this.fetchedSize = 0;
     this.perfObserver = new PerformanceObserver((entries) => {
       entries.getEntries().forEach((entry) => {
         if (entry instanceof PerformanceResourceTiming) {
           this.fetchedSize += entry.encodedBodySize;
-          console.debug(
-            entry.name,
-            entry.encodedBodySize,
-            ((this.fetchedSize / this.totalFetchSize) * 100).toFixed() + "%",
-          );
+          const progress = `${((this.fetchedSize / this.totalFetchSize) * 100).toFixed()}%`;
+          callback(progress);
         }
       });
     });
@@ -65,8 +63,9 @@ export class FigureCreator {
     return pyodide;
   }
 
-  async ready() {
+  async ready(callback: () => void) {
     await this.pyodide;
+    callback();
   }
 
   async createViewPlane(
