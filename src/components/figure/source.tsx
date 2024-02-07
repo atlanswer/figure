@@ -10,6 +10,7 @@ import { unwrap, type SetStoreFunction } from "solid-js/store";
 import { type FigureConfig } from "~/routes/figure";
 import { type Source } from "~/workers/pyodide";
 import { useFigureCreator } from "../contexts/figure-creator";
+import { useDrawPerf } from "../contexts/draw-perf";
 
 export const SourcesPanel: Component<{
   sources: Source[];
@@ -37,11 +38,19 @@ export const SourcesPanel: Component<{
 
 const SourcePreview: Component<{ sources: Source[] }> = (props) => {
   const [figureCreatorReady] = useFigureCreator();
+  const [, updateAvgTime] = useDrawPerf();
+
   const [sourcesPreviewData] = createResource(
     () => JSON.stringify(props.sources),
     async () => {
+      const t_start = Date.now();
+
       const fc = await figureCreatorReady;
       const [svgData] = await fc.plotSources(unwrap(props.sources));
+
+      const t_finish = Date.now();
+      updateAvgTime(t_finish - t_start);
+
       return `data:image/svg+xml,${encodeURIComponent(svgData)}`;
     },
   );

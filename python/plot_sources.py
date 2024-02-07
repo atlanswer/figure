@@ -3,9 +3,10 @@
 
 import io
 import sys
-from typing import Literal, TypedDict
+from typing import Literal, TypedDict, cast
 
 import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 if sys.platform != "emscripten":
@@ -31,63 +32,54 @@ if sys.platform != "emscripten":
 
 
 def plot_sources(sources: list[Source]):
-    fig, ax = plt.subplots(figsize=(2, 2), subplot_kw={"projection": "3d"})
+    sources = cast(list[Source], sources.to_py())  # type: ignore
+
+    fig, ax = plt.subplots(
+        figsize=(2, 2),
+        subplot_kw={
+            "projection": "3d",
+            # "facecolor": "#AAAAAA",
+        },
+    )
     assert isinstance(ax, Axes3D)
 
-    ax.set_xlim(-1, 1)
-    ax.set_ylim(-1, 1)
-    ax.set_zlim(-1, 1)
-    ax.view_init(elev=45, azim=45)
     ax.set_proj_type("ortho")
-    # ax.set_aspect("equal", anchor="C")
-    ax.set_axis_off()
     ax.set_box_aspect((1, 1, 1))
-    ax.quiver(
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        length=2,
-        color="k",
-        pivot="middle",
-        linewidth=1,
-        arrow_length_ratio=0.1,
-    )  # x-axis
-    ax.quiver(
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        length=2,
-        color="k",
-        pivot="middle",
-        linewidth=1,
-        arrow_length_ratio=0.1,
-    )  # y-axis
-    ax.quiver(
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        length=2,
-        color="k",
-        pivot="middle",
-        linewidth=1,
-        arrow_length_ratio=0.1,
-    )  # z-axis
+    ax.set_xlim(-0.35, 0.45)
+    ax.set_ylim(-0.33, 0.47)
+    ax.set_zlim(-0.3, 0.52)
+    ax.view_init(elev=45, azim=45)
+    ax.set_axis_off()
+    ax.plot([-1, 1], [0, 0], [0, 0], "k", linewidth=0.5)
+    ax.plot([0, 0], [-1, 1], [0, 0], "k", linewidth=0.5)
+    ax.plot([0, 0], [0, 0], [-1, 1], "k", linewidth=0.5)
+    ax.text(0.95, 0, 0.1, "x", "x", fontsize="small")
+    ax.text(0, 0.8, 0.05, "y", "y", fontsize="small")
+    ax.text(0, 0.05, 0.9, "z", fontsize="small")
+
+    for s in sources:
+        theta = np.radians(s["theta"])
+        phi = np.radians(s["phi"])
+        u = np.cos(phi)
+        v = np.sin(phi)
+        w = np.cos(theta)
+        ax.quiver(
+            0,
+            0,
+            0,
+            u,
+            v,
+            w,
+            pivot="middle",
+            color="C0" if s["type"] == "E" else "C1",
+            arrow_length_ratio=0.2,
+        )
+        ax.text(u / 2, v / 2, w / 2 + 0.2, "J" if s["type"] == "E" else "M")
 
     if sys.platform != "emscripten":
-        # fig.tight_layout()
         return fig
     else:
         f = io.BytesIO()
-        fig.tight_layout()
         fig.savefig(f, format="svg", bbox_inches="tight", pad_inches=0)
         plt.close(fig)
         f.seek(0)
