@@ -1,5 +1,4 @@
 # spell-checker:words azim, mplot3d
-# %%
 
 import io
 import sys
@@ -19,16 +18,6 @@ class Source(TypedDict):
     phi: float
     amplitude: float
     phase: float
-
-
-# %%
-
-if sys.platform != "emscripten":
-    sources = []
-    sources.append(Source(type="E", theta=90, phi=90, amplitude=1, phase=0))
-
-
-# %%
 
 
 def plot_sources(sources: list[Source]):
@@ -74,20 +63,19 @@ def plot_sources(sources: list[Source]):
             color="C0" if s["type"] == "E" else "C1",
             arrow_length_ratio=0.2,
         )
-        ax.text(u / 2, v / 2, w / 2 + 0.2, "J" if s["type"] == "E" else "M")
+        ax.text(
+            u / 2 + 0.2,
+            v / 2 + 0.2,
+            w / 2 + 0.2,
+            "J" if s["type"] == "E" else "M",
+        )
 
-    if sys.platform != "emscripten":
-        return fig
-    else:
-        f = io.BytesIO()
-        fig.savefig(f, format="svg", bbox_inches="tight", pad_inches=0)
-        plt.close(fig)
-        f.seek(0)
+    f = io.BytesIO()
+    fig.savefig(f, format="svg", bbox_inches="tight", pad_inches=0)
+    plt.close(fig)
+    f.seek(0)
 
     return f.getvalue().decode()
 
-
-if sys.platform != "emscripten":
-    plot_sources(sources)
 
 plot_sources  # pyright: ignore[reportUnusedExpression] # noqa: B018

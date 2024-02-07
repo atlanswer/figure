@@ -5,6 +5,7 @@ import {
   type Component,
   createResource,
   Suspense,
+  untrack,
 } from "solid-js";
 import { unwrap, type SetStoreFunction } from "solid-js/store";
 import { type FigureConfig } from "~/routes/figure";
@@ -46,7 +47,9 @@ const SourcePreview: Component<{ sources: Source[] }> = (props) => {
       const t_start = Date.now();
 
       const fc = await figureCreatorReady;
-      const [svgData] = await fc.plotSources(unwrap(props.sources));
+      const [svgData] = await fc.plotSources(
+        untrack(() => unwrap(props.sources)),
+      );
 
       const t_finish = Date.now();
       updateAvgTime(t_finish - t_start);

@@ -1,7 +1,13 @@
 /* @refresh granular */
 // spell-checker:words HPBW
 
-import { Show, Suspense, createResource, type Component } from "solid-js";
+import {
+  Show,
+  Suspense,
+  createResource,
+  type Component,
+  untrack,
+} from "solid-js";
 import { unwrap } from "solid-js/store";
 import { useDrawPerf } from "~/components/contexts/draw-perf";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
@@ -19,10 +25,10 @@ export const ViewPlane: Component<ViewPlaneConfig> = (props) => {
 
       const fc = await figureCreatorReady;
       const [maxD, hpbw, svgData] = await fc.plotViewPlane({
-        cutPlane: props.cutPlane,
-        isDb: props.isDb,
-        isGainTotal: props.isGainTotal,
-        sources: unwrap(props.sources),
+        cutPlane: untrack(() => props.cutPlane),
+        isDb: untrack(() => props.isDb),
+        isGainTotal: untrack(() => props.isGainTotal),
+        sources: untrack(() => unwrap(props.sources)),
       });
 
       const t_finish = Date.now();
