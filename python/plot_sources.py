@@ -60,9 +60,9 @@ def plot_sources(sources: list[Source]):
     for s in sources:
         theta = np.radians(s["theta"])
         phi = np.radians(s["phi"])
-        u = np.cos(phi)
-        v = np.sin(phi)
-        w = np.cos(theta)
+        u = s["amplitude"] * np.cos(phi)
+        v = s["amplitude"] * np.sin(phi)
+        w = s["amplitude"] * np.cos(theta)
         ax.quiver(
             0,
             0,
