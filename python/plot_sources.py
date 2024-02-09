@@ -34,17 +34,10 @@ def plot_sources(sources: list[Source]):
 
     ax.set_proj_type("ortho")
     ax.set_box_aspect((1, 1, 1))
-    ax.set_xlim(-0.35, 0.45)
-    ax.set_ylim(-0.33, 0.47)
-    ax.set_zlim(-0.3, 0.52)
     ax.view_init(elev=45, azim=45)
     ax.set_axis_off()
-    ax.plot([0, 1], [0, 0], [0, 0], "k", linewidth=0.5)
-    ax.plot([0, 0], [0, 1], [0, 0], "k", linewidth=0.5)
-    ax.plot([0, 0], [0, 0], [0, 1], "k", linewidth=0.5)
-    ax.text(0.95, 0, 0.1, "x", "x", fontsize="small")
-    ax.text(0, 0.8, 0.05, "y", "y", fontsize="small")
-    ax.text(0, 0.05, 0.9, "z", fontsize="small")
+
+    max_amplitude = 0
 
     for s in sources:
         theta = np.radians(s["theta"])
@@ -53,7 +46,6 @@ def plot_sources(sources: list[Source]):
         w2 = s["amplitude"] * np.sin(theta)
         u = w2 * np.cos(phi)
         v = w2 * np.sin(phi)
-        print(u, v, w)
         ax.quiver(
             0,
             0,
@@ -66,11 +58,27 @@ def plot_sources(sources: list[Source]):
             arrow_length_ratio=0.2,
         )
         ax.text(
-            u / 2 + 0.2,
-            v / 2 + 0.2,
-            w / 2 + 0.2,
+            u / 2 * 1.2,
+            v / 2 * 1.2,
+            w / 2 * 1.2,
             "J" if s["type"] == "E" else "M",
         )
+        max_amplitude = max(max_amplitude, s["amplitude"])
+
+    ax.plot([0, max_amplitude], [0, 0], [0, 0], "k", linewidth=0.5)
+    ax.plot([0, 0], [0, max_amplitude], [0, 0], "k", linewidth=0.5)
+    ax.plot([0, 0], [0, 0], [0, max_amplitude], "k", linewidth=0.5)
+    ax.text(max_amplitude, 0, max_amplitude * 0.1, "x", "x", fontsize="small")
+    ax.text(
+        0, max_amplitude * 0.8, max_amplitude * 0.05, "y", "y", fontsize="small"
+    )
+    ax.text(
+        0, max_amplitude * 0.05, max_amplitude * 0.85, "z", fontsize="small"
+    )
+    ax.set_xlim(-max_amplitude * 0.4, max_amplitude * 0.4)
+    ax.set_ylim(-max_amplitude * 0.4, max_amplitude * 0.4)
+    ax.set_zlim(-max_amplitude * 0.4, max_amplitude * 0.4)
+    ax.set_axisbelow(True)
 
     f = io.BytesIO()
     fig.savefig(f, format="svg", bbox_inches="tight", pad_inches=0)

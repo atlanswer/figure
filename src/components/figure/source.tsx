@@ -222,7 +222,7 @@ const SourceCard: Component<{
                   </button>
                   <input
                     id={inputId}
-                    value={props.source[param]}
+                    value={props.source[param].toFixed(2)}
                     type="number"
                     min={param === "phase" ? "-180" : "0"}
                     max={param === "theta" || param === "phase" ? "180" : "359"}
