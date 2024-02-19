@@ -1,5 +1,6 @@
 /* @refresh granular */
 
+import { attachDevtoolsOverlay } from "@solid-devtools/overlay";
 import { MetaProvider } from "@solidjs/meta";
 import { Route, Router } from "@solidjs/router";
 import { ErrorBoundary, type ParentComponent } from "solid-js";
@@ -18,6 +19,7 @@ import { FigurePage } from "./routes/figure";
 import { ReportPage } from "./routes/report";
 
 const App: ParentComponent = (props) => {
+  attachDevtoolsOverlay();
   // onMount(() => addPartytown({ debug: !!DEV }));
 
   return (
