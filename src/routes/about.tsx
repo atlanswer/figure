@@ -19,6 +19,7 @@ export const AboutPage = () => (
       <span> </span>
       project.
     </p>
+    <p>If you encountered any issue, please reach out to me.</p>
     <p>This web app is built with the following tools:</p>
     <ul>
       <li>
