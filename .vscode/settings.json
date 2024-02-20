@@ -6,6 +6,7 @@
     "ptupdate",
     "pyimport",
     "pyodide",
+    "rehype",
     "solidjs"
   ],
   "eslint.experimental.useFlatConfig": true,
