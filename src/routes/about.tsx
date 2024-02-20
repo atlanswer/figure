@@ -1,5 +1,4 @@
 /* @refresh granular */
-// spell-checker:words CMYK
 
 import { Title } from "@solidjs/meta";
 import { lazy } from "solid-js";
