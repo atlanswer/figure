@@ -29,6 +29,16 @@ $$
 - Far fields are sampled every 1°
 - There may be bugs in phase implementation
 
+#### E-dipole:
+
+- Gain $θ$: $\sin(\theta)\cos(\phi)$
+- Gain $ϕ$: $\sin(\phi)$
+
+#### M-dipole:
+
+- Gain $θ$: $\sin(\phi)$
+- Gain $ϕ$: $\sin(\theta)\cos(\phi)$
+
 ### Report
 
 Upload date files to generate data figures. Work in progress!
