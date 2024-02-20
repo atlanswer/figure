@@ -34,8 +34,6 @@ x: npt.NDArray[np.float64]
 
 
 def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
-    # t_start = time.perf_counter()
-
     config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
 
     global x
@@ -191,9 +189,6 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
             if l_idx <= 0:
                 l_idx = 359
         return hpbw + 1
-
-    # t_finish = time.perf_counter()
-    # print(f"plot_view_plane: {( t_finish - t_start ) * 1000:.3f} ms")
 
     return int(peak_idx), get_hpbw(), f.getvalue().decode()
 

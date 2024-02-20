@@ -18,9 +18,9 @@ And it's hosted on [Vercel](https://vercel.com/).
 
 ## Notes
 
-```math
+$$
 e = mc^2
-```
+$$
 
 ### Figures
 
