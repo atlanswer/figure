@@ -18,6 +18,10 @@ And it's hosted on [Vercel](https://vercel.com/).
 
 ## Notes
 
+```math
+e = mc^2
+```
+
 ### Figures
 
 - Currently all sources are positioned at the origin
