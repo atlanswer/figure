@@ -5,7 +5,6 @@ import sys
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import numpy as np
 
 logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
 
@@ -33,6 +32,3 @@ mpl.rcParams["lines.linewidth"] = 2
 
 # mpl.rcParams["figure.figsize"] = 3.5 * sf, 3.5 * sf
 mpl.rcParams["figure.figsize"] = 3.5, 3.5
-
-x = np.linspace(0, 2 * np.pi, 361)
-"""Shared theta axis"""

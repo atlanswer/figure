@@ -34,9 +34,6 @@ x: npt.NDArray[np.float64]
 def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
 
-    global x
-    assert isinstance(x, np.ndarray)
-
     db_min, db_max = -20, 10
     lin_min = 0
 
@@ -45,25 +42,25 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
 
     match config["cutPlane"]:
         case "YZ":
-            theta = x
-            phi = np.pi / 2 * np.ones_like(x)
+            theta = np.linspace(0, np.pi * 2, 361)
+            phi = np.pi / 2 * np.ones_like(theta)
         case "XZ":
-            theta = x
+            theta = np.linspace(0, np.pi * 2, 361)
+            phi = np.zeros_like(theta)
         case "XY":
-            phi = x
+            phi = np.linspace(0, np.pi * 2, 361)
+            theta = np.pi / 2 * phi
 
-    # theta_a = np.zeros_like(x)
-    theta_a = None
-    theta_phase = np.zeros_like(x)
-    # phi_a = np.zeros_like(x)
-    phi_a = None
-    phi_phase = np.zeros_like(x)
+    theta_a = np.zeros_like(x)
+    theta_phase_a = np.zeros_like(x)
+    phi_a = np.zeros_like(x)
+    phi_phase_b = np.zeros_like(x)
 
     for s in config["sources"]:
         amplitude = s["amplitude"]
-        theta_s = np.radians(s["theta"])
-        phi_s = np.radians(s["phi"])
-        phase_s = np.radians(s["phase"])
+        theta_s = cast(np.float64, np.radians(s["theta"]))
+        phi_s = cast(np.float64, np.radians(s["phi"]))
+        phase_s = cast(np.float64, np.radians(s["phase"]))
         match s["type"]:
             case "E":
                 theta_b = -np.sin(theta - theta_s) * np.cos(phi - phi_s)
@@ -74,7 +71,7 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
         theta_b *= amplitude
         phi_b *= amplitude
 
-        phase_s *= np.ones_like(x)
+        phase_b = phase_s * np.ones_like(x)
 
         if theta_a is None:
             theta_a = theta_b
