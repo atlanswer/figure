@@ -1,8 +1,6 @@
 # spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis, intp, hpbw
 
 import io
-
-# import time
 from typing import Literal, TypedDict, cast
 
 import matplotlib.pyplot as plt

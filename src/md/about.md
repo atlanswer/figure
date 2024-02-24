@@ -39,6 +39,25 @@ $$
 - Gain $θ$: $\sin(\phi)$
 - Gain $ϕ$: $\sin(\theta)\cos(\phi)$
 
+#### Linear Combination with Arbitrary Phase Shift[^wikipedia]
+
+We have
+
+$$
+a\sin(x+\theta_a)+b\sin(x+\theta_b)=c\sin(x+\varphi)
+$$
+
+where $c$ and $\varphi$ satisfy
+
+$$
+\begin{gather*}
+c^2=a^2+b^2+2ab\cos(\theta_a-\theta_b)\text{,} \\
+\tan\varphi=\frac{a\sin(\theta_a)+b\sin(\theta_b)}{a\cos(\theta_a)+b\cos(\theta_b)}\text{.}
+\end{gather*}
+$$
+
+[^wikipedia]: [Trigonometric Identities](https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Arbitrary_phase_shift)
+
 ### Report
 
 Upload date files to generate data figures. Work in progress!
