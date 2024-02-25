@@ -39,7 +39,7 @@ $$
 - Gain $θ$: $\sin(\phi)$
 - Gain $ϕ$: $\sin(\theta)\cos(\phi)$
 
-#### Linear Combination with Arbitrary Phase Shift[^wikipedia]
+#### Linear Combination with Arbitrary Phase Shift [^wikipedia]
 
 We have
 

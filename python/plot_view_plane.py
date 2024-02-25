@@ -36,25 +36,23 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
 
     db_min, db_max = -20, 10
     lin_min = 0
-
-    phi = np.zeros_like(x)
-    theta = np.pi / 2 * np.ones_like(x)
+    n_samples = 361
 
     match config["cutPlane"]:
         case "YZ":
-            theta = np.linspace(0, np.pi * 2, 361)
+            theta = np.linspace(0, np.pi * 2, n_samples)
             phi = np.pi / 2 * np.ones_like(theta)
         case "XZ":
-            theta = np.linspace(0, np.pi * 2, 361)
+            theta = np.linspace(0, np.pi * 2, n_samples)
             phi = np.zeros_like(theta)
         case "XY":
-            phi = np.linspace(0, np.pi * 2, 361)
-            theta = np.pi / 2 * phi
+            phi = np.linspace(0, np.pi * 2, n_samples)
+            theta = np.pi / 2 * np.ones_like(phi)
 
-    theta_a = np.zeros_like(x)
-    theta_phase_a = np.zeros_like(x)
-    phi_a = np.zeros_like(x)
-    phi_phase_b = np.zeros_like(x)
+    theta_a = np.zeros(n_samples)
+    theta_phase_a = np.zeros_like(n_samples)
+    phi_a = np.zeros_like(n_samples)
+    phi_phase_a = np.zeros_like(n_samples)
 
     for s in config["sources"]:
         amplitude = s["amplitude"]
@@ -71,57 +69,60 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
         theta_b *= amplitude
         phi_b *= amplitude
 
-        phase_b = phase_s * np.ones_like(x)
+        theta_phase_b = phase_s * np.ones(n_samples)
+        phi_phase_b = phase_s * np.ones(n_samples)
 
-        if theta_a is None:
-            theta_a = theta_b
-            theta_phase = phase_s
-            phi_a = phi_b
-            phi_phase = phase_s
-            continue
-
-        phase_s[theta_b < 0] = phase_s[theta_b < 0] + np.pi
+        theta_phase_b[theta_b < 0] = theta_phase_b[theta_b < 0] + np.pi
+        theta_phase_b[theta_phase_b > np.pi * 2] = (
+            theta_phase_b[theta_phase_b > np.pi * 2] - np.pi * 2
+        )
         theta_b = np.abs(theta_b)
+        phi_phase_b[phi_b < 0] = phi_phase_b[phi_b < 0] + np.pi
+        phi_phase_b[phi_phase_b > np.pi * 2] = (
+            phi_phase_b[phi_phase_b > np.pi * 2] - np.pi * 2
+        )
+        phi_b = np.abs(phi_b)
 
         theta_a = np.sqrt(
             theta_a**2
             + theta_b**2
-            + 2 * theta_a * theta_b * np.cos(theta_phase - phase_s)
+            + 2 * theta_a * theta_b * np.cos(theta_phase_a - theta_phase_b)
         )
         theta_phase_numerator = theta_a * np.sin(
-            theta_phase
-        ) + theta_b * np.sin(phase_s)
-        theta_phase_numerator_nonzero = theta_phase != 0
+            theta_phase_a
+        ) + theta_b * np.sin(theta_phase_b)
         theta_phase_denominator = theta_a * np.cos(
-            theta_phase
-        ) + theta_b * np.cos(phase_s)
-        theta_phase = theta_phase_numerator
-        theta_phase[theta_phase_numerator_nonzero] = np.arctan(
-            theta_phase_numerator[theta_phase_numerator_nonzero]
-            / theta_phase_denominator[theta_phase_numerator_nonzero]
+            theta_phase_a
+        ) + theta_b * np.cos(theta_phase_b)
+        theta_phase_a = np.arctan(
+            np.divide(
+                theta_phase_numerator,
+                theta_phase_denominator,
+                out=np.zeros_like(theta_phase_numerator),
+                where=theta_phase_denominator != 0,
+            )
         )
 
-        assert isinstance(phi_a, np.ndarray)
         phi_a = np.sqrt(
             phi_a**2
             + phi_b**2
-            + 2 * phi_a * phi_b * np.cos(phi_phase - phase_s)
+            + 2 * phi_a * phi_b * np.cos(phi_phase_a - phi_phase_b)
         )
-        phi_phase_numerator = phi_a * np.sin(phi_phase) + phi_b * np.sin(
-            phase_s
+        phi_phase_numerator = phi_a * np.sin(phi_phase_a) + phi_b * np.sin(
+            phi_phase_b
         )
-        phi_phase_numerator_nonzero = phi_phase_numerator != 0
-        phi_phase_denominator = phi_a * np.cos(phi_phase) + phi_b * np.cos(
-            phase_s
+        phi_phase_denominator = phi_a * np.cos(phi_phase_a) + phi_b * np.cos(
+            phi_phase_b
         )
-        phi_phase = phi_phase_numerator
-        phi_phase[phi_phase_numerator_nonzero] = np.arctan(
-            phi_phase_numerator[phi_phase_numerator_nonzero]
-            / phi_phase_denominator[phi_phase_numerator_nonzero]
+        phi_phase_a = np.arctan(
+            np.divide(
+                phi_phase_numerator,
+                phi_phase_denominator,
+                out=np.zeros_like(phi_phase_numerator),
+                where=phi_phase_denominator != 0,
+            )
         )
 
-    assert isinstance(theta_a, np.ndarray)
-    assert isinstance(phi_a, np.ndarray)
     y_total = np.sqrt(theta_a**2 + phi_a**2)
     y_total_db = 10 * np.log10(y_total)
     y_total_db[y_total_db < db_min] = db_min
@@ -136,14 +137,21 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
     assert isinstance(ax, PolarAxes)
 
-    if config["isGainTotal"]:
-        if config["isDb"]:
-            ax.plot(x, y_total_db, clip_on=False)
-        else:
-            ax.plot(x, y_total, clip_on=False)
-    else:
-        ax.plot(x, y_theta, clip_on=False)
-        ax.plot(x, y_phi, clip_on=False)
+    match config["cutPlane"], config["isDb"], config["isGainTotal"]:
+        case "XY", True, True:
+            ax.plot(phi, y_total_db, clip_on=False)
+        case "XY", False, True:
+            ax.plot(phi, y_total, clip_on=False)
+        case "XY", _, False:
+            ax.plot(phi, y_theta, clip_on=False)
+            ax.plot(phi, y_phi, clip_on=False)
+        case _, True, True:
+            ax.plot(theta, y_total_db, clip_on=False)
+        case _, False, True:
+            ax.plot(theta, y_total, clip_on=False)
+        case _:
+            ax.plot(theta, y_theta, clip_on=False)
+            ax.plot(theta, y_phi, clip_on=False)
 
     if config["isDb"]:
         r_locator = MaxNLocator(nbins=3)
