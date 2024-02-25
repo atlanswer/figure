@@ -78,7 +78,7 @@ Their privacy policy can be found here:
 
 ## Reference
 
-- [IEEE Author Center](https://journals.ieeeauthorcenter.ieee.org/)
+See [IEEE Author Center](https://journals.ieeeauthorcenter.ieee.org/).
 
 > 10pt is used by the vast majority of papers.
 >
