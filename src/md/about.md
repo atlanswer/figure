@@ -51,10 +51,12 @@ where $c$ and $\varphi$ satisfy
 
 $$
 \begin{gather*}
-c^2=a^2+b^2+2ab\cos(\theta_a-\theta_b)\text{,} \\
-\tan\varphi=\frac{a\sin(\theta_a)+b\sin(\theta_b)}{a\cos(\theta_a)+b\cos(\theta_b)}\text{.}
+c=\sqrt{a^2+b^2+2ab\cos(\theta_a-\theta_b)}\text{,} \\
+\varphi=\operatorname{atan2}(a\cos\theta_a+b\cos\theta_b,\ a\sin\theta_a+b\sin\theta_b)\text{.}
 \end{gather*}
 $$
+
+Note: $\operatorname{atan2(y,\ x)}$ uses Numpy's [`arctan2`](https://numpy.org/doc/stable/reference/generated/numpy.arctan2.html) parameter order.
 
 [^wikipedia]: [Trigonometric Identities](https://en.wikipedia.org/wiki/List_of_trigonometric_identities#Arbitrary_phase_shift)
 
