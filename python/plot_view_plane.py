@@ -83,22 +83,22 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
         theta_phase_denominator = theta_a * np.cos(
             theta_phase_a
         ) + theta_b * np.cos(theta_phase_b)
-        print(f"theta_a: [{theta_a[0], theta_a[180]}]")
-        print(f"theta_phase_a: [{theta_phase_a[0], theta_phase_a[180]}]")
-        print(f"theta_b: [{theta_b[0], theta_b[180]}]")
-        print(f"theta_phase_b: [{theta_phase_b[0], theta_phase_b[180]}]")
+        # print(f"theta_a: [{theta_a[0], theta_a[180]}]")
+        # print(f"theta_phase_a: [{theta_phase_a[0], theta_phase_a[180]}]")
+        # print(f"theta_b: [{theta_b[0], theta_b[180]}]")
+        # print(f"theta_phase_b: [{theta_phase_b[0], theta_phase_b[180]}]")
         theta_a = np.sqrt(
             theta_a**2
             + theta_b**2
             + 2 * theta_a * theta_b * np.cos(theta_phase_a - theta_phase_b)
         )
         theta_phase_a = np.arctan2(
-            theta_phase_denominator,
             theta_phase_numerator,
+            theta_phase_denominator,
         )
-        print(f"theta_a: [{theta_a[0], theta_a[180]}]")
-        print(f"theta_phase_a: [{theta_phase_a[0], theta_phase_a[180]}]")
-        print("----------")
+        # print(f"theta_a: [{theta_a[0], theta_a[180]}]")
+        # print(f"theta_phase_a: [{theta_phase_a[0], theta_phase_a[180]}]")
+        # print("----------")
 
         phi_phase_numerator = phi_a * np.sin(phi_phase_a) + phi_b * np.sin(
             phi_phase_b
@@ -112,8 +112,8 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
             + 2 * phi_a * phi_b * np.cos(phi_phase_a - phi_phase_b)
         )
         phi_phase_a = np.arctan2(
-            phi_phase_denominator,
             phi_phase_numerator,
+            phi_phase_denominator,
         )
 
     y_total = np.sqrt(theta_a**2 + phi_a**2)
