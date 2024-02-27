@@ -1,4 +1,4 @@
-# spell-checker:words azim, mplot3d, xlim, ylim, zlim, verts3d, zdir
+# spell-checker:words azim, mplot3d, xlim, ylim, zlim, verts3d, zdir, cmap
 
 import io
 import sys
@@ -16,6 +16,8 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 if sys.platform != "emscripten":
     import initialization  # noqa: F401 # type:ignore
+
+set1 = plt.get_cmap("Set1")
 
 
 class Source(TypedDict):
@@ -84,7 +86,7 @@ def plot_sources(sources: list[Source]):
             v,
             w,
             pivot="middle",
-            color="C0" if s["type"] == "E" else "C1",
+            color=set1(0) if s["type"] == "E" else set1(1),
             arrow_length_ratio=0.2,
         )
         ax.text(
@@ -98,12 +100,17 @@ def plot_sources(sources: list[Source]):
     ax.plot([0, max_amplitude], [0, 0], [0, 0], "k", linewidth=0.5)
     ax.plot([0, 0], [0, max_amplitude], [0, 0], "k", linewidth=0.5)
     ax.plot([0, 0], [0, 0], [0, max_amplitude], "k", linewidth=0.5)
-    ax.text(max_amplitude, 0, max_amplitude * 0.1, "x", "x", fontsize="small")
+    ax.text(max_amplitude, 0, max_amplitude * 0.1, "$x$", "x", fontsize="small")
     ax.text(
-        0, max_amplitude * 0.8, max_amplitude * 0.05, "y", "y", fontsize="small"
+        0,
+        max_amplitude * 0.8,
+        max_amplitude * 0.05,
+        "$y$",
+        "y",
+        fontsize="small",
     )
     ax.text(
-        0, max_amplitude * 0.05, max_amplitude * 0.85, "z", fontsize="small"
+        0, max_amplitude * 0.05, max_amplitude * 0.85, "$z$", fontsize="small"
     )
     ax.set_xlim(-max_amplitude * 0.4, max_amplitude * 0.4)
     ax.set_ylim(-max_amplitude * 0.4, max_amplitude * 0.4)
