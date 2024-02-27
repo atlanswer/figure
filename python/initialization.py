@@ -26,6 +26,7 @@ mpl.rcParams["xtick.labelsize"] = 10
 mpl.rcParams["ytick.direction"] = "in"
 mpl.rcParams["ytick.labelsize"] = 10
 mpl.rcParams["lines.linewidth"] = 2
+mpl.rcParams["mathtext.fontset"] = "stix"
 
 # sf = 3.5 / 3.5
 # """Scale factor"""
