@@ -26,8 +26,7 @@ $$
 
 - Currently all sources are positioned at the origin
 - Amplitudes are normalized to the maximum radiation of E-/M-dipole respectively
-- Far fields are sampled every 1°
-- There may be bugs in phase implementation
+- Far fields are sampled with limited resolution of 1°
 
 #### E-dipole:
 
@@ -62,7 +61,7 @@ Note: $\operatorname{atan2(y,\ x)}$ uses Numpy's [`arctan2`](https://numpy.org/d
 
 ### Report
 
-Upload date files to generate data figures. Work in progress!
+Upload data files to generate figures. Work in progress!
 
 ## Privacy
 
