@@ -165,6 +165,8 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     plt.close(fig)
     f.seek(0)
 
+    y_total **= 2
+    y_total_db = 10 * np.log10(y_total)
     peak: np.float64 = np.max(y_total_db)
     peak_idx = np.argmax(y_total_db)
     hp = np.subtract(peak, 3)
