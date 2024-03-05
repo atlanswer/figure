@@ -4,30 +4,34 @@
 import * as Comlink from "comlink";
 import type { PyodideInterface } from "pyodide";
 import type { PyCallable, PySequence } from "pyodide/ffi";
-import pyCodePlotViewPlane from "python/plot_view_plane.py?raw";
 import pyCodeInitialization from "python/initialization.py?raw";
 import pyCodePlotSources from "python/plot_sources.py?raw";
+import pyCodePlotViewPlane from "python/plot_view_plane.py?raw";
+import { z } from "zod";
 
 const pyodideModule = (await import(
   "/pyodide/pyodide.mjs"
 )) as typeof import("/pyodide");
 
-export interface Source {
-  type: "E" | "M";
-  phi: number;
-  theta: number;
-  amplitude: number;
-  phase: number;
-}
+export const sourceSchema = z.object({
+  type: z.enum(["E", "M"]),
+  phi: z.number().nonnegative().max(359),
+  theta: z.number().nonnegative().max(180),
+  amplitude: z.number().nonnegative(),
+  phase: z.number().nonnegative().max(359),
+});
+export type Source = z.infer<typeof sourceSchema>;
 
-export type CutPlane = "XZ" | "YZ" | "XY";
+export const cutPlane = z.enum(["XZ", "YZ", "XY"]);
+export type CutPlane = z.infer<typeof cutPlane>;
 
-export interface ViewPlaneConfig {
-  cutPlane: CutPlane;
-  isDb: boolean;
-  isGainTotal: boolean;
-  sources: Source[];
-}
+export const viewPlaneConfigSchema = z.object({
+  cutPlane: cutPlane,
+  isDb: z.boolean(),
+  isGainTotal: z.boolean(),
+  sources: z.array(sourceSchema).nonempty(),
+});
+export type ViewPlaneConfig = z.infer<typeof viewPlaneConfigSchema>;
 
 export class FigureCreator {
   private pyodide: Promise<PyodideInterface>;

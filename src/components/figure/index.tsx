@@ -2,15 +2,15 @@
 
 import { proxy } from "comlink";
 import { Show, createSignal, type Component } from "solid-js";
-import { type SetStoreFunction } from "solid-js/store";
+import { produce, type SetStoreFunction } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { ViewPlane } from "~/components/figure/view-plane";
-import { type FigureConfig } from "~/routes/figure";
+import type { FigureConfig, FigureConfigs } from "~/routes/figure";
 import { SourcesPanel } from "./source";
 
 export const FigureArea: Component<{
   figureConfig: FigureConfig;
-  setFigureConfig: SetStoreFunction<FigureConfig[]>;
+  setFigureConfigs: SetStoreFunction<FigureConfigs>;
   numFigures: number;
   idx: number;
 }> = (props) => {
@@ -44,7 +44,7 @@ export const FigureArea: Component<{
                 class="w-72 max-w-full rounded bg-neutral-100 px-2 py-1 pl-10 text-2xl font-semibold text-black shadow focus-visible:outline-none focus-visible:ring dark:bg-neutral-800 dark:text-white"
                 value={props.figureConfig.title}
                 onChange={(event) =>
-                  props.setFigureConfig(props.idx, "title", event.target.value)
+                  props.setFigureConfigs(props.idx, "title", event.target.value)
                 }
               />
             </div>
@@ -55,14 +55,14 @@ export const FigureArea: Component<{
               <button
                 class="whitespace-nowrap rounded px-2"
                 classList={{ active: props.figureConfig.isDb }}
-                onClick={() => props.setFigureConfig(props.idx, "isDb", true)}
+                onClick={() => props.setFigureConfigs(props.idx, "isDb", true)}
               >
                 dB
               </button>
               <button
                 class="whitespace-nowrap rounded px-2"
                 classList={{ active: !props.figureConfig.isDb }}
-                onClick={() => props.setFigureConfig(props.idx, "isDb", false)}
+                onClick={() => props.setFigureConfigs(props.idx, "isDb", false)}
               >
                 Linear
               </button>
@@ -75,7 +75,7 @@ export const FigureArea: Component<{
                 class="whitespace-nowrap rounded px-2"
                 classList={{ active: !props.figureConfig.isGainTotal }}
                 onClick={() =>
-                  props.setFigureConfig(props.idx, "isGainTotal", false)
+                  props.setFigureConfigs(props.idx, "isGainTotal", false)
                 }
               >
                 Gain <em>θ</em>/<em>ϕ</em>
@@ -84,7 +84,7 @@ export const FigureArea: Component<{
                 class="whitespace-nowrap rounded px-2"
                 classList={{ active: props.figureConfig.isGainTotal }}
                 onClick={() =>
-                  props.setFigureConfig(props.idx, "isGainTotal", true)
+                  props.setFigureConfigs(props.idx, "isGainTotal", true)
                 }
               >
                 Gain Total
@@ -97,7 +97,7 @@ export const FigureArea: Component<{
               class="ml-auto text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300"
               onClick={() =>
                 // eslint-disable-next-line solid/reactivity
-                props.setFigureConfig((figureConfigs) => [
+                props.setFigureConfigs((figureConfigs) => [
                   ...figureConfigs.slice(0, props.idx),
                   ...figureConfigs.slice(props.idx + 1),
                 ])
@@ -147,7 +147,7 @@ export const FigureArea: Component<{
       </figure>
       <SourcesPanel
         sources={props.figureConfig.sources}
-        setFigureConfigs={props.setFigureConfig}
+        setFigureConfigs={props.setFigureConfigs}
         idx={props.idx}
       />
     </section>

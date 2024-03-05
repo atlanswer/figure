@@ -3,17 +3,23 @@
 import { Title } from "@solidjs/meta";
 import { For, createEffect, on, type Component } from "solid-js";
 import { createStore } from "solid-js/store";
+import { z } from "zod";
 import { FigureArea } from "~/components/figure";
-import { type ViewPlaneConfig } from "~/workers/pyodide";
+import { viewPlaneConfigSchema } from "~/workers/pyodide";
 
-export interface FigureConfig extends Omit<ViewPlaneConfig, "cutPlane"> {
-  title: string;
-}
+export const figureConfigSchema = viewPlaneConfigSchema
+  .omit({
+    cutPlane: true,
+  })
+  .extend({ title: z.string() });
+export type FigureConfig = z.infer<typeof figureConfigSchema>;
+export const figureConfigArraySchema = z.array(figureConfigSchema).nonempty();
+export type FigureConfigs = z.infer<typeof figureConfigArraySchema>;
 
 const figureConfigsStorageKey = "figure-configs";
 
 export const FigurePage = () => {
-  const figureConfigsDefault: FigureConfig[] = [
+  const figureConfigsDefault: FigureConfigs = [
     {
       title: "ME-Dipole",
       isDb: true,
@@ -37,37 +43,27 @@ export const FigurePage = () => {
     },
   ];
 
-  // TODO: complete validation
-  const isFigureConfigs = (
-    figureConfigs: unknown,
-  ): figureConfigs is FigureConfig[] => {
-    if (!(figureConfigs instanceof Array)) return false;
-    if (
-      !figureConfigs.every(
-        (figureConfig) =>
-          "title" in figureConfig &&
-          "isDb" in figureConfig &&
-          "sources" in figureConfig,
-      )
-    )
-      return false;
-    return true;
-  };
-
-  const getFigureConfigsFromLocalStorage = () => {
+  const getFigureConfigsFromLocalStorage = (): FigureConfigs => {
     const figureConfigs = localStorage.getItem(figureConfigsStorageKey);
     if (figureConfigs === null) return figureConfigsDefault;
-    let parsedFigureConfigs: unknown;
+    let figureConfigsFromJson: unknown;
     try {
-      parsedFigureConfigs = JSON.parse(figureConfigs);
+      figureConfigsFromJson = JSON.parse(figureConfigs);
     } catch {
       return figureConfigsDefault;
     }
-    if (!isFigureConfigs(parsedFigureConfigs)) return figureConfigsDefault;
+    let parsedFigureConfigs: FigureConfigs;
+    try {
+      parsedFigureConfigs = figureConfigArraySchema.parse(
+        figureConfigsFromJson,
+      );
+    } catch {
+      return figureConfigsDefault;
+    }
     return parsedFigureConfigs;
   };
 
-  const [figureConfigs, setFigureConfigs] = createStore<FigureConfig[]>(
+  const [figureConfigs, setFigureConfigs] = createStore<FigureConfigs>(
     getFigureConfigsFromLocalStorage(),
   );
 
@@ -140,7 +136,7 @@ export const FigurePage = () => {
         {(figureConfig, idx) => (
           <FigureArea
             figureConfig={figureConfig}
-            setFigureConfig={setFigureConfigs}
+            setFigureConfigs={setFigureConfigs}
             numFigures={figureConfigs.length}
             idx={idx()}
           />

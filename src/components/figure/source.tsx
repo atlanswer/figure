@@ -7,15 +7,15 @@ import {
   Suspense,
   untrack,
 } from "solid-js";
-import { unwrap, type SetStoreFunction } from "solid-js/store";
-import { type FigureConfig } from "~/routes/figure";
-import { type Source } from "~/workers/pyodide";
+import { unwrap, type SetStoreFunction, produce } from "solid-js/store";
+import type { FigureConfigs } from "~/routes/figure";
+import type { Source } from "~/workers/pyodide";
 import { useFigureCreator } from "../contexts/figure-creator";
 import { useDrawPerf } from "../contexts/draw-perf";
 
 export const SourcesPanel: Component<{
   sources: Source[];
-  setFigureConfigs: SetStoreFunction<FigureConfig[]>;
+  setFigureConfigs: SetStoreFunction<FigureConfigs>;
   idx: number;
 }> = (props) => {
   return (
@@ -88,7 +88,7 @@ export const SourcePreviewLoading = () => (
 
 const SourceCard: Component<{
   source: Source;
-  setFigureConfigs: SetStoreFunction<FigureConfig[]>;
+  setFigureConfigs: SetStoreFunction<FigureConfigs>;
   numSources: number;
   figIdx: number;
   idx: number;
@@ -288,14 +288,21 @@ const SourceCard: Component<{
 };
 
 const AddSource: Component<{
-  setFigureConfigs: SetStoreFunction<FigureConfig[]>;
+  setFigureConfigs: SetStoreFunction<FigureConfigs>;
   idx: number;
 }> = (props) => {
   const addSource = () => {
-    props.setFigureConfigs(props.idx, "sources", (sources) => [
-      ...sources,
-      { type: "M", theta: 90, phi: 0, amplitude: 1, phase: 0 } satisfies Source,
-    ]);
+    props.setFigureConfigs(
+      produce((figureConfigs) =>
+        figureConfigs[props.idx]?.sources.push({
+          type: "M",
+          theta: 90,
+          phi: 0,
+          amplitude: 1,
+          phase: 0,
+        } satisfies Source),
+      ),
+    );
   };
 
   return (
