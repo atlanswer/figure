@@ -41,13 +41,13 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     match config["cutPlane"]:
         case "YZ":
             theta = np.linspace(0, np.pi * 2, n_samples)
-            phi = np.pi / 2 * np.ones_like(theta)
+            phi = np.pi / 2 * np.ones_like(n_samples)
         case "XZ":
             theta = np.linspace(0, np.pi * 2, n_samples)
-            phi = np.zeros_like(theta)
+            phi = np.zeros_like(n_samples)
         case "XY":
             phi = np.linspace(0, np.pi * 2, n_samples)
-            theta = np.pi / 2 * np.ones_like(phi)
+            theta = np.pi / 2 * np.ones_like(n_samples)
 
     theta_a = np.zeros(n_samples)
     theta_phase_a = np.zeros(n_samples)
