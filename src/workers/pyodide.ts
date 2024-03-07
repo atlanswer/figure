@@ -17,6 +17,7 @@ export const sourceSchema = z.object({
   type: z.enum(["E", "M"]),
   phi: z.number().nonnegative().max(359),
   theta: z.number().nonnegative().max(180),
+  direction: z.enum(["X", "Y", "Z"]),
   amplitude: z.number().nonnegative(),
   phase: z.number().nonnegative().max(359),
 });
@@ -29,7 +30,7 @@ export const viewPlaneConfigSchema = z.object({
   cutPlane: cutPlane,
   isDb: z.boolean(),
   isGainTotal: z.boolean(),
-  sources: z.array(sourceSchema).nonempty(),
+  sources: z.array(sourceSchema),
 });
 export type ViewPlaneConfig = z.infer<typeof viewPlaneConfigSchema>;
 

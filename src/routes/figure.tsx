@@ -13,35 +13,67 @@ export const figureConfigSchema = viewPlaneConfigSchema
   })
   .extend({ title: z.string() });
 export type FigureConfig = z.infer<typeof figureConfigSchema>;
-export const figureConfigArraySchema = z.array(figureConfigSchema).nonempty();
+export const figureConfigArraySchema = z.array(figureConfigSchema);
 export type FigureConfigs = z.infer<typeof figureConfigArraySchema>;
 
 const figureConfigsStorageKey = "figure-configs";
 
 export const FigurePage = () => {
-  const figureConfigsDefault: FigureConfigs = [
+  const figureConfigsDefault = [
     {
       title: "ME-Dipole",
       isDb: true,
       isGainTotal: false,
       sources: [
-        { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
-        { type: "M", theta: 90, phi: 0, amplitude: 1, phase: 0 },
+        {
+          type: "E",
+          theta: 90,
+          phi: 90,
+          direction: "Y",
+          amplitude: 1,
+          phase: 0,
+        },
+        {
+          type: "M",
+          theta: 90,
+          phi: 0,
+          direction: "X",
+          amplitude: 1,
+          phase: 0,
+        },
       ],
     },
     {
       title: "E-Dipole",
       isDb: true,
       isGainTotal: false,
-      sources: [{ type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 }],
+      sources: [
+        {
+          type: "E",
+          theta: 90,
+          phi: 90,
+          direction: "Z",
+          amplitude: 1,
+          phase: 0,
+        },
+      ],
     },
     {
       title: "M-Dipole",
       isDb: true,
       isGainTotal: false,
-      sources: [{ type: "M", theta: 90, phi: 0, amplitude: 1, phase: 0 }],
+      sources: [
+        {
+          type: "M",
+          theta: 90,
+          phi: 0,
+          direction: "Z",
+          amplitude: 1,
+          phase: 0,
+        },
+      ],
     },
-  ];
+  ] as const satisfies FigureConfigs;
 
   const getFigureConfigsFromLocalStorage = (): FigureConfigs => {
     const figureConfigs = localStorage.getItem(figureConfigsStorageKey);
@@ -86,14 +118,7 @@ export const FigurePage = () => {
         title="Add new figure"
         class="mb-12 mt-4 flex gap-1 place-self-center rounded border-none bg-sky-500 px-4 py-2 text-white shadow hover:bg-sky-700"
         onClick={() =>
-          setFigureConfigs(figureConfigs.length, {
-            title: "E-dipole",
-            isDb: true,
-            isGainTotal: false,
-            sources: [
-              { type: "E", theta: 90, phi: 90, amplitude: 1, phase: 0 },
-            ],
-          })
+          setFigureConfigs(figureConfigs.length, figureConfigsDefault[1])
         }
       >
         <svg

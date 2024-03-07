@@ -14,6 +14,7 @@ class Source(TypedDict):
     type: Literal["E", "M"]
     phi: float
     theta: float
+    direction: Literal["X", "Y", "Z"]
     amplitude: float
     phase: float
 
@@ -34,7 +35,7 @@ x: npt.NDArray[np.float64]
 def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
 
-    db_min, db_max = -20, 10
+    db_min, db_max = -30, 10
     lin_min = 0
     n_samples = 361
 
@@ -146,14 +147,13 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
             ax.plot(theta, y_theta, clip_on=False)
             ax.plot(theta, y_phi, clip_on=False)
 
+    r_locator = MaxNLocator(nbins=4)
     if config["isDb"]:
-        r_locator = MaxNLocator(nbins=3)
         ax.set_rlim(db_min, db_max)
     else:
         lin_max = 0
         for s in config["sources"]:
             lin_max += s["amplitude"]
-        r_locator = MaxNLocator(nbins=4)
         ax.set_rlim(lin_min, lin_max)
     ax.yaxis.set_major_locator(r_locator)
     ax.set_theta_zero_location("N")

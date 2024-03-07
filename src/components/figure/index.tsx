@@ -2,7 +2,7 @@
 
 import { proxy } from "comlink";
 import { Show, createSignal, type Component } from "solid-js";
-import { produce, type SetStoreFunction } from "solid-js/store";
+import { type SetStoreFunction } from "solid-js/store";
 import { useFigureCreator } from "~/components/contexts/figure-creator";
 import { ViewPlane } from "~/components/figure/view-plane";
 import type { FigureConfig, FigureConfigs } from "~/routes/figure";
@@ -148,7 +148,7 @@ export const FigureArea: Component<{
       <SourcesPanel
         sources={props.figureConfig.sources}
         setFigureConfigs={props.setFigureConfigs}
-        idx={props.idx}
+        srcIdx={props.idx}
       />
     </section>
   );

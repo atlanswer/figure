@@ -16,7 +16,7 @@ import { useDrawPerf } from "../contexts/draw-perf";
 export const SourcesPanel: Component<{
   sources: Source[];
   setFigureConfigs: SetStoreFunction<FigureConfigs>;
-  idx: number;
+  srcIdx: number;
 }> = (props) => {
   return (
     <div class="flex flex-wrap place-content-center place-items-center gap-4">
@@ -27,12 +27,15 @@ export const SourcesPanel: Component<{
             source={source}
             setFigureConfigs={props.setFigureConfigs}
             numSources={props.sources.length}
-            figIdx={props.idx}
-            idx={idx()}
+            figIdx={props.srcIdx}
+            srcIdx={idx()}
           />
         )}
       </For>
-      <AddSource setFigureConfigs={props.setFigureConfigs} idx={props.idx} />
+      <AddSource
+        setFigureConfigs={props.setFigureConfigs}
+        srcIdx={props.srcIdx}
+      />
     </div>
   );
 };
@@ -86,21 +89,161 @@ export const SourcePreviewLoading = () => (
   </div>
 );
 
+const MinusIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="h-6 w-6"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);
+
+const DownArrow = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="h-6 w-6"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);
+
+const UpArrow = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="h-6 w-6"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z"
+      clip-rule="evenodd"
+    />
+  </svg>
+);
+
+const DirectionSelector: Component<{
+  direction: Source["direction"];
+  setFigureConfigs: SetStoreFunction<FigureConfigs>;
+  figIdx: number;
+  srcIdx: number;
+}> = (props) => {
+  const inputId = createUniqueId();
+  const directions: Source["direction"][] = ["X", "Y", "Z"] as const;
+
+  return (
+    <div class="flex flex-col gap-1">
+      <label for={inputId} class="text-sm">
+        Direction
+      </label>
+      <span class="flex place-items-center gap-2">
+        <span class="place-content-center place-items-stretch rounded bg-neutral-200 p-1 font-bold text-neutral-500 dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white">
+          <For each={directions}>
+            {(direction) => (
+              <button
+                class="whitespace-nowrap rounded px-4"
+                classList={{ active: props.direction === direction }}
+                onClick={() =>
+                  props.setFigureConfigs(
+                    props.figIdx,
+                    "sources",
+                    props.srcIdx,
+                    "direction",
+                    direction,
+                  )
+                }
+              >
+                {direction}
+              </button>
+            )}
+          </For>
+        </span>
+      </span>
+    </div>
+  );
+};
+
+const ValueSelector: Component<{
+  type: "amplitude" | "phase";
+  value: number;
+  setFigureConfigs: SetStoreFunction<FigureConfigs>;
+  figIdx: number;
+  srcIdx: number;
+}> = (props) => {
+  const inputId = createUniqueId();
+  const displayType = () => props.type[0]?.toUpperCase() + props.type.slice(1);
+
+  return (
+    <div class="flex flex-col gap-1">
+      <label for={inputId} class="text-sm">
+        {displayType()}
+      </label>
+      <div class="flex">
+        <button
+          type="button"
+          aria-label="Decrease value"
+          class="rounded-s border border-neutral-500 px-1"
+          onClick={() => null}
+        >
+          <DownArrow />
+        </button>
+        <input
+          id={inputId}
+          value={props.value}
+          type="number"
+          min="0"
+          max="359"
+          step={props.type === "amplitude" ? "0.01" : "1"}
+          class="w-16 border border-x-0 border-neutral-500 bg-transparent text-center focus-visible:outline-none"
+          required
+          onChange={(event) =>
+            props.setFigureConfigs(
+              props.figIdx,
+              "sources",
+              props.srcIdx,
+              props.type,
+              +event.target.value,
+            )
+          }
+        />
+        <button
+          type="button"
+          aria-label="Increase value"
+          class="rounded-e border border-neutral-500 px-1"
+          onClick={() => null}
+        >
+          <UpArrow />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const SourceCard: Component<{
   source: Source;
   setFigureConfigs: SetStoreFunction<FigureConfigs>;
   numSources: number;
   figIdx: number;
-  idx: number;
+  srcIdx: number;
 }> = (props) => {
-  const sourceInfos = ["theta", "phi", "amplitude", "phase"] as const;
-
   return (
-    <div class="grid h-44 grid-flow-row place-content-around gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
+    <div class="flex h-56 flex-col place-content-around gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
       <div class="grid grid-flow-col place-content-between place-items-center gap-2">
         <span class="flex place-items-center gap-2 ">
           <span class="rounded bg-neutral-500 px-2 text-white">
-            {props.idx + 1}
+            {props.srcIdx + 1}
           </span>
           <span class="w-fit text-lg font-semibold">
             {props.source.type}-dipole
@@ -115,7 +258,7 @@ const SourceCard: Component<{
                 props.setFigureConfigs(
                   props.figIdx,
                   "sources",
-                  props.idx,
+                  props.srcIdx,
                   "type",
                   "E",
                 )
@@ -130,7 +273,7 @@ const SourceCard: Component<{
                 props.setFigureConfigs(
                   props.figIdx,
                   "sources",
-                  props.idx,
+                  props.srcIdx,
                   "type",
                   "M",
                 )
@@ -146,142 +289,37 @@ const SourceCard: Component<{
               onClick={() =>
                 // eslint-disable-next-line solid/reactivity
                 props.setFigureConfigs(props.figIdx, "sources", (sources) => [
-                  ...sources.slice(0, props.idx),
-                  ...sources.slice(props.idx + 1),
+                  ...sources.slice(0, props.srcIdx),
+                  ...sources.slice(props.srcIdx + 1),
                 ])
               }
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="h-6 w-6"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <MinusIcon />
             </button>
           </Show>
         </span>
       </div>
-      <form class="grid grid-cols-2 grid-rows-2 place-items-end gap-2">
-        <For each={sourceInfos}>
-          {(param) => {
-            const inputId = createUniqueId();
-            return (
-              <div class="flex flex-col gap-1">
-                <label for={inputId} class="text-sm">
-                  {param[0]?.toUpperCase() +
-                    param.slice(1) +
-                    (param === "amplitude" ? " (relative)" : " (deg)")}
-                </label>
-                <div class="flex">
-                  <button
-                    type="button"
-                    aria-label="Decrease value"
-                    class="rounded-s border border-neutral-500 px-1"
-                    onClick={() =>
-                      props.setFigureConfigs(
-                        props.figIdx,
-                        "sources",
-                        props.idx,
-                        param,
-                        (prev) =>
-                          param === "amplitude" ?
-                            prev <= 0.1 ?
-                              prev
-                            : prev - 0.1
-                          : param === "theta" ?
-                            prev < 90 ?
-                              prev + 90
-                            : prev - 90
-                          : param === "phase" ?
-                            prev <= -90 ?
-                              prev + 270
-                            : prev - 90
-                          : prev < 90 ? prev + 270
-                          : prev - 90,
-                      )
-                    }
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="h-6 w-6"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                  <input
-                    id={inputId}
-                    value={props.source[param].toFixed(2)}
-                    type="number"
-                    min={param === "phase" ? "-180" : "0"}
-                    max={param === "theta" || param === "phase" ? "180" : "359"}
-                    step={param === "amplitude" ? "0.01" : "1"}
-                    class="w-16 border border-x-0 border-neutral-500 bg-transparent text-center focus-visible:outline-none"
-                    required
-                    onChange={(event) =>
-                      props.setFigureConfigs(
-                        props.figIdx,
-                        "sources",
-                        props.idx,
-                        param,
-                        +event.target.value,
-                      )
-                    }
-                  />
-                  <button
-                    type="button"
-                    aria-label="Increase value"
-                    class="rounded-e border border-neutral-500 px-1"
-                    onClick={() =>
-                      props.setFigureConfigs(
-                        props.figIdx,
-                        "sources",
-                        props.idx,
-                        param,
-                        (prev) =>
-                          param === "amplitude" ? prev + 0.1
-                          : param === "theta" ?
-                            prev > 90 ?
-                              prev - 90
-                            : prev + 90
-                          : param === "phase" ?
-                            prev > 90 ?
-                              prev - 270
-                            : prev + 90
-                          : prev >= 270 ? prev - 270
-                          : prev + 90,
-                      )
-                    }
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="h-6 w-6"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            );
-          }}
-        </For>
+      <form class="flex flex-col gap-1">
+        <DirectionSelector
+          direction={props.source.direction}
+          setFigureConfigs={props.setFigureConfigs}
+          figIdx={props.figIdx}
+          srcIdx={props.srcIdx}
+        />
+        <ValueSelector
+          type="amplitude"
+          value={props.source["amplitude"]}
+          setFigureConfigs={props.setFigureConfigs}
+          figIdx={props.figIdx}
+          srcIdx={props.srcIdx}
+        />
+        <ValueSelector
+          type="phase"
+          value={props.source["phase"]}
+          setFigureConfigs={props.setFigureConfigs}
+          figIdx={props.figIdx}
+          srcIdx={props.srcIdx}
+        />
       </form>
     </div>
   );
@@ -289,15 +327,16 @@ const SourceCard: Component<{
 
 const AddSource: Component<{
   setFigureConfigs: SetStoreFunction<FigureConfigs>;
-  idx: number;
+  srcIdx: number;
 }> = (props) => {
   const addSource = () => {
     props.setFigureConfigs(
       produce((figureConfigs) =>
-        figureConfigs[props.idx]?.sources.push({
+        figureConfigs[props.srcIdx]?.sources.push({
           type: "M",
           theta: 90,
           phi: 0,
+          direction: "X",
           amplitude: 1,
           phase: 0,
         } satisfies Source),
