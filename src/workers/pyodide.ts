@@ -15,8 +15,6 @@ const pyodideModule = (await import(
 
 export const sourceSchema = z.object({
   type: z.enum(["E", "M"]),
-  phi: z.number().nonnegative().max(359),
-  theta: z.number().nonnegative().max(180),
   direction: z.enum(["X", "Y", "Z"]),
   amplitude: z.number().nonnegative(),
   phase: z.number().nonnegative().max(359),

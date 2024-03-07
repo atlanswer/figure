@@ -27,16 +27,12 @@ export const FigurePage = () => {
       sources: [
         {
           type: "E",
-          theta: 90,
-          phi: 90,
           direction: "Y",
           amplitude: 1,
           phase: 0,
         },
         {
           type: "M",
-          theta: 90,
-          phi: 0,
           direction: "X",
           amplitude: 1,
           phase: 0,
@@ -50,8 +46,6 @@ export const FigurePage = () => {
       sources: [
         {
           type: "E",
-          theta: 90,
-          phi: 90,
           direction: "Z",
           amplitude: 1,
           phase: 0,
@@ -65,8 +59,6 @@ export const FigurePage = () => {
       sources: [
         {
           type: "M",
-          theta: 90,
-          phi: 0,
           direction: "Z",
           amplitude: 1,
           phase: 0,

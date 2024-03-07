@@ -22,8 +22,7 @@ set1 = plt.get_cmap("Set1")
 
 class Source(TypedDict):
     type: Literal["E", "M"]
-    theta: float
-    phi: float
+    direction: Literal["X", "Y", "Z"]
     amplitude: float
     phase: float
 
@@ -71,8 +70,16 @@ def plot_sources(sources: list[Source]):
     max_amplitude = 0
 
     for s in sources:
-        theta = np.radians(s["theta"])
-        phi = np.radians(s["phi"])
+        match s["direction"]:
+            case "X":
+                theta = np.pi / 2
+                phi = 0
+            case "Y":
+                theta = np.pi / 2
+                phi = np.pi / 2
+            case "Z":
+                theta = 0
+                phi = 0
         amplitude = s["amplitude"] * scale_factor
         w = amplitude * np.cos(theta)
         w2 = amplitude * np.sin(theta)
@@ -188,6 +195,6 @@ def plot_sources(sources: list[Source]):
 
 
 if sys.platform != "emscripten":
-    plot_sources([Source(type="E", theta=90, phi=0, amplitude=1, phase=0)])
+    plot_sources([Source(type="E", direction="X", amplitude=1, phase=0)])
 
 plot_sources  # pyright: ignore[reportUnusedExpression] # noqa: B018

@@ -1,19 +1,20 @@
-# spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis, intp, hpbw
+# spell-checker:words rlim, rticks, rscale, arange, nbins, yaxis, intp, hpbw, emscripten
 
 import io
+import sys
 from typing import Literal, TypedDict, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
-import numpy.typing as npt
 from matplotlib.projections.polar import PolarAxes
 from matplotlib.ticker import MaxNLocator
+
+if sys.platform != "emscripten":
+    import initialization  # noqa: F401 # type: ignore
 
 
 class Source(TypedDict):
     type: Literal["E", "M"]
-    phi: float
-    theta: float
     direction: Literal["X", "Y", "Z"]
     amplitude: float
     phase: float
@@ -29,11 +30,11 @@ class ViewPlaneConfig(TypedDict):
     sources: list[Source]
 
 
-x: npt.NDArray[np.float64]
-
-
-def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
-    config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
+def plot_view_plane(config: ViewPlaneConfig):
+    if sys.platform != "emscripten":
+        ...
+    else:
+        config = cast(ViewPlaneConfig, config.to_py())  # type: ignore
 
     db_min, db_max = -30, 10
     lin_min = 0
@@ -57,16 +58,28 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
 
     for s in config["sources"]:
         amplitude = s["amplitude"]
-        theta_s = cast(np.float64, np.radians(s["theta"]))
-        phi_s = cast(np.float64, np.radians(s["phi"]))
         phase_s = cast(np.float64, np.radians(s["phase"]))
-        match s["type"]:
-            case "E":
-                theta_b = -np.sin(theta - theta_s) * np.cos(phi - phi_s)
-                phi_b = -np.sin(phi - phi_s)
-            case "M":
-                theta_b = np.sin(phi - phi_s)
-                phi_b = -np.sin(theta - theta_s) * np.cos(phi - phi_s)
+        match s["type"], s["direction"]:
+            case "E", "X":
+                theta_b = np.cos(theta) * np.cos(phi)
+                phi_b = np.sin(phi)
+            case "M", "X":
+                theta_b = np.sin(phi)
+                phi_b = np.cos(theta) * np.cos(phi)
+            case "E", "Y":
+                theta_b = np.cos(theta) * np.sin(phi)
+                phi_b = np.cos(phi)
+            case "M", "Y":
+                theta_b = np.cos(phi)
+                phi_b = np.cos(theta) * np.sin(phi)
+            case "E", "Z":
+                theta_b = np.sin(theta)
+                phi_b = np.zeros(n_samples)
+            case "M", "Z":
+                theta_b = np.zeros(n_samples)
+                phi_b = np.sin(theta)
+            case _:
+                raise ValueError("Unknown source type or direction")
         theta_b *= amplitude
         phi_b *= amplitude
 
@@ -118,13 +131,16 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
         )
 
     y_total = np.sqrt(theta_a**2 + phi_a**2)
+    y_total[y_total < 10 ** (db_min / 10)] = 10 ** (db_min / 10)
     y_total_db = 10 * np.log10(y_total)
     y_total_db[y_total_db < db_min] = db_min
     y_theta = np.abs(theta_a)
     y_phi = np.abs(phi_a)
     if config["isDb"]:
+        y_theta[y_theta < 10 ** (db_min / 10)] = 10 ** (db_min / 10)
         y_theta = 10 * np.log10(y_theta)
         y_theta[y_theta < db_min] = db_min
+        y_phi[y_phi < 10 ** (db_min / 10)] = 10 ** (db_min / 10)
         y_phi = 10 * np.log10(y_phi)
         y_phi[y_phi < db_min] = db_min
 
@@ -160,11 +176,6 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
     ax.set_theta_direction(-1)
     # ax.tick_params(pad=0)
 
-    f = io.BytesIO()
-    fig.savefig(f, format="svg")
-    plt.close(fig)
-    f.seek(0)
-
     y_total **= 2
     y_total_db = 10 * np.log10(y_total)
     peak: np.float64 = np.max(y_total_db)
@@ -188,7 +199,25 @@ def plot_view_plane(config: ViewPlaneConfig) -> tuple[int, int, str]:
                 l_idx = 359
         return hpbw + 1
 
-    return int(peak_idx), get_hpbw(), f.getvalue().decode()
+    if sys.platform != "emscripten":
+        ...
+    else:
+        f = io.BytesIO()
+        fig.savefig(f, format="svg")
+        plt.close(fig)
+        f.seek(0)
 
+        return int(peak_idx), get_hpbw(), f.getvalue().decode()
+
+
+if sys.platform != "emscripten":
+    plot_view_plane(
+        ViewPlaneConfig(
+            cutPlane="YZ",
+            isDb=True,
+            isGainTotal=False,
+            sources=[Source(type="E", direction="Z", amplitude=1, phase=0)],
+        )
+    )
 
 plot_view_plane  # pyright: ignore[reportUnusedExpression] # noqa: B018

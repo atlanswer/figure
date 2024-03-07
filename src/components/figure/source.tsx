@@ -140,14 +140,11 @@ const DirectionSelector: Component<{
   figIdx: number;
   srcIdx: number;
 }> = (props) => {
-  const inputId = createUniqueId();
   const directions: Source["direction"][] = ["X", "Y", "Z"] as const;
 
   return (
-    <div class="flex flex-col gap-1">
-      <label for={inputId} class="text-sm">
-        Direction
-      </label>
+    <div class="flex place-content-between place-items-center gap-2">
+      <span class="text-sm">Direction</span>
       <span class="flex place-items-center gap-2">
         <span class="place-content-center place-items-stretch rounded bg-neutral-200 p-1 font-bold text-neutral-500 dark:bg-neutral-800 [&>.active]:bg-sky-500 [&>.active]:text-white">
           <For each={directions}>
@@ -185,8 +182,29 @@ const ValueSelector: Component<{
   const inputId = createUniqueId();
   const displayType = () => props.type[0]?.toUpperCase() + props.type.slice(1);
 
+  const amplitudeDown = (amp: number) => {
+    const step = 0.1;
+    const res = amp - step;
+    return res >= 0 ? res : 0;
+  };
+  const amplitudeUp = (amp: number) => {
+    const step = 0.1;
+    return amp + step;
+  };
+
+  const phaseDown = (phase: number) => {
+    const step = 1;
+    const res = phase - step;
+    return res >= 0 ? res : 359;
+  };
+  const phaseUp = (phase: number) => {
+    const step = 1;
+    const res = phase + step;
+    return res > 359 ? 0 : res;
+  };
+
   return (
-    <div class="flex flex-col gap-1">
+    <div class="flex place-content-between place-items-center gap-2">
       <label for={inputId} class="text-sm">
         {displayType()}
       </label>
@@ -195,13 +213,27 @@ const ValueSelector: Component<{
           type="button"
           aria-label="Decrease value"
           class="rounded-s border border-neutral-500 px-1"
-          onClick={() => null}
+          onClick={() =>
+            props.setFigureConfigs(
+              props.figIdx,
+              "sources",
+              props.srcIdx,
+              props.type,
+              props.type === "amplitude" ?
+                amplitudeDown(props.value)
+              : phaseDown(props.value),
+            )
+          }
         >
           <DownArrow />
         </button>
         <input
           id={inputId}
-          value={props.value}
+          value={
+            props.type === "amplitude" ?
+              props.value.toFixed(2)
+            : props.value.toFixed()
+          }
           type="number"
           min="0"
           max="359"
@@ -222,7 +254,17 @@ const ValueSelector: Component<{
           type="button"
           aria-label="Increase value"
           class="rounded-e border border-neutral-500 px-1"
-          onClick={() => null}
+          onClick={() =>
+            props.setFigureConfigs(
+              props.figIdx,
+              "sources",
+              props.srcIdx,
+              props.type,
+              props.type === "amplitude" ?
+                amplitudeUp(props.value)
+              : phaseUp(props.value),
+            )
+          }
         >
           <UpArrow />
         </button>
@@ -239,8 +281,8 @@ const SourceCard: Component<{
   srcIdx: number;
 }> = (props) => {
   return (
-    <div class="flex h-56 flex-col place-content-around gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
-      <div class="grid grid-flow-col place-content-between place-items-center gap-2">
+    <div class="flex h-44 flex-col place-content-between rounded-lg bg-neutral-100 p-3 text-neutral-900 shadow-md outline-1 outline-neutral-500 dark:bg-black dark:text-neutral-100 dark:outline">
+      <div class="grid grid-flow-col place-content-between place-items-center gap-3">
         <span class="flex place-items-center gap-2 ">
           <span class="rounded bg-neutral-500 px-2 text-white">
             {props.srcIdx + 1}
@@ -299,7 +341,10 @@ const SourceCard: Component<{
           </Show>
         </span>
       </div>
-      <form class="flex flex-col gap-1">
+      <form
+        class="flex flex-col gap-3"
+        onSubmit={(event) => event.preventDefault()}
+      >
         <DirectionSelector
           direction={props.source.direction}
           setFigureConfigs={props.setFigureConfigs}
@@ -334,8 +379,6 @@ const AddSource: Component<{
       produce((figureConfigs) =>
         figureConfigs[props.srcIdx]?.sources.push({
           type: "M",
-          theta: 90,
-          phi: 0,
           direction: "X",
           amplitude: 1,
           phase: 0,
