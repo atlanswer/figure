@@ -18,8 +18,8 @@ importers:
         specifier: ~0.29.3
         version: 0.29.3(solid-js@1.8.15)
       '@solidjs/router':
-        specifier: ~0.12.5
-        version: 0.12.5(solid-js@1.8.15)
+        specifier: ~0.13.0
+        version: 0.13.0(solid-js@1.8.15)
       '@tailwindcss/typography':
         specifier: ~0.5.10
         version: 0.5.10(tailwindcss@3.4.1)
@@ -1119,8 +1119,8 @@ packages:
       solid-js: 1.8.15
     dev: true
 
-  /@solidjs/router@0.12.5(solid-js@1.8.15):
-    resolution: {integrity: sha512-UK9GnWPS1RmBf7w35DpWwqNgpVbKhon5eXOl7Xk+edPMTzzHkwPW2RytQKQ0BMRQOHzyM/WRetWLbIAubKdlog==}
+  /@solidjs/router@0.13.0(solid-js@1.8.15):
+    resolution: {integrity: sha512-YHLbFv9J53+iG4yVrh0vVdYiyXPTk892UyZ1jiMPsUXn2dYkX4552N+8SjvlKWWsmNmYxaoefM6jZn1YtVIUUg==}
     peerDependencies:
       solid-js: ^1.8.6
     dependencies:

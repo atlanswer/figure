@@ -24,7 +24,7 @@
     "@builder.io/partytown": "~0.10.0",
     "@solid-devtools/overlay": "~0.29.3",
     "@solidjs/meta": "~0.29.3",
-    "@solidjs/router": "~0.12.5",
+    "@solidjs/router": "~0.13.0",
     "@tailwindcss/typography": "~0.5.10",
     "@tsconfig/strictest": "~2.0.3",
     "@typescript-eslint/eslint-plugin": "~7.1.1",
