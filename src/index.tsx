@@ -8,7 +8,7 @@ import { render } from "solid-js/web";
 import { ThemeProvider } from "~/components/contexts/theme";
 import { Footer } from "~/components/footer";
 import { Header } from "~/components/header";
-import { VercelAnalytics, VercelSpeedInsight } from "~/components/partytown";
+import { VercelAnalytics } from "~/components/partytown";
 import "~/global.css";
 import { NotFoundPage } from "~/routes/404";
 import { ErrorPage } from "~/routes/errorpage";
@@ -33,7 +33,7 @@ const App: ParentComponent = (props) => {
                 <main class="flex-auto">{props.children}</main>
                 <Footer />
               </ErrorBoundary>
-              <VercelSpeedInsight />
+              {/* <VercelSpeedInsight /> */}
               <VercelAnalytics />
             </ThemeProvider>
           </MetaProvider>

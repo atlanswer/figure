@@ -116,6 +116,6 @@ export const addPartytown = ({ ...props }: PartytownConfig = {}) => {
   // the Client JS of the component to NOT add the same script to the <head>.
   // const innerHTML =
   //   partytownSnippet(props) + 'document.currentScript.dataset.partytown="";';
-  // eslint-disable-next-line solid/no-innerhtml
+   
   // return <script innerHTML={innerHTML} nonce={props.nonce} />;
 };
